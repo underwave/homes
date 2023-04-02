@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 @Entity
 public class DetectAdmin {
-
+    @Id
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
