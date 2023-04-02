@@ -36,4 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
+#querydsl generated file
+src/main/generated
+
 src/test/java/homes/has/boj

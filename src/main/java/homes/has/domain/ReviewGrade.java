@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter @Setter
 @Embeddable
-@Entity
 public class ReviewGrade {
 
     private int lessor;
