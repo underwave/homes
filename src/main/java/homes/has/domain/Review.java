@@ -18,6 +18,10 @@ public class Review {
     @JoinColumn(name= "member_id")
     private Member member;
 
+    @ManyToOne(fetch=FetchType.LAZY )
+    @JoinColumn(name= "building_id")
+    private Building building;
+
     private String Location;
 
     private String imageURL;
@@ -31,7 +35,6 @@ public class Review {
 
     @Embedded
     private ReviewGrade grade;
-
 
 
 }

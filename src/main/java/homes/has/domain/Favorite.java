@@ -17,5 +17,9 @@ public class Favorite {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "building_id")
+    private Building building;
+
     private String location;
 }
