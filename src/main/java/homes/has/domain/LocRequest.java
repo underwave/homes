@@ -2,7 +2,9 @@ package homes.has.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="Request_location")
 public class LocRequest {
 
