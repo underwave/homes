@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
-public class Favorite {
+public class Favorite extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +26,4 @@ public class Favorite {
     @JoinColumn(name = "building_id")
     private Building building;
 
-    private String location;
 }

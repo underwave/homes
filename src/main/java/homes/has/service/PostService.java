@@ -37,4 +37,22 @@ public class PostService {
     public List<Post> findByWord(PostSearchCond cond){
         return queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
     }
+
+//    public Long update(Long postId, String title, String body){
+//        Post findPost = findById(postId).get();
+//        if(title!= null)
+//            findPost.setTitle(title);
+//        if(body!= null)
+//            findPost.setBody(body);
+//        return findPost.getId();
+//    }
+
+    public void increaseLikes(Long postId){
+        postRepository.increaseLikes(postId);
+    }
+
+    public void increaseComments(Long postId){
+        postRepository.increaseComments(postId);
+    }
+
 }

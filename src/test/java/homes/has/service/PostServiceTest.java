@@ -1,6 +1,7 @@
 package homes.has.service;
 
 import homes.has.domain.Category;
+import homes.has.domain.Member;
 import homes.has.domain.Post;
 import homes.has.repository.PostQueryRepository;
 import homes.has.repository.PostRepository;
@@ -32,10 +33,11 @@ class PostServiceTest {
 
     @Test
     void 게시글_검색() {
+        Member member = new Member();
 
-        Post post1 = createPost(Category.GENERAL, "akima", "bkimb");
-        Post post2 = createPost(null, "akima", "aaaa");
-        Post post3 = createPost(Category.GENERAL, "aaaa", "aaaa");
+        Post post1 = createPost(member, Category.GENERAL, "akima", "bkimb");
+        Post post2 = createPost(member,null, "akima", "aaaa");
+        Post post3 = createPost(member, Category.GENERAL, "aaaa", "aaaa");
 
         PostSearchCond kim = new PostSearchCond("kim",Category.GENERAL);
         PostSearchCond kim2 = new PostSearchCond("kim");
@@ -50,11 +52,8 @@ class PostServiceTest {
         assertThat(findPost2).doesNotContain(post3);
     }
 
-    private Post createPost(Category category, String body, String title) {
-        Post post = new Post();
-        post.setCategory(category);
-        post.setBody(body);
-        post.setTitle(title);
+    private Post createPost(Member member , Category category, String body, String title) {
+        Post post = new Post(member, title,body,category);
         Long saved = postService.save(post);
         return post;
     }

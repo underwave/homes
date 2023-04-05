@@ -36,12 +36,9 @@ public class PostQueryRepository {
 
     }
     private BooleanBuilder searchCondition(String word) {
-
-
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         if (StringUtils.hasText(word))
             booleanBuilder.or(post.body.contains(word));
-
         if (StringUtils.hasText(word))
             booleanBuilder.or(post.title.contains(word));
         return booleanBuilder;
