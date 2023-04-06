@@ -21,9 +21,6 @@ public class Comment extends BaseEntity {
 
     private String body;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-
     private int likes;
 
 //   게시글
@@ -44,6 +41,19 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comment> children;
 
+
+    public Comment(Member member, Post post ,String body){
+        this.member = member;
+        this.body= body;
+        this.post= post;
+    }
+
+    public Comment(Member member, Post post ,String body, Comment parent){
+        this.member = member;
+        this.body= body;
+        this.post= post;
+        this.parent = parent;
+    }
 
 
 

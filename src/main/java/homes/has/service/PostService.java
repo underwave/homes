@@ -14,15 +14,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final PostQueryRepository queryRepository;
-
-    public PostService(PostRepository postRepository, PostQueryRepository queryRepository) {
-        this.postRepository = postRepository;
-        this.queryRepository = queryRepository;
-    }
 
 
     public Long save(Post post) {
