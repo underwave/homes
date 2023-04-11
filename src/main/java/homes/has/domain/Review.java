@@ -1,18 +1,17 @@
 package homes.has.domain;
 
 
+import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review {
+public class Review extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,10 +27,6 @@ public class Review {
     private String Location;
 
     private String imageURL;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime modifiedAt;
 
     @Embedded
     private ReviewBody body;

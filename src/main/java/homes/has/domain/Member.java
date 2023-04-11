@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,9 +13,8 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-
-public class Member {
+@NoArgsConstructor()
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +23,10 @@ public class Member {
     private Valid valid;
 
     private String location;
+
+
+
+
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sns_key")

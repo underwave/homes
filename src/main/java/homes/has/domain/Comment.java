@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,15 +14,12 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String body;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
     private int likes;
 
@@ -43,6 +41,19 @@ public class Comment {
     @OneToMany(mappedBy = "parent")
     private List<Comment> children;
 
+
+    public Comment(Member member, Post post ,String body){
+        this.member = member;
+        this.body= body;
+        this.post= post;
+    }
+
+    public Comment(Member member, Post post ,String body, Comment parent){
+        this.member = member;
+        this.body= body;
+        this.post= post;
+        this.parent = parent;
+    }
 
 
 

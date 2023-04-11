@@ -14,15 +14,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final PostQueryRepository queryRepository;
-
-    public PostService(PostRepository postRepository, PostQueryRepository queryRepository) {
-        this.postRepository = postRepository;
-        this.queryRepository = queryRepository;
-    }
 
 
     public Long save(Post post) {
@@ -37,4 +33,22 @@ public class PostService {
     public List<Post> findByWord(PostSearchCond cond){
         return queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
     }
+
+//    public Long update(Long postId, String title, String body){
+//        Post findPost = findById(postId).get();
+//        if(title!= null)
+//            findPost.setTitle(title);
+//        if(body!= null)
+//            findPost.setBody(body);
+//        return findPost.getId();
+//    }
+
+    public void increaseLikes(Long postId){
+        postRepository.increaseLikes(postId);
+    }
+
+    public void increaseComments(Long postId){
+        postRepository.increaseComments(postId);
+    }
+
 }
