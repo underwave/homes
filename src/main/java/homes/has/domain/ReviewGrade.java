@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter @Setter
 @Embeddable
 public class ReviewGrade {
-
     private int lessor;
     private int quality;
     private int area;

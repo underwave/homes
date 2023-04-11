@@ -9,23 +9,26 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Building {
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
+public class Building{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String name; //도로명주소
 
-    @Embedded
-    private ReviewGrade reviewGrade;
+    /*@Embedded
+     private ReviewGrade reviewGrade;*/
+    private Double totalgrade = 0.0;
 
     @OneToMany(mappedBy = "building")
     private List<Favorite> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy= "building")
+    @OneToMany(mappedBy = "building")
     private List<Review> reviews = new ArrayList<>();
 
 }
