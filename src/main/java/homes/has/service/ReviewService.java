@@ -39,7 +39,7 @@ public class ReviewService {
         review.setBody(body);
         review.setBuilding(building);
         building.getReviews().add(review);
-        buildingRepository.save(building); //리뷰 등록.. 요놈짜식은 builder 패턴.. 써도 될 것 같,믄.. 수정기능에도 써야하
+        buildingRepository.save(building); //빌딩에 리뷰 등록.. 요놈짜식은 builder 패턴.. 써도 될 것 같,믄.. 수정기능에도 써야하
 
     }
 
