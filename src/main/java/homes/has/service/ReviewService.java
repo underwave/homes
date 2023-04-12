@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -41,7 +43,7 @@ public class ReviewService {
         review.setBuilding(building);
         reviewRepository.save(review);
 
-       // building.getReviews().add(review);
+        building.getReviews().add(review);
         buildingRepository.save(building);
     }
 
@@ -50,6 +52,17 @@ public class ReviewService {
         return sum / (countReview + 1);
     } //업데이트할 별점 calculate 하는 메서드..
 
+    /**마커 표시용 빌딩 반환(/map)  --> 기준에 대한.. 논의 필요해보임..**/
 
+    /**
+     * 특정 건물 리뷰 LIST 반환
+     **/
+    public List<Review> GetReviewList(String location){
+        Building building = buildingRepository.findByName(location);
+        if (building == null){
+            return null;
+        }
+        return building.getReviews();
+    }
 }
 

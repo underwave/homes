@@ -13,7 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
@@ -51,7 +54,12 @@ class ReviewServiceTest{
         assertNotNull(building);
         assertEquals(location, building.getName());
 
-        //assertEquals(2, building.getReviews().size());
+        //빌딩에서 리부 리스트 뽑아오는 기능 테스트 ..꼽
+        List<Review> Reviews = reviewService.GetReviewList(location);
+        assertEquals(1, Reviews.size());
+        assertEquals(5,Reviews.get(0).getGrade().getLessor());
+        List<Review> Reviews2 = reviewService.GetReviewList("메롱시티 어떤 버스정류장");
+        assertEquals(null,Reviews2);
 
     }
-}
+        }
