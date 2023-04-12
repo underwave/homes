@@ -30,22 +30,26 @@ public class ReviewService {
         }
 
         Double totalGrade = building.getTotalgrade();
-        int countReview = building.getReviews().size();
+        int countReview = building.getReviews().size(); //빌딩이 가직있는 리뷰 수 확인
         Double newTotalGrade = UpdatetotalGrade(totalGrade, countReview, grade);
         building.setTotalgrade(newTotalGrade); //빌딩 테이블의 total grade 받아와서 새로운 review 반영
 
         Review review = new Review();
         review.setGrade(grade);
         review.setBody(body);
-        review.setBuilding(building);
-        building.getReviews().add(review);
-        buildingRepository.save(building); //빌딩에 리뷰 등록.. 요놈짜식은 builder 패턴.. 써도 될 것 같,믄.. 수정기능에도 써야하
 
+        review.setBuilding(building);
+        reviewRepository.save(review);
+
+       // building.getReviews().add(review);
+        buildingRepository.save(building);
     }
 
     private Double UpdatetotalGrade (Double totalGrade, int countReview, ReviewGrade grade) {
         Double sum = totalGrade * countReview + (double) (grade.getLessor() + grade.getArea() + grade.getQuality() + grade.getNoise());
         return sum / (countReview + 1);
     } //업데이트할 별점 calculate 하는 메서드..
+
+
 }
 

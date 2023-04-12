@@ -21,6 +21,9 @@ public class Building{
 
     private String name; //도로명주소
 
+    private double posx;
+    private double posy;
+
     /*@Embedded
      private ReviewGrade reviewGrade;*/
     private Double totalgrade = 0.0;
