@@ -1,10 +1,7 @@
 package homes.has.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor//(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Building{
 
     @Id
@@ -33,5 +32,11 @@ public class Building{
 
     @OneToMany(mappedBy = "building")
     private List<Review> reviews = new ArrayList<>();
+
+    public Building(String name, double posx, double posy) {
+        this.name = name;
+        this.posx = posx;
+        this.posy = posy;
+    }
 
 }

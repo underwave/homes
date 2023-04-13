@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface BuildingRepository extends JpaRepository<Building, Long> {
    Building findByName(String name); //주소로 검색
+
 }
