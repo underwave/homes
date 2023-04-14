@@ -1,5 +1,6 @@
 package homes.has.repository;
 
+import homes.has.domain.Category;
 import homes.has.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long>{
 
@@ -20,4 +20,13 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     @Modifying(clearAutomatically = true)
     @Query("update Post p set p.comments = p.comments+1 where p.id = :id")
     public void increaseComments(@Param("id")Long id);
+
+
+    List<Post> findTop3ByCategoryOrderByCreatedAtDesc(Category category);
+
+
+
+
+
+
 }

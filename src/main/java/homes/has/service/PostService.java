@@ -1,7 +1,9 @@
 package homes.has.service;
 
 
+import homes.has.domain.Category;
 import homes.has.domain.Post;
+import homes.has.dto.PostDto;
 import homes.has.repository.PostQueryRepository;
 import homes.has.repository.PostRepository;
 import homes.has.repository.PostSearchCond;
@@ -9,8 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -51,4 +52,46 @@ public class PostService {
         postRepository.increaseComments(postId);
     }
 
+// 코드가 너무 더럽지만... group by, limit랑 4시간 싸우다가 그냥 작성했습니다
+//    public List<PostDto> recentPost(){
+//        Pageable pageable = PageRequest.of(0,3);
+//        List<Post> recentGeneral = postRepository.findRecentGeneral(pageable);
+//        List<Post> recentMarket = postRepository.findRecentMarket(pageable);
+//        List<Post> recentTips = postRepository.findRecentTips(pageable);
+//
+//        List<PostDto> postDtos = new ArrayList<>();
+//
+//        for (Post post : recentGeneral) {
+//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
+//            postDtos.add(postDto);
+//        }
+//
+//        for (Post post : recentMarket) {
+//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
+//            postDtos.add(postDto);
+//        }
+//
+//        for (Post post : recentTips) {
+//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
+//            postDtos.add(postDto);
+//        }
+//
+//        return postDtos;
+//    }
+
+    public Map<Category,List<PostDto>> communityMainPost(){
+        Map<Category,List<PostDto>> map = new HashMap<>();
+
+        for (Category cat : Category.values()) {
+            List<Post> catPost = postRepository.findTop3ByCategoryOrderByCreatedAtDesc(cat);
+            List<PostDto> postDtos= new ArrayList<>();
+            for (Post post : catPost) {
+                PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
+                postDtos.add(postDto);
+            }
+            map.put(cat,postDtos);
+        }
+
+        return map;
+    }
 }

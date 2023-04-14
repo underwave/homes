@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import homes.has.domain.Category;
 import homes.has.domain.Post;
-import homes.has.domain.QPost;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -48,4 +47,9 @@ public class PostQueryRepository {
     private BooleanExpression isCategory(Category category){
         return category!=null ? post.category.eq(category): null;
     }
+
+
+
+
+
 }

@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
-
     @Modifying(clearAutomatically = true)
     @Query("update Comment c set c.likes = c.likes+1 where c.id = :id")
     public void increaseLikes(@Param("id")Long id);
