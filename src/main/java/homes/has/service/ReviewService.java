@@ -48,12 +48,43 @@ public class ReviewService {
         buildingRepository.save(building);
     }
 
+
     private double UpdatetotalGrade (double totalGrade, int countReview, ReviewGrade grade) {
         double sum = totalGrade * countReview + (double) (grade.getLessor() + grade.getArea() + grade.getQuality() + grade.getNoise());
         return sum / (countReview + 1);
     } //업데이트할 별점 calculate 하는 메서드..
 
-    /**마커 표시용 빌딩 반환(/map)  --> 기준에 대한.. 논의 필요해보임..**/
+    /**
+     * 마커 표시용 빌딩 반환(/map) -> 검토 필..
+     **/
+    public List<Building> getBuildingsByDistance(double posx, double posy, double radius) {
+        List<Building> BuildingsAll = buildingRepository.findAll(); //빌딩다 끄집어와서...
+
+        List<Building> buildingsIn = new ArrayList<>(); // 반경에 속하는 빌딩 리스트 생성
+        for (Building building : BuildingsAll) {
+            double buildingradiuskm = distance(posx,posy, building.getPosx(), building.getPosy()); //건물까지의 거리
+            if (buildingradiuskm<=radius) { // 원점에서 건물 사이의 거리가 제시된 거리보다 작으면
+                buildingsIn.add(building); //반경 내 빌딩 리스트에 빌딩 추가
+            }
+        }
+        return buildingsIn;
+    }
+
+    //haversine formula
+    private double distance(double zeroposx, double zeroposy, double posx, double posy) {
+        double R = 6371; //지구 반지름
+        double xDistance = Math.abs(Math.toRadians(posx - zeroposx));
+        double yDistance = Math.abs(Math.toRadians(posy - zeroposy));
+
+        double sinDeltaLat = Math.sin(xDistance / 2);
+        double sinDeltaLng = Math.sin(yDistance / 2);
+        double squareRoot = Math.sqrt(
+                sinDeltaLat * sinDeltaLat +
+                        Math.cos(Math.toRadians(zeroposx)) * Math.cos(Math.toRadians(posx)) * sinDeltaLng * sinDeltaLng);
+
+        double distance = 2 * R * Math.asin(squareRoot);
+        return distance;
+    }
 
     /**
      * 특정 건물 리뷰 LIST 반환
