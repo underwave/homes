@@ -23,6 +23,7 @@ public class PostQueryRepository {
         this.query = new JPAQueryFactory(em);
     }
 
+
     public List<Post> findPostByTitleAndBodyInCategoryContaining(PostSearchCond cond){
 
         String word = cond.getWord();

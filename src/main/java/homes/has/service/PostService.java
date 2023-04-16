@@ -35,15 +35,6 @@ public class PostService {
         return queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
     }
 
-//    public Long update(Long postId, String title, String body){
-//        Post findPost = findById(postId).get();
-//        if(title!= null)
-//            findPost.setTitle(title);
-//        if(body!= null)
-//            findPost.setBody(body);
-//        return findPost.getId();
-//    }
-
     public void increaseLikes(Long postId){
         postRepository.increaseLikes(postId);
     }
@@ -52,6 +43,7 @@ public class PostService {
         postRepository.increaseComments(postId);
     }
 
+//    main에 노출할 최신글 3개, map으로 return
     public Map<Category,List<PostDto>> communityMainPost(){
         Map<Category,List<PostDto>> map = new HashMap<>();
 
