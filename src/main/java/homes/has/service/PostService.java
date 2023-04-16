@@ -52,33 +52,6 @@ public class PostService {
         postRepository.increaseComments(postId);
     }
 
-// 코드가 너무 더럽지만... group by, limit랑 4시간 싸우다가 그냥 작성했습니다
-//    public List<PostDto> recentPost(){
-//        Pageable pageable = PageRequest.of(0,3);
-//        List<Post> recentGeneral = postRepository.findRecentGeneral(pageable);
-//        List<Post> recentMarket = postRepository.findRecentMarket(pageable);
-//        List<Post> recentTips = postRepository.findRecentTips(pageable);
-//
-//        List<PostDto> postDtos = new ArrayList<>();
-//
-//        for (Post post : recentGeneral) {
-//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
-//            postDtos.add(postDto);
-//        }
-//
-//        for (Post post : recentMarket) {
-//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
-//            postDtos.add(postDto);
-//        }
-//
-//        for (Post post : recentTips) {
-//            PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
-//            postDtos.add(postDto);
-//        }
-//
-//        return postDtos;
-//    }
-
     public Map<Category,List<PostDto>> communityMainPost(){
         Map<Category,List<PostDto>> map = new HashMap<>();
 
