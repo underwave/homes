@@ -37,11 +37,11 @@ class ReviewServiceTest{
     @Test
     void createReviewTest () {
         // given
-        String location = "진주대로 500번길 ";
+        String location = "진주대로 500번길";
         ReviewGrade grade = new ReviewGrade(5, 3, 2, 4);
         ReviewBody body = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
 
-        String location2 = "진주대로 550번길 ";
+        String location2 = "진주대로 550번길";
         ReviewGrade grade2 = new ReviewGrade(4, 4, 1, 4);
         ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
@@ -67,23 +67,22 @@ class ReviewServiceTest{
     @Test
     void Delete_UpdateReviewTest () {
         // given
-        String location3 = "진주대로 570번길 ";
+        String location3 = "진주대로 570번길";
         ReviewGrade grade3 = new ReviewGrade(5, 3, 2, 4);
         ReviewBody body3 = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
 
-        String location4 = "진주대로 550번길 ";
-        ReviewGrade grade4 = new ReviewGrade(4, 4, 1, 4);
+        String location4 = "진주대로 550번길";
+        ReviewGrade grade4 = new ReviewGrade(4, 4, 3, 4);
         ReviewBody body4 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
         // when
         reviewService.CreateReview(location3, grade3, body3,37.12,128.22);
-        reviewService.CreateReview(location4, grade4, body4,37.22,125.21);
+        reviewService.CreateReview(location4, grade4, body4,37.2,125.21);
 
         // then
         reviewService.DeleteReview(2L);
         assertEquals(buildingRepository.count(),3);
-        assertEquals(buildingRepository.findByName("진주대로 550번길"),null);
-
+        assertEquals(buildingRepository.findByName("진주대로 550번길").getPosx(),37.2);
         ReviewGrade grade5 = new ReviewGrade(5, 4, 5, 5);
         ReviewBody body5 = new ReviewBody("집이 신축이라 깔끔하고 위치도 학교에서 가까워서 조와", "냉장고가 넘작아요~~~~ ", "몰...루");
 
