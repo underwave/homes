@@ -1,10 +1,12 @@
 package homes.has.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import homes.has.domain.Category;
 import homes.has.domain.Post;
+import homes.has.dto.PostDto;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -24,12 +26,14 @@ public class PostQueryRepository {
     }
 
 
-    public List<Post> findPostByTitleAndBodyInCategoryContaining(PostSearchCond cond){
+    public List<PostDto> findPostByTitleAndBodyInCategoryContaining(PostSearchCond cond){
 
         String word = cond.getWord();
         Category category = cond.getCategory();
 
-        return query.select(post)
+        return query.select(Projections.bean(PostDto.class,
+                        post.member,post.id,post.category,post.id
+                                ,post.title,post.body,post.likes,post.comments))
                 .from(post)
                 .where(searchCondition(word), isCategory(category))
                 .fetch();

@@ -31,7 +31,7 @@ public class PostService {
     }
 
 //    게시판 검색 기능
-    public List<Post> findByWord(PostSearchCond cond){
+    public List<PostDto> findByWord(PostSearchCond cond){
         return queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
     }
 

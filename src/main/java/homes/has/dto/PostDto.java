@@ -24,8 +24,18 @@ public class PostDto {
 
     private Member member;
 
-
+    public PostDto(){};
     public PostDto(Category category, Long id , String title, int likes, int comments) {
+        this.category=category;
+        this.id =id;
+        this. title = title;
+        this.likes = likes;
+        this.comments = comments;
+    }
+
+    public PostDto(Member member, Category category, Long id , String title, String body, int likes, int comments) {
+        this.member = member;
+        this.body = body;
         this.category=category;
         this.id =id;
         this. title = title;

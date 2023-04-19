@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -31,19 +32,20 @@ public class Member extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sns_key")
     private SnsMember snsMember;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy= "member")
     private List<Favorite> favorites = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy= "member")
     private List<LocRequest> requests = new ArrayList<>();
 
