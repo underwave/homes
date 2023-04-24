@@ -21,6 +21,7 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final BuildingRepository buildingRepository;
+    private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
 
     /**
      * 리뷰 생성
@@ -76,6 +77,42 @@ public class ReviewService {
         reviewRepository.save(review); //리뷰 수정 완
     }
 
+    /**
+     * 특정 건물 리뷰 LIST 반환
+     **/
+    public List<Review> GetReviewList(String location){
+        Building building = buildingRepository.findByName(location);
+        return building == null ? null : building.getReviews();
+    }
+
+    /**
+     * n KM 주변의 building 리스트 반환
+     **/
+    public List<Building> searchBuildingsByLocation(double latitude, double longitude, double distance) {
+        List<Building> buildings = new ArrayList<>();
+        double[] boundingBox = getBoundingBox(latitude, longitude, distance);
+        buildings.addAll(buildingRepository.findByPosxBetweenAndPosyBetween(boundingBox[1], boundingBox[3], boundingBox[0], boundingBox[2]));
+        return buildings;
+    }
+
+    /**거리만큼 away한 위-경도값을 반환하는 메서드**/
+    public static double[] getBoundingBox(double latitude, double longitude, double distance) {
+        double radianDistance = distance / EARTH_RADIUS;
+        double radianLatitude = Math.toRadians(latitude);
+        double radianLongitude = Math.toRadians(longitude);
+
+        double minLat = radianLatitude - radianDistance;
+        double maxLat = radianLatitude + radianDistance;
+
+        double deltaLongitude = Math.asin(Math.sin(radianDistance) / Math.cos(radianLatitude));
+        double minLng = radianLongitude - deltaLongitude;
+        double maxLng = radianLongitude + deltaLongitude;
+
+        double[] boundingBox = {Math.toDegrees(minLat), Math.toDegrees(minLng), Math.toDegrees(maxLat), Math.toDegrees(maxLng)};
+        return boundingBox;
+    }
+
+    /** 이것은 ... 리뷰 CRUD 기능에 쓰이는 메서드... **/
     private double updateTotalGrade(double totalGrade, int countReview, ReviewGrade oldGrade, ReviewGrade newGrade) {
         double sum = totalGrade * countReview;
         if (oldGrade != null) { //수정or삭제인 경우
@@ -87,12 +124,5 @@ public class ReviewService {
         return sum / (countReview + (newGrade == null ? 0 : 1) - (oldGrade == null ? 0 : 1)); //삭제이면 0-1, 생성이면 1-0, 수정이면 1-1
     }
 
-    /**
-     * 특정 건물 리뷰 LIST 반환
-     **/
-    public List<Review> GetReviewList(String location){
-        Building building = buildingRepository.findByName(location);
-        return building == null ? null : building.getReviews();
-    }
 }
 

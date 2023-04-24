@@ -46,8 +46,8 @@ class ReviewServiceTest{
         ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
         // when
-        reviewService.CreateReview(location, grade, body,37.1,128.2);
-        reviewService.CreateReview(location2, grade2, body2,37.2,125.2);
+        reviewService.CreateReview(location, grade, body,128.2,37.1);
+        reviewService.CreateReview(location2, grade2, body2,125.2,37.2);
 
         // then
         Building building = buildingRepository.findByName(location);
@@ -76,13 +76,13 @@ class ReviewServiceTest{
         ReviewBody body4 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
         // when
-        reviewService.CreateReview(location3, grade3, body3,37.12,128.22);
-        reviewService.CreateReview(location4, grade4, body4,37.2,125.21);
+        reviewService.CreateReview(location3, grade3, body3,128.22,37.12);
+        reviewService.CreateReview(location4, grade4, body4,125.21,37.2);
 
         // then
         reviewService.DeleteReview(2L);
         assertEquals(buildingRepository.count(),3);
-        assertEquals(buildingRepository.findByName("진주대로 550번길").getPosx(),37.2);
+        assertEquals(buildingRepository.findByName("진주대로 550번길").getPosx(),125.2);
         ReviewGrade grade5 = new ReviewGrade(5, 4, 5, 5);
         ReviewBody body5 = new ReviewBody("집이 신축이라 깔끔하고 위치도 학교에서 가까워서 조와", "냉장고가 넘작아요~~~~ ", "몰...루");
 
