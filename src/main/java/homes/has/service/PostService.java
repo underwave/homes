@@ -66,4 +66,8 @@ public class PostService {
 
         return map;
     }
+
+    public void deletePost(Long postId){
+        postRepository.deleteById(postId);
+    }
 }

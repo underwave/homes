@@ -101,4 +101,25 @@ public class CommunityApiController {
         return postDto;
     }
 
+//    명세 23번
+    @DeleteMapping("/community/{category}/{postId}")
+    public void deletePost(@PathVariable Long postId){
+        postService.deletePost(postId);
+    }
+
+
+// 명세 27
+    @PostMapping("/community/{category}/{postId}")
+    public void writeComment(@PathVariable Long postId, CommentDto commentDto){
+        Member member = memberService.findById(commentDto.getMemberId()).get();
+        Post post = postService.findById(postId).get();
+        Comment build = Comment.builder()
+                .body(commentDto.getBody())
+                .member(member)
+                .post(post)
+                .parent(commentDto.getParent())
+                .build();
+        commentService.save(build);
+    }
+
 }
