@@ -52,13 +52,20 @@ public class CommunityApiController {
         return posts;
     };
 
-//    @PostMapping("/community/{category}/write")
-//    public void writePost(@PathVariable Category category, @RequestBody Long member_id, @RequestBody ){
-//        Member member = memberService.findById(member_id).get();
-//        new Post()
-//    }
+    @PostMapping("/community/{category}/write")
+    public void writePost(@PathVariable Category category, PostDto postDto){
+        Member member = memberService.findById(postDto.getMemberId()).get();
+        Post build = Post.builder()
+                .member(member)
+                .title(postDto.getTitle())
+                .body(postDto.getBody())
+                .category(postDto.getCategory())
+                .imageUrl(postDto.getImageUrl())
+                .build();
+        postService.save(build);
+    }
 
-//기능 21
+// api 22
     @GetMapping("/community/{category}/{postId}")
     public PostDto postDetail(@PathVariable Category category, @PathVariable Long postId){
 
