@@ -41,7 +41,6 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comment> children;
 
-
     public Comment(Member member, Post post ,String body){
         this.member = member;
         this.body= body;
@@ -54,7 +53,5 @@ public class Comment extends BaseEntity {
         this.post= post;
         this.parent = parent;
     }
-
-
 
 }

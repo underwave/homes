@@ -3,7 +3,10 @@ package homes.has.dto;
 
 import homes.has.domain.Category;
 import homes.has.domain.Member;
+import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class PostDto {
@@ -21,26 +24,22 @@ public class PostDto {
     private int likes;
 
     private int comments;
+    private Long memberId;
+    private String memberLoc;
+    private List<CommentDto> comment;
 
-    private Member member;
-
-    public PostDto(){};
-    public PostDto(Category category, Long id , String title, int likes, int comments) {
-        this.category=category;
-        this.id =id;
-        this. title = title;
-        this.likes = likes;
-        this.comments = comments;
-    }
-
-    public PostDto(Member member, Category category, Long id , String title, String body, int likes, int comments) {
-        this.member = member;
+    @Builder
+    public PostDto(Long memberId, String memberLoc, Category category, Long id , String imageUrl,String title, String body, int likes, int comments, List<CommentDto> comment) {
+        this.memberId = memberId;
+        this.memberLoc = memberLoc;
         this.body = body;
+        this.imageUrl=imageUrl;
         this.category=category;
         this.id =id;
-        this. title = title;
+        this.title = title;
         this.likes = likes;
         this.comments = comments;
+        this.comment = comment;
     }
 
 
