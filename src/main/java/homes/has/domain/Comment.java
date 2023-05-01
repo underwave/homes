@@ -4,6 +4,7 @@ package homes.has.domain;
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,19 +43,13 @@ public class Comment extends BaseEntity {
     private List<Comment> children;
 
 
-    public Comment(Member member, Post post ,String body){
-        this.member = member;
-        this.body= body;
-        this.post= post;
-    }
-
+    @Builder
     public Comment(Member member, Post post ,String body, Comment parent){
         this.member = member;
         this.body= body;
         this.post= post;
         this.parent = parent;
+        this.likes=0;
     }
-
-
 
 }

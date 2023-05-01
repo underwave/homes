@@ -3,10 +3,7 @@ package homes.has.domain;
 
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -36,12 +33,13 @@ public class Post extends BaseEntity {
     private Member member;
 
 
-    public Post(Member member, String title, String body, Category category){
+    @Builder
+    public Post(Member member, String title, String body, Category category, String imageUrl){
         this.member = member;
         this.title= title;
         this.body= body;
         this.category = category;
-
+        this.imageUrl= imageUrl;
         this.likes=0;
         this.comments = 0;
     }

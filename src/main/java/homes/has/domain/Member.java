@@ -4,10 +4,7 @@ package homes.has.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,4 +46,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy= "member")
     private List<LocRequest> requests = new ArrayList<>();
 
+
+    @Builder
+    public Member(Valid valid, String location){
+        this.valid = valid;
+        this.location = location;
+    }
 }

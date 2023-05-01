@@ -27,8 +27,5 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     List<Post> findTop3ByCategoryOrderByCreatedAtDesc(Category category);
 
 
-
-
-
-
+    void deleteById(Long postId);
 }

@@ -30,9 +30,6 @@ class PostServiceTest {
     @Autowired
     MemberService memberService;
 
-
-
-
     @Test
     void 게시글_검색() {
         Member member = new Member();

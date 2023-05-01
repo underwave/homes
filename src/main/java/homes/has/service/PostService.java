@@ -51,12 +51,23 @@ public class PostService {
             List<Post> catPost = postRepository.findTop3ByCategoryOrderByCreatedAtDesc(cat);
             List<PostDto> postDtos= new ArrayList<>();
             for (Post post : catPost) {
-                PostDto postDto = new PostDto(post.getCategory(), post.getId(), post.getTitle(), post.getLikes(), post.getComments());
+                PostDto postDto = PostDto.builder()
+                        .id(post.getId())
+                        .category(post.getCategory())
+                        .title(post.getTitle())
+                        .body(post.getBody())
+                        .likes(post.getLikes())
+                        .comments(post.getComments())
+                        .build();
                 postDtos.add(postDto);
             }
             map.put(cat,postDtos);
         }
 
         return map;
+    }
+
+    public void deletePost(Long postId){
+        postRepository.deleteById(postId);
     }
 }
