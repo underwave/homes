@@ -88,10 +88,11 @@ public class ReviewService {
     /**
      * n KM 주변의 building 리스트 반환
      **/
-    public List<Building> searchBuildingsByLocation(double latitude, double longitude, double distance) {
+    public List<Building> GetBuildingsByLocation(double latitude, double longitude, double distance) {
         List<Building> buildings = new ArrayList<>();
         double[] boundingBox = getBoundingBox(latitude, longitude, distance);
-        buildings.addAll(buildingRepository.findByPosxBetweenAndPosyBetween(boundingBox[1], boundingBox[3], boundingBox[0], boundingBox[2]));
+        buildings.addAll(buildingRepository.findByPosxBetweenAndPosyBetween(boundingBox[0], boundingBox[2], boundingBox[1], boundingBox[3]));
+        //System.out.println(boundingBox[0] +" "+ boundingBox[2]+" "+ boundingBox[1]+" "+ boundingBox[3]);
         return buildings;
     }
 
