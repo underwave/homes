@@ -23,14 +23,17 @@ public class ReviewController{
 
 
     /**
-     * 빌딩 리스트 반환
+     * 빌딩 리스트 반환 (API no.1)
      **/
-
     @GetMapping("/building")
     public List<Building> getBuildingList(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double distance) {
         List<Building> buildingList = reviewService.GetBuildingsByLocation(latitude, longitude, distance);
         return buildingList;
     }
+
+    /**
+     * 빌딩 정보
+     **/
 
 
 

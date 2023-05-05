@@ -4,6 +4,7 @@ import homes.has.domain.*;
 import homes.has.service.CommentService;
 import homes.has.service.MemberService;
 import homes.has.service.PostService;
+import homes.has.service.ReviewService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ public class InitDb {
     private PostService postService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ReviewService reviewService;
 
     @PostConstruct
     public void init(){
@@ -45,6 +48,19 @@ public class InitDb {
         commentService.save(Comment.builder().member(member3).post(post1).body("ㄹㅇㅋㅋ").build());
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
         commentService.save(Comment.builder().member(member2).post(post1).body("나도 그렇게 생각해").build());
+        String location = "진주대로 500번길";
+        ReviewGrade grade = new ReviewGrade(5, 3, 2, 4);
+        ReviewBody body = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
+
+        String location2 = "진주대로 550번길";
+        ReviewGrade grade2 = new ReviewGrade(4, 4, 1, 4);
+        ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
+
+        // when
+        reviewService.CreateReview(location, grade, body,37.1,128.2);
+        reviewService.CreateReview(location2, grade2, body2,37.2,125.2);
+
+
     }
 
     private Post createPost(Member member , Category category, String body, String title) {

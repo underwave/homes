@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface BuildingRepository extends JpaRepository<Building, Long> {
    Building findByName(String name); //주소로 검색
 
-   List<Building> findByPosxBetweenAndPosyBetween (double minx, double maxx, double miny, double maxy);
+   List<Building> findByPosxBetweenAndPosyBetween (double minx, double maxx, double miny, double maxy); //위도 x, 경도 y
 }

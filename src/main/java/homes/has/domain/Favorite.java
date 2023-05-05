@@ -3,10 +3,7 @@ package homes.has.domain;
 
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @Entity
@@ -26,4 +23,9 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "building_id")
     private Building building;
 
+    @Builder
+    public Favorite (Building building, Member member) {
+        this.building=building;
+        this.member=member;
+    }
 }
