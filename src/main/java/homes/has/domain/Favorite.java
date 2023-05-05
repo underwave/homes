@@ -27,5 +27,7 @@ public class Favorite extends BaseEntity {
     public Favorite (Building building, Member member) {
         this.building=building;
         this.member=member;
+        member.getFavorites().add(this);
+        building.getFavorites().add(this);
     }
 }

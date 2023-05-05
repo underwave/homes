@@ -36,20 +36,34 @@ class FavoriteServiceTest{
         member.setValid(Valid.CERTIFIED);
         memberRepository.save(member);
 
+        Member member2 = new Member();
+        member2.setLocation("진주대로 98");
+        member2.setValid(Valid.CERTIFIED);
+        memberRepository.save(member2);
+
         Building building = new Building();
         building.setName("진주대로 303");
         building.setPosx(37);
         building.setPosy(128);
         buildingRepository.save(building);
 
-        //whern
-        favoriteService.CreateFavorite(building,member);
+        Building building2 = new Building();
+        building2.setName("진주대로 313");
+        building2.setPosx(37.6);
+        building2.setPosy(127);
+        buildingRepository.save(building2);
 
-        //then
+        // when
+        favoriteService.CreateFavorite(building,member);
+        favoriteService.CreateFavorite(building,member2);
+        favoriteService.CreateFavorite(building2,member);
+
+        // then
         Favorite favorite = favoriteRepository.findByBuildingAndMember(building,member);
         assertEquals(member.getId(), favorite.getMember().getId());
         assertEquals(building.getId(), favorite.getBuilding().getId());
-
+        assertEquals(2, favoriteService.GetBuildingFavorites(building.getId()));
+        assertEquals(2,favoriteService.GetFavoriteBuildings(member.getId()).size());
     }
     @Test
     public void testFavorite2(){
