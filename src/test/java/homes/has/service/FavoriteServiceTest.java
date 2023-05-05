@@ -73,6 +73,11 @@ class FavoriteServiceTest{
         member.setValid(Valid.CERTIFIED);
         memberRepository.save(member);
 
+        Member member2 = new Member();
+        member2.setLocation("진주대로 98");
+        member2.setValid(Valid.CERTIFIED);
+        memberRepository.save(member2);
+
         Building building = new Building();
         building.setName("진주대로 3031");
         building.setPosx(37);
@@ -81,11 +86,13 @@ class FavoriteServiceTest{
 
         //whern
         favoriteService.CreateFavorite(building,member);
+        favoriteService.CreateFavorite(building,member2);
         favoriteService.DeleteFavorite(building,member);
 
         //then
         assertNull(favoriteRepository.findByBuildingAndMember(building,member));
-
+        assertEquals(1, favoriteService.GetBuildingFavorites(building.getId()));
+        assertEquals(0,favoriteService.GetFavoriteBuildings(member.getId()).size());
 
     }
 

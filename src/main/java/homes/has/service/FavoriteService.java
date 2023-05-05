@@ -46,6 +46,8 @@ public class FavoriteService{
         if (favorite == null) {
             throw new IllegalArgumentException("좋아요를 조회할 수 없음");
         }
+        member.getFavorites().remove(favorite);
+        building.getFavorites().remove(favorite);
         favoriteRepository.delete(favorite);
     }
 

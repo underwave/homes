@@ -1,9 +1,6 @@
 package homes.has.service;
 
-import homes.has.domain.Building;
-import homes.has.domain.Review;
-import homes.has.domain.ReviewBody;
-import homes.has.domain.ReviewGrade;
+import homes.has.domain.*;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.MemberRepository;
 import homes.has.repository.ReviewRepository;
@@ -26,7 +23,7 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (String location, ReviewGrade grade, ReviewBody body, double posx, double posy) {
+    public void CreateReview (Member member,String location, ReviewGrade grade, ReviewBody body, double posx, double posy) {
         Building building = buildingRepository.findByName(location);
         if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
             building = new Building(location,posx,posy);
@@ -41,6 +38,7 @@ public class ReviewService {
                 .body(body)
                 .building(building)
                 .Location(building.getName())
+                .member(member)
                 .build();
         reviewRepository.save(review);
 

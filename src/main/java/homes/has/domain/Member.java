@@ -39,7 +39,7 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy= "member",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy= "member")
     private List<Favorite> favorites = new ArrayList<>();
 
     @JsonIgnore
