@@ -22,6 +22,7 @@ public class LikePostService {
 //    }
 
     public Long save(LikePosts likePosts) {
+
         return likePostsRepository.save(likePosts).getId();
     }
 

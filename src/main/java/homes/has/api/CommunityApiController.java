@@ -5,10 +5,7 @@ import homes.has.domain.*;
 import homes.has.dto.CommentDto;
 import homes.has.dto.PostDto;
 import homes.has.repository.PostSearchCond;
-import homes.has.service.CommentService;
-import homes.has.service.LikePostService;
-import homes.has.service.MemberService;
-import homes.has.service.PostService;
+import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +22,7 @@ public class CommunityApiController {
     private final CommentService commentService;
     private final MemberService memberService;
     private final LikePostService likePostService;
+    private final LikeCommentsService likeCommentsService;
 //    커뮤니티 메인 카테고리별 최신글 3개
     @GetMapping("/community")
     public Map<Category, List<PostDto>> createCommunityMain(){
@@ -135,7 +133,26 @@ public class CommunityApiController {
             postService.increaseLikes(postId);
         }
     }
-// 명세 31
+
+//    comment 좋아요 기능
+    @PostMapping("/community/{category}/{postId}/commentLike")
+    public void likeComment( @RequestBody Long memberId, @RequestBody Long commentId){
+        Comment comment = commentService.findById(commentId).get();
+        Member member = memberService.findById(memberId).get();
+        if (likeCommentsService.isCommentLikedByMember(comment,member)){
+            LikeComments likeComments = likeCommentsService.findByCommentIdAndMemberId(commentId, memberId);
+            likeCommentsService.delete(likeComments.getId());
+            commentService.decreaseLikes(commentId);
+        }
+        else {
+            likeCommentsService.save(new LikeComments(comment, member));
+            commentService.increaseLikes(commentId);
+        }
+    }
+
+
+
+    // 명세 31
     @DeleteMapping("/community/{category}/{postId}/deleteComment")
     public void deleteComment(@PathVariable Long postId, @RequestBody Long commentId){
         commentService.delete(commentId);
