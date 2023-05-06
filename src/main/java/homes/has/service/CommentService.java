@@ -27,6 +27,13 @@ public class CommentService {
         commentRepository.increaseLikes(commentId);
     }
 
+    public void decreaseLikes(Long commentId){
+        commentRepository.decreaseLikes(commentId);
+    }
+
+    public void delete(Long commentId){
+        commentRepository.deleteById(commentId);
+    }
 
     public List<Comment> findByPostId(Long postId){
         return commentRepository.findByPostId(postId);

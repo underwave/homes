@@ -43,7 +43,17 @@ public class PostService {
         postRepository.increaseComments(postId);
     }
 
-//    main에 노출할 최신글 3개, map으로 return
+    public void decreaseLikes(Long postId){
+        postRepository.decreaseLikes(postId);
+    }
+
+    public void decreaseComments(Long postId){
+        postRepository.decreaseComments(postId);
+    }
+
+
+
+    //    main에 노출할 최신글 3개, map으로 return
     public Map<Category,List<PostDto>> communityMainPost(){
         Map<Category,List<PostDto>> map = new HashMap<>();
 

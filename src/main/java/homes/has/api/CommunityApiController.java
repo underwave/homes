@@ -1,14 +1,12 @@
 package homes.has.api;
 
 
-import homes.has.domain.Category;
-import homes.has.domain.Comment;
-import homes.has.domain.Member;
-import homes.has.domain.Post;
+import homes.has.domain.*;
 import homes.has.dto.CommentDto;
 import homes.has.dto.PostDto;
 import homes.has.repository.PostSearchCond;
 import homes.has.service.CommentService;
+import homes.has.service.LikePostService;
 import homes.has.service.MemberService;
 import homes.has.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ public class CommunityApiController {
     private final PostService postService;
     private final CommentService commentService;
     private final MemberService memberService;
-
+    private final LikePostService likePostService;
 //    커뮤니티 메인 카테고리별 최신글 3개
     @GetMapping("/community")
     public Map<Category, List<PostDto>> createCommunityMain(){
@@ -51,7 +49,7 @@ public class CommunityApiController {
 
         return posts;
     };
-
+    // api 22
     @PostMapping("/community/{category}/write")
     public void writePost(@PathVariable Category category, PostDto postDto){
         Member member = memberService.findById(postDto.getMemberId()).get();
@@ -65,7 +63,7 @@ public class CommunityApiController {
         postService.save(build);
     }
 
-// api 22
+// api 21
     @GetMapping("/community/{category}/{postId}")
     public PostDto postDetail(@PathVariable Category category, @PathVariable Long postId){
 
@@ -109,7 +107,7 @@ public class CommunityApiController {
 
 
 // 명세 27
-    @PostMapping("/community/{category}/{postId}")
+    @PostMapping("/community/{category}/{postId}/writeComment")
     public void writeComment(@PathVariable Long postId, CommentDto commentDto){
         Member member = memberService.findById(commentDto.getMemberId()).get();
         Post post = postService.findById(postId).get();
@@ -120,6 +118,31 @@ public class CommunityApiController {
                 .parent(commentDto.getParent())
                 .build();
         commentService.save(build);
+        postService.increaseComments(postId);
     }
+//명세 26
+    @PostMapping("/community/{category}/{postId}/like")
+    public void likePost(@PathVariable Long postId, @RequestBody Long memberId){
+        Post post = postService.findById(postId).get();
+        Member member = memberService.findById(memberId).get();
+        if (likePostService.isPostLikedByMember(post,member)){
+            LikePosts likePost = likePostService.findByPostIdAndMemberId(postId, memberId);
+            likePostService.delete(likePost.getId());
+            postService.decreaseLikes(postId);
+        }
+        else {
+            likePostService.save(new LikePosts(post, member));
+            postService.increaseLikes(postId);
+        }
+    }
+// 명세 31
+    @DeleteMapping("/community/{category}/{postId}/deleteComment")
+    public void deleteComment(@PathVariable Long postId, @RequestBody Long commentId){
+        commentService.delete(commentId);
+        postService.decreaseComments(postId);
+    }
+
+
+
 
 }

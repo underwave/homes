@@ -92,14 +92,14 @@ class PostServiceTest {
 
 
     private Post createPost(Member member , Category category, String body, String title) {
-        Post post = new Post(member, title,body,category);
+        Post post = Post.builder()
+                .member(member)
+                .title(title)
+                .body(body)
+                .category(category)
+                .build();
         Long saved = postService.save(post);
         return post;
     }
-
-
-
-
-
 
 }

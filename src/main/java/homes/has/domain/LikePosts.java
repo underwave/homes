@@ -2,10 +2,7 @@ package homes.has.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter @Setter
@@ -24,4 +21,8 @@ public class LikePosts {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public LikePosts(Post post, Member member){
+        this.post= post;
+        this.member = member;
+    }
 }

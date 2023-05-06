@@ -42,8 +42,12 @@ class BaseEntityTest {
     void timestampTest() throws InterruptedException {
         Member member = new Member();
         memberService.save(member);
-        Post post = new Post(member, "abc", "abcde", Category.GENERAL);
-
+        Post post = Post.builder()
+                .member(member)
+                .title("abc")
+                .body("abcde")
+                .category(Category.GENERAL)
+                .build();
         Long postId = postService.save(post);
 
         Thread.sleep(1000);

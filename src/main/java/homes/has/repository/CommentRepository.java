@@ -16,7 +16,15 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     public void increaseLikes(@Param("id")Long id);
 
 
+    @Modifying(clearAutomatically = true)
+    @Query("update Comment c set c.likes = c.likes-1 where c.id = :id")
+    public void decreaseLikes(@Param("id")Long id);
+
+
     @Query("select c from Comment c where c.post.id = :postId")
     public List<Comment> findByPostId(@Param("postId") Long postId);
+
+
+    void deleteById(Long commentId);
 
 }

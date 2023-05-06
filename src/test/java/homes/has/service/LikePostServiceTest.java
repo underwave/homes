@@ -1,27 +1,33 @@
-package homes.has;
+package homes.has.service;
 
+import homes.has.InitDb;
 import homes.has.domain.*;
-import homes.has.service.*;
-import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@Component
-public class InitDb {
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private PostService postService;
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private ReviewService reviewService;
+
+@SpringBootTest
+@Transactional
+class LikePostServiceTest {
 
     @Autowired
-    private LikePostService likePostService;
-    @PostConstruct
-    public void init(){
+    LikePostService likePostService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    PostService postService;
+    @Autowired
+    CommentService commentService;
+
+    @Test
+    void isliked(){
+//        given
         Member member1 = new Member(Valid.CERTIFIED, "가좌로 3길");
         Member member2 = new Member(Valid.CERTIFIED, "가좌로 2길");
         Member member3 = new Member(Valid.CERTIFIED, "가좌로 1길");
@@ -37,7 +43,7 @@ public class InitDb {
         createPost(member2, Category.MARKET, "aa", "aa");
         createPost(member3, Category.MARKET, "bb", "bb");
         createPost(member1, Category.MARKET, "cc", "cc");
-        createPost(member2, Category.MARKET, "dd", "dd");
+        Post post2 = createPost(member2, Category.MARKET, "dd", "dd");
 
         createPost(member3, Category.TIPS, "akima", "bkimb");
         createPost(member1, Category.TIPS, "akima", "bkimb");
@@ -48,28 +54,22 @@ public class InitDb {
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
         commentService.save(Comment.builder().member(member2).post(post1).body("나도 그렇게 생각해").build());
 
-        likePostService.save(new LikePosts(post1,member1));
-        likePostService.save(new LikePosts(post1,member2));
-        likePostService.save(new LikePosts(post1,member3));
+        Long saved1 = likePostService.save(new LikePosts(post1, member1));
+        Long saved2 = likePostService.save(new LikePosts(post1, member2));
+        Long saved3 = likePostService.save(new LikePosts(post1, member3));
+
+        boolean m1p1 = likePostService.isPostLikedByMember(post1, member1);
+        boolean m2p1 = likePostService.isPostLikedByMember(post1, member2);
+        boolean m1p2 = likePostService.isPostLikedByMember(post2, member1);
 
 
-
-
-
-        String location = "진주대로 500번길";
-        ReviewGrade grade = new ReviewGrade(5, 3, 2, 4);
-        ReviewBody body = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
-
-        String location2 = "진주대로 550번길";
-        ReviewGrade grade2 = new ReviewGrade(4, 4, 1, 4);
-        ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
-
-        // when
-        reviewService.CreateReview(member1,location, grade, body,37.1,128.2);
-        reviewService.CreateReview(member3,location2, grade2, body2,37.2,125.2);
-
-
+//        then
+        assertThat(m1p1).isTrue();
+        assertThat(m2p1).isTrue();
+        assertThat(m1p2).isFalse();
     }
+
+
 
     private Post createPost(Member member , Category category, String body, String title) {
         Post post = Post.builder()
