@@ -42,4 +42,9 @@ public class CommentService {
     public List<Comment> findByPostId(Long postId){
         return commentRepository.findByPostId(postId);
     }
+
+    public void update(Long commentId, String body){
+        Comment comment = commentRepository.findById(commentId).get();
+        comment.update(body);
+    }
 }

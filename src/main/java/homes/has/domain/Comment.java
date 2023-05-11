@@ -52,4 +52,8 @@ public class Comment extends BaseEntity {
         this.likes=0;
     }
 
+
+    public void update(String body){
+        this.body= body;
+    }
 }

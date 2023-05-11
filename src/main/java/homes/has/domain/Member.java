@@ -22,13 +22,12 @@ public class Member extends BaseEntity {
 
     private String location;
 
+    private String accessToken;
 
+    private String provideId;
 
+    private String name;
 
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sns_key")
-    private SnsMember snsMember;
     @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();

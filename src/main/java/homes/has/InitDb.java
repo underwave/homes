@@ -65,8 +65,8 @@ public class InitDb {
         ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
         // when
-        reviewService.CreateReview(member1,location, grade, body,37.1,128.2);
-        reviewService.CreateReview(member3,location2, grade2, body2,37.2,125.2);
+//        reviewService.CreateReview(member1,location, grade, body,37.1,128.2);
+//        reviewService.CreateReview(member3,location2, grade2, body2,37.2,125.2);
 
 
     }

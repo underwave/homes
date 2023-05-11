@@ -44,4 +44,8 @@ public class Post extends BaseEntity {
         this.comments = 0;
     }
 
+    public void update(String title, String body, String imageUrl){
+
+    }
+
 }

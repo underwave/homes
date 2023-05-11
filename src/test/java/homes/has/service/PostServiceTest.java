@@ -3,6 +3,7 @@ package homes.has.service;
 import homes.has.domain.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
+import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
 import homes.has.repository.PostQueryRepository;
 import homes.has.repository.PostRepository;
@@ -91,6 +92,24 @@ class PostServiceTest {
     }
 
 
+
+    @Test
+    void 업데이트_테스트(){
+        Member member = new Member();
+        memberService.save(member);
+        Post post1 = createPost(member, Category.GENERAL, "akima", "bkimb");
+        PostDto postDto = PostDto.builder()
+                .body("수정한 게시글 내용")
+                .title("게시글 수정 수정...")
+                .build();
+        postService.update(post1.getId(), postDto);
+
+        assertThat(post1.getTitle()).isEqualTo("게시글 수정 수정...");
+        assertThat(post1.getBody()).isEqualTo("수정한 게시글 내용");
+
+    }
+
+
     private Post createPost(Member member , Category category, String body, String title) {
         Post post = Post.builder()
                 .member(member)
@@ -101,5 +120,7 @@ class PostServiceTest {
         Long saved = postService.save(post);
         return post;
     }
+
+
 
 }

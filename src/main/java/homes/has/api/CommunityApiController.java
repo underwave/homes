@@ -160,6 +160,36 @@ public class CommunityApiController {
     }
 
 
+    @GetMapping("/community/{category}/{postId}/modify")
+    public PostDto editPostForm(@PathVariable Long postId){
+        Post post = postService.findById(postId).get();
+        PostDto postDto = PostDto.builder()
+                .category(post.getCategory())
+                .id(post.getId())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .build();
+        return postDto;
+    }
+    @PutMapping("/community/{category}/{postId}/modify")
+    public void editPost(@PathVariable Long postId, PostDto postDto){
+        postService.update(postId, postDto);
+    }
+
+
+    @GetMapping("/community/{category}/{postId}/{commentId}/commentModify")
+    public CommentDto editCommentForm(@PathVariable Long commentId){
+        Comment comment = commentService.findById(commentId).get();
+        CommentDto commentDto = CommentDto.builder()
+                .id(commentId)
+                .body(comment.getBody())
+                .build();
+        return commentDto;
+    }
+    @PutMapping("/community/{category}/{postId}/{commentId}/commentModify")
+    public void editComment(@PathVariable Long commentId, String body){
+        commentService.update(commentId, body);
+    }
 
 
 }

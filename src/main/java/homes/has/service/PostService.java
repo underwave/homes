@@ -80,4 +80,9 @@ public class PostService {
     public void deletePost(Long postId){
         postRepository.deleteById(postId);
     }
+
+    public void update(Long postId, PostDto postDto){
+        Post post = postRepository.findById(postId).get();
+        post.update(postDto.getTitle(), postDto.getBody(), postDto.getImageUrl());
+    }
 }

@@ -1,11 +1,14 @@
 package homes.has.api;
 
+import homes.has.domain.Member;
+import homes.has.dto.MemberDto;
 import homes.has.service.CommentService;
 import homes.has.service.MemberService;
 import homes.has.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -16,5 +19,18 @@ public class UserApiController {
     private final PostService postService;
     private final CommentService commentService;
     private final MemberService memberService;
+
+
+    @GetMapping("/user/{userId}")
+    public MemberDto userInfo(@PathVariable Long userId){
+        Member member = memberService.findById(userId).get();
+
+        return MemberDto.builder()
+                .location(member.getLocation())
+                .valid(member.getValid())
+                .name(member.getName())
+                .build();
+
+    }
 
 }
