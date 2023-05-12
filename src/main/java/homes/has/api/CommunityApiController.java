@@ -77,7 +77,7 @@ public class CommunityApiController {
                     .children(comment.getChildren())
                     .memberId(comment.getMember().getId())
                     .postId(comment.getPost().getId())
-                    .createAt(comment.getCreatedAt())
+                    .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .build();
             commentDtos.add(build);

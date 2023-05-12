@@ -65,11 +65,33 @@ public class UserApiController {
         return postDtos;
     }
 
-//    @GetMapping("/user/{userId}/comment")
-//    public List<PostDto> userComment(@PathVariable Long memberId){
-//        List<Comment> comments = commentService.memberComment(memberId);
-//        List<CommentDto> commentDtos = new ArrayList<>();
-//
-//    }
+    @GetMapping("/user/{userId}/comment")
+    public List<PostDto> userComment(@PathVariable Long memberId){
+        List<Comment> comments = commentService.memberComment(memberId);
+        List<Post> posts= new ArrayList<>();
+        List<PostDto> postDtos = new ArrayList<>();
+        for (Comment comment : comments) {
+            Long postId = comment.getPost().getId();
+            Post post = postService.findById(postId).get();
+            posts.add(post);
+        }
+
+        for (Post post : posts) {
+            PostDto postDto = PostDto.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .body(post.getBody())
+                    .comments(post.getComments())
+                    .memberLoc(post.getMember().getLocation())
+                    .likes(post.getLikes())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build();
+            postDtos.add(postDto);
+        }
+        return postDtos;
+
+
+    }
 
 }
