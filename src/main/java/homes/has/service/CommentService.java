@@ -47,4 +47,8 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).get();
         comment.update(body);
     }
+
+    public List<Comment> memberComment(Long memberId){
+        return commentRepository.memberComment(memberId);
+    }
 }

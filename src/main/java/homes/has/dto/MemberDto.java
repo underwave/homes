@@ -20,7 +20,7 @@ public class MemberDto {
 
 
     @Builder
-    public MemberDto(Long id, Valid valid, String location, String name, String accessToken, String provideId){
+    public MemberDto(Long id, Valid valid, String location, String name, String accessToken, String provideId ){
         this.id =id;
         this.valid=valid;
         this.location=location;

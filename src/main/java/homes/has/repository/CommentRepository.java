@@ -1,6 +1,7 @@
 package homes.has.repository;
 
 import homes.has.domain.Comment;
+import homes.has.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
 
     void deleteById(Long commentId);
+
+    @Query("SELECT c FROM Comment c JOIN FETCH c.member m WHERE m.id = :memberId")
+    public List<Comment> memberComment(@Param("memberId") Long memberId);
 
 }

@@ -18,12 +18,12 @@ public class CommentDto {
     private Long memberId;
     private Comment parent;
     private List<Comment> children;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     @Builder
     public CommentDto(Long id, String body, int likes, Long postId, Long memberId,Comment parent
-            ,List<Comment> children ,LocalDateTime createAt, LocalDateTime modifiedAt) {
+            ,List<Comment> children ,LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id= id;
         this.body = body;
         this.likes = likes;
@@ -31,7 +31,7 @@ public class CommentDto {
         this.memberId = memberId;
         this.parent=parent;
         this.children = children;
-        this.createAt= createAt;
+        this.createdAt= createdAt;
         this.modifiedAt=modifiedAt;
     }
 

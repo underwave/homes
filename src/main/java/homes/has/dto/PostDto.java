@@ -6,6 +6,7 @@ import homes.has.domain.Member;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -27,9 +28,12 @@ public class PostDto {
     private Long memberId;
     private String memberLoc;
     private List<CommentDto> comment;
+    LocalDateTime createdAt;
+    LocalDateTime modifiedAt;
 
     @Builder
-    public PostDto(Long memberId, String memberLoc, Category category, Long id , String imageUrl,String title, String body, int likes, int comments, List<CommentDto> comment) {
+    public PostDto(Long memberId, String memberLoc, Category category, Long id , String imageUrl, String title, String body, int likes,
+                   int comments, List<CommentDto> comment, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.memberId = memberId;
         this.memberLoc = memberLoc;
         this.body = body;
@@ -40,6 +44,8 @@ public class PostDto {
         this.likes = likes;
         this.comments = comments;
         this.comment = comment;
+        this.createdAt = createdAt;
+        this.modifiedAt=modifiedAt;
     }
 
 

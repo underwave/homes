@@ -41,4 +41,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
 
     void deleteById(Long postId);
+
+    @Query("SELECT p FROM Post p JOIN FETCH p.member m WHERE m.id = :memberId")
+    public List<Post> memberPost(@Param("memberId") Long memberId);
 }
