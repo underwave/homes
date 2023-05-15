@@ -109,6 +109,4 @@ public class UserApiController {
         member.changeValid(Valid.UNCERTIFIED);
     }
 
-
-
 }

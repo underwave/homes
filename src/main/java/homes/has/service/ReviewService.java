@@ -162,4 +162,14 @@ public class ReviewService {
         }
         return reviewDtos;
     }
+
+
+
+    public List<Review> findByMemberId(Long memberId){
+        List<Review> reviews = reviewRepository.findByMemberId(memberId);
+        if (reviews.size()==0){
+            throw new IllegalArgumentException("리뷰를 찾을 수 없음");
+        }
+        return reviews;
+    }
 }
