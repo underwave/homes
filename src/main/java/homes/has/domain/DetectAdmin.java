@@ -11,7 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
 public class DetectAdmin {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
