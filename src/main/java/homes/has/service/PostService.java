@@ -51,8 +51,6 @@ public class PostService {
         postRepository.decreaseComments(postId);
     }
 
-
-
     //    main에 노출할 최신글 3개, map으로 return
     public Map<Category,List<PostDto>> communityMainPost(){
         Map<Category,List<PostDto>> map = new HashMap<>();

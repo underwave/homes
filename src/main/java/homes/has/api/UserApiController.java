@@ -4,10 +4,8 @@ import homes.has.domain.*;
 import homes.has.dto.LocRequestForm;
 import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
-import homes.has.service.CommentService;
-import homes.has.service.LocRequestService;
-import homes.has.service.MemberService;
-import homes.has.service.PostService;
+import homes.has.dto.ReviewDto;
+import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,7 @@ public class UserApiController {
     private final CommentService commentService;
     private final MemberService memberService;
     private final LocRequestService locRequestService;
-
+    private final ReviewService reviewService;
     @GetMapping("/user/{userId}")
     public MemberDto userInfo(@PathVariable Long userId){
         Member member = memberService.findById(userId).get();
@@ -60,6 +58,9 @@ public class UserApiController {
         return postDtos;
     }
 
+    /*
+     *  api 명세 15, 내가 쓴 댓글
+    * */
     @GetMapping("/user/{userId}/comment")
     public List<PostDto> userComment(@PathVariable Long memberId){
         List<Comment> comments = commentService.memberComment(memberId);
@@ -87,7 +88,9 @@ public class UserApiController {
         return postDtos;
     }
 
-
+    /*
+    *  api 명세 11, 주소지 인증
+    * */
     @PostMapping("/user/authorization/write")
     public void writeLocRequest(@RequestBody LocRequestForm locRequestForm){
         Long memberId = locRequestForm.getMemberId();
@@ -102,11 +105,35 @@ public class UserApiController {
         memberService.changeValid(memberId, Valid.ONGOING);
     }
 
+    /*
+    *api 명세 12, 주소지 인증 취소
+    * */
     @DeleteMapping("/user/authorization/{locRequestId}")
     public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody Long memberId){
         Member member = memberService.findById(memberId).get();
         locRequestService.delete(locRequestId);
         member.changeValid(Valid.UNCERTIFIED);
+    }
+    /*
+    * api 명세 13, 내가쓴 리뷰 출력
+    * */
+    @GetMapping("/user/{userId}/review")
+    public List<ReviewDto> userReview(@PathVariable Long memberId){
+        List<Review> reviews = reviewService.findByMemberId(memberId);
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+
+        for (Review review : reviews) {
+            ReviewDto reviewDto = ReviewDto.builder()
+                .grade(review.getGrade())
+                .member(review.getMember())
+                .body(review.getBody())
+                .building(review.getBuilding())
+                .createdAt(review.getCreatedAt())
+                .modifiedAt(review.getModifiedAt())
+                .build();
+            reviewDtos.add(reviewDto);
+        }
+        return reviewDtos;
     }
 
 }
