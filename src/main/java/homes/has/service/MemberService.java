@@ -2,6 +2,7 @@ package homes.has.service;
 
 
 import homes.has.domain.Member;
+import homes.has.domain.Valid;
 import homes.has.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,4 +32,8 @@ public class MemberService {
     }
 
 
+    public void changeValid(Long memberId,Valid valid){
+        Member member = memberRepository.findById(memberId).get();
+        member.changeValid(valid);
+    }
 }

@@ -1,21 +1,16 @@
 package homes.has.api;
 
-import homes.has.domain.Comment;
-import homes.has.domain.Member;
-import homes.has.domain.Post;
-import homes.has.dto.CommentDto;
+import homes.has.domain.*;
+import homes.has.dto.LocRequestForm;
 import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
 import homes.has.service.CommentService;
+import homes.has.service.LocRequestService;
 import homes.has.service.MemberService;
 import homes.has.service.PostService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +23,7 @@ public class UserApiController {
     private final PostService postService;
     private final CommentService commentService;
     private final MemberService memberService;
-
+    private final LocRequestService locRequestService;
 
     @GetMapping("/user/{userId}")
     public MemberDto userInfo(@PathVariable Long userId){
@@ -90,8 +85,21 @@ public class UserApiController {
             postDtos.add(postDto);
         }
         return postDtos;
+    }
 
 
+    @PostMapping("/user/authorization/write")
+    public void writeAuthorization(@RequestBody LocRequestForm locRequestForm){
+        Long memberId = locRequestForm.getMemberId();
+        Member member = memberService.findById(memberId).get();
+
+        LocRequest locRequest = LocRequest.builder()
+                .location(locRequestForm.getLocation())
+                .imageUrl(locRequestForm.getImageUrl())
+                .member(member)
+                .build();
+        locRequestService.save(locRequest);
+        memberService.changeValid(memberId, Valid.ONGOING);
     }
 
 }

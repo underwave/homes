@@ -28,6 +28,9 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    private String nickName;
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
@@ -45,10 +48,17 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy= "member")
     private List<LocRequest> requests = new ArrayList<>();
 
+    public void changeValid(Valid valid){
+        this.valid = valid;
+    }
 
     @Builder
-    public Member(Valid valid, String location){
+    public Member(Valid valid, String location, String name, String nickName, String accessToken, String provideId){
         this.valid = valid;
         this.location = location;
+        this.name=name;
+        this.nickName=nickName;
+        this.accessToken=accessToken;
+        this.provideId =provideId;
     }
 }
