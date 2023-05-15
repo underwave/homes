@@ -56,11 +56,10 @@ public class ReviewController{
 
     /**
      * 리뷰 작성 (API no.4)
-     **/
     @PostMapping("{location}/review/write")
     public void createReview(@RequestBody CreateReviewDto request) throws IOException {
         List<MultipartFile> imageFiles = request.getImageFiles();
         reviewService.CreateReview(request.getMember(), request.getLocation(), request.getGrade(),
                 request.getBody(), request.getPosx(), request.getPosy(), imageFiles);
-    }
+    }**/
 }

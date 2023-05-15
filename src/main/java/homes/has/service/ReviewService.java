@@ -1,8 +1,8 @@
 package homes.has.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+//import com.amazonaws.services.s3.AmazonS3;
+//import com.amazonaws.services.s3.model.CannedAccessControlList;
+//import com.amazonaws.services.s3.model.PutObjectRequest;
 import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 
@@ -28,7 +28,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final BuildingRepository buildingRepository;
     private final FavoriteRepository favoriteRepository;
-    private final AmazonS3 amazonS3;
+   // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
     //private static final String UPLOAD_DIR = "/path/"; // 로컬에서 경로
     private static final String BUCKET_NAME = "homes-admin"; // S3버킷 이름
@@ -52,7 +52,7 @@ public class ReviewService {
                 .Location(building.getName())
                 .member(member)
                 .build();
-
+/**
         if (imageFiles != null && imageFiles.size() > 0) {
             for (MultipartFile imageFile : imageFiles) {
                 String fileName = UUID.randomUUID().toString() + ".jpg";
@@ -62,7 +62,7 @@ public class ReviewService {
                 String url = amazonS3.getUrl(BUCKET_NAME, fileName).toString();
                 review.addImageUrl(url);
             }
-        }
+        }**/
         reviewRepository.save(review);
 
         building.getReviews().add(review);

@@ -30,8 +30,9 @@ public class Review extends BaseEntity {
     private Building building;
 
     private String Location;
-    @ElementCollection
-    private List<String> imageURL= new ArrayList<>();
+
+   // @ElementCollection
+   // private List<String> imageURL= new ArrayList<>();
 
     @Embedded
     private ReviewBody body;
@@ -39,8 +40,6 @@ public class Review extends BaseEntity {
     @Embedded
     private ReviewGrade grade;
 
-    public void addImageUrl(String url) {
-        imageURL.add(url);
-    }
+    //public void addImageUrl(String url) {imageURL.add(url);}
 
 }
