@@ -89,7 +89,7 @@ public class UserApiController {
 
 
     @PostMapping("/user/authorization/write")
-    public void writeAuthorization(@RequestBody LocRequestForm locRequestForm){
+    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm){
         Long memberId = locRequestForm.getMemberId();
         Member member = memberService.findById(memberId).get();
 
@@ -101,5 +101,14 @@ public class UserApiController {
         locRequestService.save(locRequest);
         memberService.changeValid(memberId, Valid.ONGOING);
     }
+
+    @DeleteMapping("/user/authorization/{locRequestId}")
+    public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody Long memberId){
+        Member member = memberService.findById(memberId).get();
+        locRequestService.delete(locRequestId);
+        member.changeValid(Valid.UNCERTIFIED);
+    }
+
+
 
 }
