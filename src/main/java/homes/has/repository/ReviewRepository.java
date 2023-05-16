@@ -14,4 +14,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r JOIN FETCH r.member m WHERE m.id = :memberId")
     public List<Review> findByMemberId(@Param("memberId") Long memberId);
 
+    public boolean existsByMemberId(Long memberId);
+
+
 }

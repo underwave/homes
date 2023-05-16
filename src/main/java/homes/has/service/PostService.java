@@ -84,7 +84,4 @@ public class PostService {
         post.update(postDto.getTitle(), postDto.getBody(), postDto.getImageUrl());
     }
 
-    public List<Post> memberPost(Long memberId){
-        return postRepository.memberPost(memberId);
-    }
 }

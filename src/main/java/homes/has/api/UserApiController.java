@@ -23,7 +23,7 @@ public class UserApiController {
     private final MemberService memberService;
     private final LocRequestService locRequestService;
     private final ReviewService reviewService;
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{memberId}")
     public MemberDto userInfo(@PathVariable Long userId){
         Member member = memberService.findById(userId).get();
 
@@ -37,9 +37,9 @@ public class UserApiController {
     /*
     * 내가 쓴글 api 14번
     * */
-    @GetMapping("/user/{userId}/post")
+    @GetMapping("/user/{memberId}/post")
     public List<PostDto> userPost(@PathVariable Long memberId){
-        List<Post> posts = postService.memberPost(memberId);
+        List<Post> posts = memberService.memberPost(memberId);
         List<PostDto> postDtos = new ArrayList<>();
 
         for (Post post : posts) {
@@ -61,9 +61,9 @@ public class UserApiController {
     /*
      *  api 명세 15, 내가 쓴 댓글
     * */
-    @GetMapping("/user/{userId}/comment")
+    @GetMapping("/user/{memberId}/comment")
     public List<PostDto> userComment(@PathVariable Long memberId){
-        List<Comment> comments = commentService.memberComment(memberId);
+        List<Comment> comments = memberService.memberComment(memberId);
         List<Post> posts= new ArrayList<>();
         List<PostDto> postDtos = new ArrayList<>();
         for (Comment comment : comments) {
@@ -117,9 +117,9 @@ public class UserApiController {
     /*
     * api 명세 13, 내가쓴 리뷰 출력
     * */
-    @GetMapping("/user/{userId}/review")
+    @GetMapping("/user/{memberId}/review")
     public List<ReviewDto> userReview(@PathVariable Long memberId){
-        List<Review> reviews = reviewService.findByMemberId(memberId);
+        List<Review> reviews = memberService.memberReview(memberId);
         List<ReviewDto> reviewDtos = new ArrayList<>();
 
         for (Review review : reviews) {

@@ -48,7 +48,4 @@ public class CommentService {
         comment.update(body);
     }
 
-    public List<Comment> memberComment(Long memberId){
-        return commentRepository.memberComment(memberId);
-    }
 }

@@ -52,6 +52,7 @@ public class ReviewService {
                 .Location(building.getName())
                 .member(member)
                 .build();
+
 /**
         if (imageFiles != null && imageFiles.size() > 0) {
             for (MultipartFile imageFile : imageFiles) {
@@ -165,11 +166,6 @@ public class ReviewService {
 
 
 
-    public List<Review> findByMemberId(Long memberId){
-        List<Review> reviews = reviewRepository.findByMemberId(memberId);
-        if (reviews.size()==0){
-            throw new IllegalArgumentException("리뷰를 찾을 수 없음");
-        }
-        return reviews;
-    }
+
+
 }
