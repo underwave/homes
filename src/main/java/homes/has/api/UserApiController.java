@@ -93,7 +93,7 @@ public class UserApiController {
     * */
     @PostMapping("/user/authorization/write")
     public void writeLocRequest(@RequestBody LocRequestForm locRequestForm){
-        Long memberId = locRequestForm.getMemberId();
+        Long memberId = locRequestForm.getMember().getId();
         Member member = memberService.findById(memberId).get();
 
         LocRequest locRequest = LocRequest.builder()
