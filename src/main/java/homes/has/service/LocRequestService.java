@@ -7,6 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -18,12 +21,19 @@ public class LocRequestService {
         return locRequestRepository.save(locRequest).getId();
     };
 
-    public void delete(Long id){
-        locRequestRepository.deleteById(id);
+    public void delete(Long requestId){
+        locRequestRepository.deleteById(requestId);
     }
 
     public void findByMemberId(Long memberId){
         LocRequest LocRequest = locRequestRepository.findByMemberId(memberId);
     }
+    
+    public List<LocRequest> findAll(){
+        return locRequestRepository.findAll();
+    }
 
+    public LocRequest findById(Long requestId){
+        return locRequestRepository.findById(requestId).get();
+    }
 }

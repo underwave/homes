@@ -52,6 +52,10 @@ public class Member extends BaseEntity {
         this.valid = valid;
     }
 
+    public void changeLocation(String location){
+        this.location = location;
+    }
+
     @Builder
     public Member(Valid valid, String location, String name, String nickName, String accessToken, String provideId){
         this.valid = valid;

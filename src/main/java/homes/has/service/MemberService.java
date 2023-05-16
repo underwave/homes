@@ -40,6 +40,21 @@ public class MemberService {
         member.changeValid(valid);
     }
 
+    public void changeValid(Member member ,Valid valid){
+        member.changeValid(valid);
+    }
+
+    public void changeLocation(Long memberId,String location){
+        Member member = memberRepository.findById(memberId).get();
+        member.changeLocation(location);
+    }
+
+    public void changeLocation(Member member ,String location){
+        member.changeLocation(location);
+    }
+
+
+
     public List<Post> memberPost(Long memberId){
         return postRepository.memberPost(memberId);
     }

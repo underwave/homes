@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class DetectAdminService {
     private final DetectAdminRepository detectAdminRepository;
 
-
+    public boolean isAdmin(Long memberId){
+        return detectAdminRepository.existsByMemberId(memberId);
+    }
 }
 

@@ -1,17 +1,20 @@
 package homes.has.dto;
 
 
+import homes.has.domain.Member;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class LocRequestForm {
 
-    private Long memberId;
+    private Member member;
     private String location;
     private String imageUrl;
 
-    public LocRequestForm(Long memberId, String location, String imageUrl){
-        this.memberId=memberId;
+    @Builder
+    public LocRequestForm(Member member, String location, String imageUrl){
+        this.member=member;
         this.location = location;
         this.imageUrl=imageUrl;
     }

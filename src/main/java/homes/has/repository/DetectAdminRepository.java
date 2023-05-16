@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DetectAdminRepository extends JpaRepository<DetectAdmin,Long> {
 
+
+    public boolean existsByMemberId(Long memberId);
 }
