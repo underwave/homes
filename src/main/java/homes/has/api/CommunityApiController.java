@@ -37,7 +37,7 @@ public class CommunityApiController {
         List<PostDto> postDtos = new ArrayList<>();
         for (Post post : posts) {
             Member member = post.getMember();
-            String authorName = member.getLocation() + "_"+ member.getName().charAt(0);
+            String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
 
             PostDto postDto = PostDto.builder()
                     .category(post.getCategory())

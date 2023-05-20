@@ -29,14 +29,17 @@ public class InitDb {
         Member member1 = Member.builder().name("김철수")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 3길")
+                .nickName("oneroom")
                 .build();
-        Member member2 = Member.builder().name("김영희")
+        Member member2 = Member.builder().name("aaa")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 2길")
+                .nickName("helloWorld")
                 .build();
-        Member member3 = Member.builder().name("김영희")
+        Member member3 = Member.builder().name("신지현")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 1길")
+                .nickName("lorem")
                 .build();
         memberService.save(member1);
         memberService.save(member2);
