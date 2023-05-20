@@ -28,12 +28,13 @@ public class PostDto {
     private Long memberId;
     private String memberLoc;
     private List<CommentDto> comment;
+    private String authorName;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;
 
     @Builder
     public PostDto(Long memberId, String memberLoc, Category category, Long id , String imageUrl, String title, String body, int likes,
-                   int comments, List<CommentDto> comment, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+                   int comments, List<CommentDto> comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String authorName) {
         this.memberId = memberId;
         this.memberLoc = memberLoc;
         this.body = body;
@@ -46,6 +47,7 @@ public class PostDto {
         this.comment = comment;
         this.createdAt = createdAt;
         this.modifiedAt=modifiedAt;
+        this.authorName=authorName;
     }
 
 

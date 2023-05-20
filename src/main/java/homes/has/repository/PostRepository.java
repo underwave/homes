@@ -37,11 +37,16 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
 
     //  카테고리별 최신글 3개
-    List<Post> findTop3ByCategoryOrderByCreatedAtDesc(Category category);
+    public List<Post> findTop3ByCategoryOrderByCreatedAtDesc(Category category);
 
 
-    void deleteById(Long postId);
+    public void deleteById(Long postId);
+
+    public List<Post> findByCategory(Category category);
+
 
     @Query("SELECT p FROM Post p JOIN FETCH p.member m WHERE m.id = :memberId")
     public List<Post> memberPost(@Param("memberId") Long memberId);
+
+
 }

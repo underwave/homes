@@ -31,6 +31,30 @@ public class CommunityApiController {
         return categoryListMap;
     }
 
+    @GetMapping("/community/{category}")
+    public List<PostDto> categoryPosts(@PathVariable Category category){
+        List<Post> posts = postService.findByCategory(category);
+        List<PostDto> postDtos = new ArrayList<>();
+        for (Post post : posts) {
+            Member member = post.getMember();
+            String authorName = member.getLocation() + "_"+ member.getName().charAt(0);
+
+            PostDto postDto = PostDto.builder()
+                    .category(post.getCategory())
+                    .comments(post.getComments())
+                    .createdAt(post.getCreatedAt())
+                    .likes(post.getLikes())
+                    .title(post.getTitle())
+                    .body(post.getBody())
+                    .modifiedAt(post.getModifiedAt())
+                    .authorName(authorName)
+                    .memberId(member.getId())
+                    .build();
+            postDtos.add(postDto);
+        }
+        return postDtos;
+    }
+
 
 //    카테고리 내 검색
     @GetMapping("/community/{category}/search")

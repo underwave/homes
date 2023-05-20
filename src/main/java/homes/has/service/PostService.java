@@ -84,4 +84,8 @@ public class PostService {
         post.update(postDto.getTitle(), postDto.getBody(), postDto.getImageUrl());
     }
 
+    public List<Post> findByCategory(Category category){
+        return postRepository.findByCategory(category);
+    }
+
 }
