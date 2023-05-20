@@ -49,6 +49,7 @@ public class CommunityApiController {
                     .modifiedAt(post.getModifiedAt())
                     .authorName(authorName)
                     .memberId(member.getId())
+
                     .build();
             postDtos.add(postDto);
         }
