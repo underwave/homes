@@ -35,7 +35,7 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (Member member, String location, ReviewGrade grade, ReviewBody body, double posx, double posy,List<MultipartFile> imageFiles) throws IOException {
+    public void CreateReview (Member member, String location, ReviewGrade grade, ReviewBody body, double posx, double posy) throws IOException {
         Building building = buildingRepository.findByName(location);
         if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
             building = new Building(location,posx,posy);
@@ -53,17 +53,6 @@ public class ReviewService {
                 .member(member)
                 .build();
 
-/**
-        if (imageFiles != null && imageFiles.size() > 0) {
-            for (MultipartFile imageFile : imageFiles) {
-                String fileName = UUID.randomUUID().toString() + ".jpg";
-                PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, fileName, imageFile.getInputStream(), null)
-                        .withCannedAcl(CannedAccessControlList.PublicRead);
-                amazonS3.putObject(putObjectRequest);
-                String url = amazonS3.getUrl(BUCKET_NAME, fileName).toString();
-                review.addImageUrl(url);
-            }
-        }**/
         reviewRepository.save(review);
 
         building.getReviews().add(review);
@@ -97,6 +86,13 @@ public class ReviewService {
         review.setGrade(grade);
         review.setBody(body);
         reviewRepository.save(review); //리뷰 수정 완
+    }
+
+    /**
+     * 상세 리뷰 정보 출력
+     **/
+    public Review getReviewById(Long id) {
+        return reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("리뷰를 찾을 수 없음"));
     }
 
     /**

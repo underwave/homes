@@ -1,11 +1,10 @@
 package homes.has.Controller;
 
-import homes.has.domain.Building;
-import homes.has.domain.Category;
-import homes.has.domain.Review;
+import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.CreateReviewDto;
 import homes.has.dto.PostDto;
+import homes.has.dto.ReviewDto;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.ReviewRepository;
 import homes.has.service.PostService;
@@ -49,17 +48,41 @@ public class ReviewController{
      * 특정 건물 리뷰 리스트 반환 (API no.3)
      **/
     @GetMapping("/{location}/detail")
-    public List<Review> getReviewList(@PathVariable String location) {
+    public List<Review> getReviewList(@PathVariable("location") String location) {
         List<Review> reviewList = reviewService.GetReviewList(location);
         return reviewList;
     }
 
     /**
      * 리뷰 작성 (API no.4)
-    @PostMapping("{location}/review/write")
-    public void createReview(@RequestBody CreateReviewDto request) throws IOException {
-        List<MultipartFile> imageFiles = request.getImageFiles();
-        reviewService.CreateReview(request.getMember(), request.getLocation(), request.getGrade(),
-                request.getBody(), request.getPosx(), request.getPosy(), imageFiles);
-    }**/
+     **/
+    @PostMapping("/{location}/review/write")
+    public void createReview(@RequestBody CreateReviewDto createReviewDto) throws IOException {
+        reviewService.CreateReview(createReviewDto.getMember(),createReviewDto.getLocation(), createReviewDto.getGrade(),
+                createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy());
+    }
+
+    /**
+     * 리뷰 수정 폼 생성 (API no.5)
+     **/
+    @GetMapping("/{location}/{reviewId}/modify")
+    public Review getReviewById(@PathVariable("reviewId") Long id) {
+        return reviewService.getReviewById(id);
+    }
+
+    /**
+     * 리뷰 수정 (API no.6)
+     **/
+    @PutMapping("/{location}/{reviewId}/modify2")
+    public void updateReview(@PathVariable("reviewId") Long id, @RequestBody ReviewGrade grade, ReviewBody body) {
+        reviewService.UpdateReview(id, grade, body);
+    }
+
+    /**
+     * 리뷰 삭제 (API no.7)
+     **/
+    @DeleteMapping("/{location}/{reviewId}")
+    public void deleteReview(@PathVariable("reviewId") Long id) {
+       reviewService.DeleteReview(id);
+    }
 }
