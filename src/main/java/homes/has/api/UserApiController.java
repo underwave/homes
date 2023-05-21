@@ -23,14 +23,15 @@ public class UserApiController {
     private final MemberService memberService;
     private final LocRequestService locRequestService;
     private final ReviewService reviewService;
+
     @GetMapping("/user/{memberId}")
     public MemberDto userInfo(@PathVariable Long userId){
         Member member = memberService.findById(userId).get();
 
         return MemberDto.builder()
                 .location(member.getLocation())
-                .valid(member.getValid())
                 .name(member.getName())
+                .nickName(member.getNickName())
                 .build();
     }
 
@@ -43,16 +44,7 @@ public class UserApiController {
         List<PostDto> postDtos = new ArrayList<>();
 
         for (Post post : posts) {
-            PostDto postDto = PostDto.builder()
-                    .id(post.getId())
-                    .title(post.getTitle())
-                    .body(post.getBody())
-                    .comments(post.getComments())
-                    .memberLoc(post.getMember().getLocation())
-                    .likes(post.getLikes())
-                    .createdAt(post.getCreatedAt())
-                    .modifiedAt(post.getModifiedAt())
-                    .build();
+            PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
         return postDtos;
@@ -73,20 +65,12 @@ public class UserApiController {
         }
 
         for (Post post : posts) {
-            PostDto postDto = PostDto.builder()
-                    .id(post.getId())
-                    .title(post.getTitle())
-                    .body(post.getBody())
-                    .comments(post.getComments())
-                    .memberLoc(post.getMember().getLocation())
-                    .likes(post.getLikes())
-                    .createdAt(post.getCreatedAt())
-                    .modifiedAt(post.getModifiedAt())
-                    .build();
+            PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
         return postDtos;
     }
+
 
     /*
     *  api 명세 11, 주소지 인증
@@ -102,7 +86,8 @@ public class UserApiController {
                 .member(member)
                 .build();
         locRequestService.save(locRequest);
-        memberService.changeValid(memberId, Valid.ONGOING);
+        if(member.getValid()==Valid.UNCERTIFIED)
+            member.changeValid(Valid.ONGOING);
     }
 
     /*
@@ -112,10 +97,11 @@ public class UserApiController {
     public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody Long memberId){
         Member member = memberService.findById(memberId).get();
         locRequestService.delete(locRequestId);
-        member.changeValid(Valid.UNCERTIFIED);
+        if(member.getValid()==Valid.ONGOING)
+            member.changeValid(Valid.UNCERTIFIED);
     }
     /*
-    * api 명세 13, 내가쓴 리뷰 출력
+    * api 명세 13, 내가쓴 리뷰 출력 수정 필요
     * */
     @GetMapping("/user/{memberId}/review")
     public List<ReviewDto> userReview(@PathVariable Long memberId){
@@ -135,5 +121,23 @@ public class UserApiController {
         }
         return reviewDtos;
     }
+
+    private static PostDto createPostDto(Long memberId, Post post) {
+        Member member = post.getMember();
+        String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .comments(post.getComments())
+                .authorName(authorName)
+                .memberId(memberId)
+                .likes(post.getLikes())
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .build();
+        return postDto;
+    }
+
 
 }

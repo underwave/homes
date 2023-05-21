@@ -74,5 +74,4 @@ public class MemberService {
     public Boolean isReviewed(Long memberId){
         return reviewRepository.existsByMemberId(memberId);
     }
-
 }

@@ -28,6 +28,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final BuildingRepository buildingRepository;
     private final FavoriteRepository favoriteRepository;
+    private final MemberService memberService;
+
    // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
     //private static final String UPLOAD_DIR = "/path/"; // 로컬에서 경로
@@ -56,7 +58,11 @@ public class ReviewService {
         reviewRepository.save(review);
 
         building.getReviews().add(review);
+
         buildingRepository.save(building);
+
+//      member valid 변경
+        memberService.changeValid(member,Valid.CERTIFIED);
     }
 
     /**

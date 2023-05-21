@@ -13,19 +13,20 @@ public class MemberDto {
     private Valid valid;
     private String location;
     private String name;
-
+    private String nickName;
     private String accessToken;
 
     private String provideId;
 
 
     @Builder
-    public MemberDto(Long id, Valid valid, String location, String name, String accessToken, String provideId ){
+    public MemberDto(Long id, Valid valid, String location, String name, String accessToken, String provideId, String nickName){
         this.id =id;
         this.valid=valid;
         this.location=location;
         this.name= name;
         this.accessToken= accessToken;
         this.provideId=provideId;
+        this.nickName=nickName;
     }
 }

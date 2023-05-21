@@ -36,28 +36,15 @@ public class CommunityApiController {
         List<Post> posts = postService.findByCategory(category);
         List<PostDto> postDtos = new ArrayList<>();
         for (Post post : posts) {
-            Member member = post.getMember();
-            String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
-
-            PostDto postDto = PostDto.builder()
-                    .category(post.getCategory())
-                    .comments(post.getComments())
-                    .createdAt(post.getCreatedAt())
-                    .likes(post.getLikes())
-                    .title(post.getTitle())
-                    .body(post.getBody())
-                    .modifiedAt(post.getModifiedAt())
-                    .authorName(authorName)
-                    .memberId(member.getId())
-
-                    .build();
+            PostDto postDto = createPostDto(post);
             postDtos.add(postDto);
         }
         return postDtos;
     }
 
 
-//    카테고리 내 검색
+
+    //    카테고리 내 검색
     @GetMapping("/community/{category}/search")
     public List<PostDto> searchPost(@PathVariable Category category, @RequestParam String word){
         List<PostDto> posts = postService.findByWord(new PostSearchCond(word, category));
@@ -76,14 +63,14 @@ public class CommunityApiController {
     @PostMapping("/community/{category}/write")
     public void writePost(@PathVariable Category category, PostDto postDto){
         Member member = memberService.findById(postDto.getMemberId()).get();
-        Post build = Post.builder()
+        Post post = Post.builder()
                 .member(member)
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .category(postDto.getCategory())
                 .imageUrl(postDto.getImageUrl())
                 .build();
-        postService.save(build);
+        postService.save(post);
     }
 
 // api 21
@@ -216,5 +203,21 @@ public class CommunityApiController {
         commentService.update(commentId, body);
     }
 
+    private static PostDto createPostDto(Post post) {
+        Member member = post.getMember();
+        String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
 
+        PostDto postDto = PostDto.builder()
+                .category(post.getCategory())
+                .comments(post.getComments())
+                .createdAt(post.getCreatedAt())
+                .likes(post.getLikes())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .modifiedAt(post.getModifiedAt())
+                .authorName(authorName)
+                .memberId(member.getId())
+                .build();
+        return postDto;
+    }
 }

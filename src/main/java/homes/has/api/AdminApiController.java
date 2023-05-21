@@ -51,7 +51,6 @@ public class AdminApiController {
         LocRequest locRequest = locRequestService.findById(requestId);
         String location = locRequest.getLocation();
         Member member = locRequest.getMember();
-        memberService.changeValid(member, Valid.CERTIFIED);
         memberService.changeLocation(member, location);
         locRequestService.delete(requestId);
     }
@@ -60,7 +59,6 @@ public class AdminApiController {
     public void rejectRequest(@PathVariable Long requestId){
         LocRequest locRequest = locRequestService.findById(requestId);
         Member member = locRequest.getMember();
-        memberService.changeValid(member, Valid.UNCERTIFIED);
         locRequestService.delete(requestId);
     }
 

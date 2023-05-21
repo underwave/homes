@@ -2,6 +2,7 @@ package homes.has.service;
 
 
 import homes.has.domain.Category;
+import homes.has.domain.Member;
 import homes.has.domain.Post;
 import homes.has.dto.PostDto;
 import homes.has.repository.PostQueryRepository;
@@ -59,13 +60,18 @@ public class PostService {
             List<Post> catPost = postRepository.findTop3ByCategoryOrderByCreatedAtDesc(cat);
             List<PostDto> postDtos= new ArrayList<>();
             for (Post post : catPost) {
+                Member member = post.getMember();
+                String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
                 PostDto postDto = PostDto.builder()
-                        .id(post.getId())
                         .category(post.getCategory())
+                        .comments(post.getComments())
+                        .createdAt(post.getCreatedAt())
+                        .likes(post.getLikes())
                         .title(post.getTitle())
                         .body(post.getBody())
-                        .likes(post.getLikes())
-                        .comments(post.getComments())
+                        .modifiedAt(post.getModifiedAt())
+                        .authorName(authorName)
+                        .memberId(member.getId())
                         .build();
                 postDtos.add(postDto);
             }
