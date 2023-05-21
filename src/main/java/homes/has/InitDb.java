@@ -60,6 +60,9 @@ public class InitDb {
         createPost(member2, Category.TIPS, "akima", "bkimb");
         createPost(member3, Category.TIPS, "akima", "bkimb");
 
+//      이미지 출력 테스트용
+        createPost(member3, Category.GENERAL, "안녕", "반가워","/Users/nocheolhwan/homesDir/b0e34292-ad60-46e5-91e0-f811814bd361.jpeg");
+
         commentService.save(Comment.builder().member(member3).post(post1).body("ㄹㅇㅋㅋ").build());
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
         commentService.save(Comment.builder().member(member2).post(post1).body("나도 그렇게 생각해").build());
@@ -99,6 +102,17 @@ public class InitDb {
                 .title(title)
                 .body(body)
                 .category(category)
+                .build();
+        Long saved = postService.save(post);
+        return post;
+    }
+    private Post createPost(Member member , Category category, String body, String title, String imageUrl) {
+        Post post = Post.builder()
+                .member(member)
+                .title(title)
+                .body(body)
+                .category(category)
+                .imageUrl(imageUrl)
                 .build();
         Long saved = postService.save(post);
         return post;

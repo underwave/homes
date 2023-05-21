@@ -48,6 +48,7 @@ public class FileService {
         // 파일을 불러올 때 사용할 파일 경로
         String path = fileDir + savedName;
 
+
         // 파일 엔티티 생성
         ImageFile imageFile = ImageFile.builder()
                 .originalFileName(originalFilename)
@@ -55,12 +56,21 @@ public class FileService {
                 .path(path)
                 .build();
 
+        File file = new File(path);
+
+        if(!file.exists()){
+            // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
+            file.mkdirs();
+        }
+
+
         // 실제로 로컬에 uuid를 파일명으로 저장
-        files.transferTo(new File(path));
+        files.transferTo(file);
 
         // 데이터베이스에 파일 정보 저장
-//        ImageFile imageFile = ImageRepository.save(file);
         ImageFile save = imageRepository.save(imageFile);
         return save.getId();
     }
+
+
 }
