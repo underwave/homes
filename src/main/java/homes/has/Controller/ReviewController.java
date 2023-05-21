@@ -7,6 +7,7 @@ import homes.has.dto.PostDto;
 import homes.has.dto.ReviewDto;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.ReviewRepository;
+import homes.has.service.MemberService;
 import homes.has.service.PostService;
 import homes.has.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReviewController{
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
 
     /*
@@ -84,5 +86,13 @@ public class ReviewController{
     @DeleteMapping("/{location}/{reviewId}")
     public void deleteReview(@PathVariable("reviewId") Long id) {
        reviewService.DeleteReview(id);
+
+       /*
+       * review 삭제시 db에 멤버의 review가 없으면 uncertified로 갱신
+       * */
+       Review review = reviewService.getReviewById(id);
+       Member member = review.getMember();
+       if(!memberService.isReviewed(member.getId()))
+           memberService.changeValid(member,Valid.UNCERTIFIED);
     }
 }
