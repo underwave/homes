@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -93,5 +94,11 @@ public class PostService {
     public List<Post> findByCategory(Category category){
         return postRepository.findByCategory(category);
     }
+
+    public Post popularPost(Category category, LocalDateTime start, LocalDateTime end){
+        return postRepository.findFirstByCategoryAndCreatedAtBetweenOrderByLikesDesc(category,start,end);
+    }
+
+
 
 }

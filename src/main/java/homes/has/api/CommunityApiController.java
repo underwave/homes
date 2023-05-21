@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -31,15 +32,33 @@ public class CommunityApiController {
         return categoryListMap;
     }
 
+//    @GetMapping("/community/{category}/test")
+//    public PostDto popularPost(@PathVariable Category category){
+//        LocalDateTime start = LocalDateTime.now().minusDays(1);
+//        LocalDateTime end = LocalDateTime.now();
+//        Post post = postService.popularPost(category, start, end);
+//
+//        return createPostDto(post);
+//    }
+
+
     @GetMapping("/community/{category}")
-    public List<PostDto> categoryPosts(@PathVariable Category category){
+    public Map<String,Object> categoryPosts(@PathVariable Category category){
+        Map<String,Object> map = new HashMap<>();
         List<Post> posts = postService.findByCategory(category);
-        List<PostDto> postDtos = new ArrayList<>();
+        List<PostDto> normal = new ArrayList<>();
         for (Post post : posts) {
             PostDto postDto = createPostDto(post);
-            postDtos.add(postDto);
+            normal.add(postDto);
         }
-        return postDtos;
+
+        LocalDateTime start = LocalDateTime.now().minusDays(1);
+        LocalDateTime end = LocalDateTime.now();
+        PostDto popularPostDto = createPostDto(postService.popularPost(category, start, end));
+
+        map.put("popular",popularPostDto);
+        map.put("normal", normal);
+        return map;
     }
 
 

@@ -47,7 +47,7 @@ public class InitDb {
 
         createPost(member1, Category.GENERAL, "akima", "bkimb");
         createPost(member2, Category.GENERAL, "akima", "bkimb");
-        createPost(member3, Category.GENERAL, "akima", "bkimb");
+        Post post2 = createPost(member3, Category.GENERAL, "akima", "bkimb");
         Post post1 = createPost(member1, Category.GENERAL, "akima", "bkimb");
 
         createPost(member2, Category.MARKET, "aa", "aa");
@@ -68,6 +68,12 @@ public class InitDb {
         likePostService.save(new LikePosts(post1,member2));
         likePostService.save(new LikePosts(post1,member3));
 
+        for (int i = 0; i < 5; i++) {
+            postService.increaseLikes(post1.getId());
+        }
+        for (int i = 0; i < 7; i++) {
+            postService.increaseLikes(post2.getId());
+        }
 
 
 
@@ -82,7 +88,7 @@ public class InitDb {
 
         // when
         reviewService.CreateReview(member1,location, grade, body,37.1,128.2);
-//        reviewService.CreateReview(member3,location2, grade2, body2,37.2,125.2);
+        reviewService.CreateReview(member3,location2, grade2, body2,37.2,125.2);
 
 
     }
