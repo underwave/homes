@@ -4,7 +4,7 @@ import lombok.*;
 
 @NoArgsConstructor
 @Getter
-public class FileDto {
+public class ImageFileDto {
     private Long id;
     private String originFileName;
     private String fullPath;
@@ -18,7 +18,7 @@ public class FileDto {
 //    }
 
     @Builder
-    public FileDto(Long id, String originFileName, String fullPath) {
+    public ImageFileDto(Long id, String originFileName, String fullPath) {
         this.id = id;
         this.originFileName = originFileName;
         this.fullPath = fullPath;

@@ -1,7 +1,7 @@
 package homes.has.api;
 
 import homes.has.domain.Post;
-import homes.has.service.FileService;
+import homes.has.service.ImageFileService;
 import homes.has.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,7 +28,7 @@ public class TestController {
     private String fileDir;
 
 
-    private final FileService fileService;
+    private final ImageFileService imageFileService;
 
 
     @GetMapping("/upload")
@@ -43,7 +41,7 @@ public class TestController {
     public void uploadFile(@RequestPart("files") List<MultipartFile> files) throws IOException {
 
         for (MultipartFile multipartFile : files) {
-            fileService.saveFile(multipartFile);
+            imageFileService.saveFile(multipartFile);
         }
 
     }

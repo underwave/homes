@@ -3,30 +3,26 @@ package homes.has.service;
 
 
 import homes.has.domain.ImageFile;
-import homes.has.repository.ImageRepository;
+import homes.has.repository.ImageFileRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class FileService {
+public class ImageFileService {
 
     @Value("${file.dir}")
     private String fileDir;
 
-    private final ImageRepository imageRepository;
+    private final ImageFileRepository imageFileRepository;
 
     public Long saveFile(MultipartFile files) throws IOException {
         if (files.isEmpty()) {
@@ -68,7 +64,7 @@ public class FileService {
         files.transferTo(file);
 
         // 데이터베이스에 파일 정보 저장
-        ImageFile save = imageRepository.save(imageFile);
+        ImageFile save = imageFileRepository.save(imageFile);
         return save.getId();
     }
 
