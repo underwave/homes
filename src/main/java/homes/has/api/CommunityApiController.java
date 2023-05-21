@@ -80,7 +80,7 @@ public class CommunityApiController {
     };
     // api 22
     @PostMapping("/community/{category}/write")
-    public void writePost(@PathVariable Category category, PostDto postDto){
+    public void writePost(@PathVariable Category category, @RequestBody PostDto postDto){
         Member member = memberService.findById(postDto.getMemberId()).get();
         Post post = Post.builder()
                 .member(member)
@@ -92,7 +92,7 @@ public class CommunityApiController {
         postService.save(post);
     }
 
-// api 21
+// api 23
     @GetMapping("/community/{category}/{postId}")
     public PostDto postDetail(@PathVariable Category category, @PathVariable Long postId){
 
@@ -101,34 +101,15 @@ public class CommunityApiController {
         List<Comment> comments = commentService.findByPostId(postId);
         List<CommentDto> commentDtos= new ArrayList<>();
         for (Comment comment : comments) {
-            CommentDto build = CommentDto.builder()
-                    .id(comment.getId())
-                    .likes(comment.getLikes())
-                    .body(comment.getBody())
-                    .children(comment.getChildren())
-                    .memberId(comment.getMember().getId())
-                    .postId(comment.getPost().getId())
-                    .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
-                    .build();
+            CommentDto build = createCommentDto(comment);
             commentDtos.add(build);
         }
-
-        PostDto postDto = PostDto.builder()
-                .memberId(post.getMember().getId())
-                .memberLoc(post.getMember().getLocation())
-                .category(post.getCategory())
-                .id(post.getId())
-                .title(post.getTitle())
-                .body(post.getBody())
-                .likes(post.getLikes())
-                .comments(post.getComments())
-                .comment(commentDtos)
-                .build();
+        PostDto postDto = createPostDto(post, commentDtos);
         return postDto;
     }
 
-//    명세 23번
+
+    //    명세 23번
     @DeleteMapping("/community/{category}/{postId}")
     public void deletePost(@PathVariable Long postId){
         postService.deletePost(postId);
@@ -137,7 +118,7 @@ public class CommunityApiController {
 
 // 명세 27
     @PostMapping("/community/{category}/{postId}/writeComment")
-    public void writeComment(@PathVariable Long postId, CommentDto commentDto){
+    public void writeComment(@PathVariable Long postId, @RequestBody CommentDto commentDto){
         Member member = memberService.findById(commentDto.getMemberId()).get();
         Post post = postService.findById(postId).get();
         Comment build = Comment.builder()
@@ -239,4 +220,40 @@ public class CommunityApiController {
                 .build();
         return postDto;
     }
+
+    private static PostDto createPostDto(Post post, List<CommentDto> commentDtos) {
+        Member member = post.getMember();
+        String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
+
+        PostDto postDto = PostDto.builder()
+                .authorName(authorName)
+                .memberId(member.getId())
+                .category(post.getCategory())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .imageUrl(post.getImageUrl())
+                .comment(commentDtos)
+                .comments(post.getComments())
+                .likes(post.getLikes())
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .build();
+        return postDto;
+    }
+
+    private static CommentDto createCommentDto(Comment comment) {
+        CommentDto commentDto = CommentDto.builder()
+                .id(comment.getId())
+                .likes(comment.getLikes())
+                .body(comment.getBody())
+                .memberId(comment.getMember().getId())
+                .postId(comment.getPost().getId())
+                .createdAt(comment.getCreatedAt())
+                .modifiedAt(comment.getModifiedAt())
+                .children(comment.getChildren())
+                .parent(comment.getParent())
+                .build();
+        return commentDto;
+    }
+
 }
