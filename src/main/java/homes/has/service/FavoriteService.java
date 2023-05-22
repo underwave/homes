@@ -3,6 +3,8 @@ package homes.has.service;
 import homes.has.domain.Building;
 import homes.has.domain.Favorite;
 import homes.has.domain.Member;
+import homes.has.dto.BuildingsDto;
+import homes.has.dto.FavoriteBuildingsDto;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.MemberRepository;
@@ -11,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,12 +59,30 @@ public class FavoriteService{
     }
 
     /**
-     * 좋아요 누른 건물 조회 (location으로 리턴)
+     * 좋아요 누른 건물 조회
      **/
-    public List<String> GetFavoriteBuildings(Long memberid){
-        Member member = memberRepository.findById(memberid).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
-        return member.getFavorites().stream()
-                .map(Favorite::getLocation)
-                .collect(Collectors.toList());
+    public List<FavoriteBuildingsDto> GetFavoriteBuildings(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
+        List<Favorite> favorites = member.getFavorites();
+        List<FavoriteBuildingsDto> favoriteBuildingsDtos = new ArrayList<>();
+
+        for (Favorite favorite : favorites) { //좋아요 누른 항목에서 building 테이블 존재 여부 조회
+            Building building = buildingRepository.findByName(favorite.getLocation());
+            if (building != null) { // 빌딩에 해당 주소를 가진 내역 존재 시
+                Double totalGrade = building.getTotalgrade();
+                int reviewCount = building.getReviews().size();
+                boolean isLiked = true;
+                FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
+                        building.getId(),
+                        building.getName(),
+                        totalGrade,
+                        reviewCount,
+                        isLiked
+                );
+                favoriteBuildingsDtos.add(favoriteBuildingsDto);
+            }
+        }
+        return favoriteBuildingsDtos;
     }
+
 }
