@@ -6,6 +6,6 @@ import homes.has.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FavoriteRepository extends JpaRepository<Favorite,Long>{
-    Favorite findByBuildingAndMember(Building building, Member member);
-    Boolean existsByBuildingIdAndMemberId(Long buildingid, Long Memberid);
+    Favorite findByLocationAndMember(String location, Member member);
+    Boolean existsByLocationAndMemberId(String location, Long Memberid);
 }

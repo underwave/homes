@@ -27,9 +27,10 @@ public class Building{
     /*@Embedded
      private ReviewGrade reviewGrade;*/
     private Double totalgrade = 0.0;
-    @JsonIgnore
-    @OneToMany(mappedBy = "building")
-    private List<Favorite> favorites = new ArrayList<>();
+
+    //@JsonIgnore
+    //@OneToMany(mappedBy = "building")
+    //private List<Favorite> favorites = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "building")
     private List<Review> reviews = new ArrayList<>();

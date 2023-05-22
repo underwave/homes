@@ -31,69 +31,37 @@ class FavoriteServiceTest{
     @Test
     public void testFavorite(){
         //given
+        String location = "가좌대로 11번길 1";
+        String location2 = "가좌대로 11번길 2";
+        Long memberId = 1L;
+        Long memberId2 = 2L;
+
         Member member = new Member();
-        member.setLocation("진주대로 99");
-        member.setValid(Valid.CERTIFIED);
-        memberRepository.save(member);
-
+        member.setId(memberId);
         Member member2 = new Member();
-        member2.setLocation("진주대로 98");
-        member2.setValid(Valid.CERTIFIED);
-        memberRepository.save(member2);
+        member2.setId(memberId2);
 
-        Building building = new Building();
-        building.setName("진주대로 303");
-        building.setPosx(37);
-        building.setPosy(128);
-        buildingRepository.save(building);
+       /*
+        Favorite favorite = new Favorite();
+        favorite.setLocation(location);
+        favorite.setMember(member);
 
-        Building building2 = new Building();
-        building2.setName("진주대로 313");
-        building2.setPosx(37.6);
-        building2.setPosy(127);
-        buildingRepository.save(building2);
+        Favorite favorite2 = new Favorite();
+        favorite2.setLocation(location2);
+        favorite2.setMember(member2);*/
 
         // when
-        favoriteService.CreateFavorite(building,member);
-        favoriteService.CreateFavorite(building,member2);
-        favoriteService.CreateFavorite(building2,member);
+        favoriteService.CreateFavorite(location,member.getId());
+        favoriteService.CreateFavorite(location2,member.getId());
+        favoriteService.CreateFavorite(location,member2.getId());
 
         // then
-        Favorite favorite = favoriteRepository.findByBuildingAndMember(building,member);
+        Favorite favorite = favoriteRepository.findByLocationAndMember(location,member);
         assertEquals(member.getId(), favorite.getMember().getId());
-        assertEquals(building.getId(), favorite.getBuilding().getId());
-        assertEquals(2, favoriteService.GetBuildingFavorites(building.getId()));
-        assertEquals(2,favoriteService.GetFavoriteBuildings(member.getId()).size());
-    }
-    @Test
-    public void testFavorite2(){
-        //given
-        Member member = new Member();
-        member.setLocation("진주대로 991");
-        member.setValid(Valid.CERTIFIED);
-        memberRepository.save(member);
+        Favorite favorite2 = favoriteRepository.findByLocationAndMember(location,member2);
+        assertEquals(member2.getId(), favorite2.getMember().getId());
 
-        Member member2 = new Member();
-        member2.setLocation("진주대로 98");
-        member2.setValid(Valid.CERTIFIED);
-        memberRepository.save(member2);
-
-        Building building = new Building();
-        building.setName("진주대로 3031");
-        building.setPosx(37);
-        building.setPosy(128);
-        buildingRepository.save(building);
-
-        //whern
-        favoriteService.CreateFavorite(building,member);
-        favoriteService.CreateFavorite(building,member2);
-        favoriteService.DeleteFavorite(building,member);
-
-        //then
-        assertNull(favoriteRepository.findByBuildingAndMember(building,member));
-        assertEquals(1, favoriteService.GetBuildingFavorites(building.getId()));
-        assertEquals(0,favoriteService.GetFavoriteBuildings(member.getId()).size());
-
+        assertEquals(2, favoriteService.GetFavoriteBuildings(member.getId()).size());
     }
 
 }

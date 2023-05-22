@@ -158,7 +158,7 @@ public class ReviewService {
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByBuildingIdAndMemberId(building.getId(),memberid);
+            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),memberid);
             reviewDtos.add(new BuildingsDto(building.getId(), building.getName(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;
