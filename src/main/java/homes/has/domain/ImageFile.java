@@ -20,6 +20,7 @@ public class ImageFile extends BaseEntity {
     @JsonIgnore
     @OneToOne(mappedBy = "imageFile")
     private PostImageFile postImageFile;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="review_id")

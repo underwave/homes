@@ -17,8 +17,8 @@ public class PostImageFileService {
 
 
 
-    public Long save(PostImageFile postImageFile){
-        return postImageFileRepository.save(postImageFile).getId();
+    public PostImageFile save(PostImageFile postImageFile){
+        return postImageFileRepository.save(postImageFile);
     }
 
     public void delete(Long PostImageFileId){

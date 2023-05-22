@@ -5,13 +5,17 @@ import homes.has.domain.*;
 import homes.has.dto.CommentDto;
 import homes.has.dto.PostDto;
 import homes.has.enums.Category;
+import homes.has.enums.FilePath;
 import homes.has.repository.PostSearchCond;
 import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -25,6 +29,9 @@ public class CommunityApiController {
     private final MemberService memberService;
     private final LikePostService likePostService;
     private final LikeCommentsService likeCommentsService;
+    private final ImageFileService imageFileService;
+    private final PostImageFileService postImageFileService;
+
 //    커뮤니티 메인 카테고리별 최신글 3개
     @GetMapping("/community")
     public Map<Category, List<PostDto>> createCommunityMain(){
@@ -81,15 +88,21 @@ public class CommunityApiController {
     };
     // api 22
     @PostMapping("/community/{category}/write")
-    public void writePost(@PathVariable Category category, @RequestBody PostDto postDto){
+    public void writePost(@RequestPart("files") List<MultipartFile> files, @PathVariable Category category, @RequestBody PostDto postDto) throws IOException {
         Member member = memberService.findById(postDto.getMemberId()).get();
+
         Post post = Post.builder()
                 .member(member)
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .category(postDto.getCategory())
-                .postImageFiles(postDto.getPostImageFiles())
                 .build();
+        for (MultipartFile multipartFile : files) {
+            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
+            PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
+            post.getPostImageFiles().add(postImageFile);
+        }
+
         postService.save(post);
     }
 
@@ -176,12 +189,19 @@ public class CommunityApiController {
     @GetMapping("/community/{category}/{postId}/modify")
     public PostDto editPostForm(@PathVariable Long postId){
         Post post = postService.findById(postId).get();
+
+        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+        for (PostImageFile postImageFile : post.getPostImageFiles()) {
+            ImageFile imageFile = postImageFile.getImageFile();
+            images.add(imageFileService.printFile(imageFile));
+        }
+
         PostDto postDto = PostDto.builder()
                 .category(post.getCategory())
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
-                .postImageFiles(post.getPostImageFiles())
+                .images(images)
                 .build();
         return postDto;
     }
@@ -223,9 +243,14 @@ public class CommunityApiController {
         return postDto;
     }
 
-    private static PostDto createPostDto(Post post, List<CommentDto> commentDtos) {
+    private PostDto createPostDto(Post post, List<CommentDto> commentDtos) {
         Member member = post.getMember();
         String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
+        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+        for (PostImageFile postImageFile : post.getPostImageFiles()) {
+            ImageFile imageFile = postImageFile.getImageFile();
+            images.add(imageFileService.printFile(imageFile));
+        }
 
         PostDto postDto = PostDto.builder()
                 .authorName(authorName)
@@ -233,7 +258,7 @@ public class CommunityApiController {
                 .category(post.getCategory())
                 .title(post.getTitle())
                 .body(post.getBody())
-                .postImageFiles(post.getPostImageFiles())
+                .images(images)
                 .comment(commentDtos)
                 .comments(post.getComments())
                 .likes(post.getLikes())

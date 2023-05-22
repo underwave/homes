@@ -1,5 +1,6 @@
 package homes.has.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,10 +14,12 @@ public class PostImageFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @JsonIgnore
     @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "ImageFile_id")
     private ImageFile imageFile;

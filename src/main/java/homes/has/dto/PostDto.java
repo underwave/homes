@@ -6,6 +6,7 @@ import homes.has.enums.Category;
 import homes.has.domain.ImageFile;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,8 +24,8 @@ public class PostDto {
 
 
     private int likes;
-    private List<ImageFile> imageFiles;
     private List<PostImageFile> postImageFiles;
+    private List<ResponseEntity<byte[]>> images;
     private List<Long> imageIds;
     private int comments;
     private Long memberId;
@@ -36,7 +37,7 @@ public class PostDto {
     @Builder
     public PostDto(Long memberId, Category category, Long id, String title, String body, int likes,
                    int comments, List<CommentDto> comment, LocalDateTime createdAt,
-                   LocalDateTime modifiedAt, String authorName,List<PostImageFile> postImageFiles) {
+                   LocalDateTime modifiedAt, String authorName, List<PostImageFile> postImageFiles, List<ResponseEntity<byte[]>> images) {
         this.memberId = memberId;
         this.body = body;
         this.category=category;
@@ -49,6 +50,7 @@ public class PostDto {
         this.modifiedAt=modifiedAt;
         this.authorName=authorName;
         this.postImageFiles = postImageFiles;
+        this.images = images;
     }
 
 

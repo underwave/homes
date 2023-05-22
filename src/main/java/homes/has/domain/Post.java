@@ -37,7 +37,6 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<PostImageFile> postImageFiles = new ArrayList<>();
 
-
     @Builder
     public Post(Member member, String title, String body, Category category, List<PostImageFile> postImageFiles){
         this.member = member;
