@@ -3,6 +3,7 @@ package homes.has.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
+import homes.has.enums.Valid;
 import jakarta.persistence.*;
 import lombok.*;
 

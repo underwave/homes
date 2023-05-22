@@ -1,6 +1,6 @@
 package homes.has.repository;
 
-import homes.has.domain.Category;
+import homes.has.enums.Category;
 import homes.has.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

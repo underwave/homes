@@ -1,23 +1,17 @@
 package homes.has.domain.timestamp;
 
-import homes.has.domain.Category;
+import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
-import homes.has.repository.MemberRepository;
 import homes.has.service.MemberService;
 import homes.has.service.PostService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.BootstrapWith;
 
 import java.time.LocalDateTime;
 
@@ -52,7 +46,7 @@ class BaseEntityTest {
 
         Thread.sleep(1000);
 
-        post.setBody("asdsa");
+//        post.setBody("asdsa");
         Post findPost = postService.findById(postId).get();
         em.flush();
         em.clear();

@@ -1,8 +1,7 @@
 package homes.has.dto;
 
 
-import homes.has.domain.Valid;
-import jakarta.persistence.*;
+import homes.has.enums.Valid;
 import lombok.Builder;
 import lombok.Getter;
 

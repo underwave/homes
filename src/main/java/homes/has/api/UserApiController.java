@@ -5,6 +5,7 @@ import homes.has.dto.LocRequestForm;
 import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
 import homes.has.dto.ReviewDto;
+import homes.has.enums.Valid;
 import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,7 @@ public class UserApiController {
                 .member(member)
                 .build();
         locRequestService.save(locRequest);
-        if(member.getValid()==Valid.UNCERTIFIED)
+        if(member.getValid()== Valid.UNCERTIFIED)
             member.changeValid(Valid.ONGOING);
     }
 

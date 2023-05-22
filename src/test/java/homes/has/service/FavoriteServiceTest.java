@@ -3,7 +3,7 @@ package homes.has.service;
 import homes.has.domain.Building;
 import homes.has.domain.Favorite;
 import homes.has.domain.Member;
-import homes.has.domain.Valid;
+import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.MemberRepository;

@@ -1,14 +1,16 @@
 package homes.has.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
+import homes.has.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
@@ -23,8 +25,6 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private String imageUrl;
-
     private int likes;
 
     private int comments;
@@ -33,22 +33,26 @@ public class Post extends BaseEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private List<PostImageFile> postImageFiles = new ArrayList<>();
+
 
     @Builder
-    public Post(Member member, String title, String body, Category category, String imageUrl){
+    public Post(Member member, String title, String body, Category category, List<PostImageFile> postImageFiles){
         this.member = member;
         this.title= title;
         this.body= body;
         this.category = category;
-        this.imageUrl= imageUrl;
+        this.postImageFiles= postImageFiles;
         this.likes=0;
         this.comments = 0;
     }
 
-    public void update(String title, String body, String imageUrl){
+    public void update(String title, String body, List<PostImageFile> postImageFiles){
         this.title= title;
         this.body = body;
-        this.imageUrl=imageUrl;
+        this.postImageFiles=postImageFiles;
     }
 
 }

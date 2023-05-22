@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class LikePosts {

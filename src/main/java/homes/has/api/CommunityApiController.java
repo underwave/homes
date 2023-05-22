@@ -4,6 +4,7 @@ package homes.has.api;
 import homes.has.domain.*;
 import homes.has.dto.CommentDto;
 import homes.has.dto.PostDto;
+import homes.has.enums.Category;
 import homes.has.repository.PostSearchCond;
 import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
@@ -87,7 +88,7 @@ public class CommunityApiController {
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .category(postDto.getCategory())
-                .imageUrl(postDto.getImageUrl())
+                .postImageFiles(postDto.getPostImageFiles())
                 .build();
         postService.save(post);
     }
@@ -180,6 +181,7 @@ public class CommunityApiController {
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
+                .postImageFiles(post.getPostImageFiles())
                 .build();
         return postDto;
     }
@@ -231,7 +233,7 @@ public class CommunityApiController {
                 .category(post.getCategory())
                 .title(post.getTitle())
                 .body(post.getBody())
-                .imageUrl(post.getImageUrl())
+                .postImageFiles(post.getPostImageFiles())
                 .comment(commentDtos)
                 .comments(post.getComments())
                 .likes(post.getLikes())

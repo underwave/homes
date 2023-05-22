@@ -42,4 +42,8 @@ public class Review extends BaseEntity {
 
     //public void addImageUrl(String url) {imageURL.add(url);}
 
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "review")
+    private List<ImageFile> imageFiles = new ArrayList<>();
 }

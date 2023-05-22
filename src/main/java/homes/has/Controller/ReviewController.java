@@ -3,21 +3,14 @@ package homes.has.Controller;
 import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.CreateReviewDto;
-import homes.has.dto.PostDto;
-import homes.has.dto.ReviewDto;
-import homes.has.repository.BuildingRepository;
-import homes.has.repository.ReviewRepository;
+import homes.has.enums.Valid;
 import homes.has.service.MemberService;
-import homes.has.service.PostService;
 import homes.has.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -93,6 +86,6 @@ public class ReviewController{
        Review review = reviewService.getReviewById(id);
        Member member = review.getMember();
        if(!memberService.isReviewed(member.getId()))
-           memberService.changeValid(member,Valid.UNCERTIFIED);
+           memberService.changeValid(member, Valid.UNCERTIFIED);
     }
 }

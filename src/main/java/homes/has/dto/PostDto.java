@@ -1,8 +1,9 @@
 package homes.has.dto;
 
 
-import homes.has.domain.Category;
-import homes.has.domain.Member;
+import homes.has.domain.PostImageFile;
+import homes.has.enums.Category;
+import homes.has.domain.ImageFile;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,10 +21,11 @@ public class PostDto {
 
     private Category category;
 
-    private String imageUrl;
 
     private int likes;
-
+    private List<ImageFile> imageFiles;
+    private List<PostImageFile> postImageFiles;
+    private List<Long> imageIds;
     private int comments;
     private Long memberId;
     private List<CommentDto> comment;
@@ -32,11 +34,11 @@ public class PostDto {
     LocalDateTime modifiedAt;
 
     @Builder
-    public PostDto(Long memberId, String memberLoc, Category category, Long id , String imageUrl, String title, String body, int likes,
-                   int comments, List<CommentDto> comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String authorName) {
+    public PostDto(Long memberId, Category category, Long id, String title, String body, int likes,
+                   int comments, List<CommentDto> comment, LocalDateTime createdAt,
+                   LocalDateTime modifiedAt, String authorName,List<PostImageFile> postImageFiles) {
         this.memberId = memberId;
         this.body = body;
-        this.imageUrl=imageUrl;
         this.category=category;
         this.id =id;
         this.title = title;
@@ -46,6 +48,7 @@ public class PostDto {
         this.createdAt = createdAt;
         this.modifiedAt=modifiedAt;
         this.authorName=authorName;
+        this.postImageFiles = postImageFiles;
     }
 
 

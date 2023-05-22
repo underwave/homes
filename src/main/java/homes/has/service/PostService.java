@@ -1,7 +1,7 @@
 package homes.has.service;
 
 
-import homes.has.domain.Category;
+import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
 import homes.has.dto.PostDto;
@@ -88,7 +88,7 @@ public class PostService {
 
     public void update(Long postId, PostDto postDto){
         Post post = postRepository.findById(postId).get();
-        post.update(postDto.getTitle(), postDto.getBody(), postDto.getImageUrl());
+        post.update(postDto.getTitle(), postDto.getBody(), postDto.getPostImageFiles());
     }
 
     public List<Post> findByCategory(Category category){

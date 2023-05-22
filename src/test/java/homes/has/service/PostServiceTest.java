@@ -1,9 +1,8 @@
 package homes.has.service;
 
-import homes.has.domain.Category;
+import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
-import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
 import homes.has.repository.PostQueryRepository;
 import homes.has.repository.PostRepository;

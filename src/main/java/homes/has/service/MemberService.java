@@ -2,6 +2,7 @@ package homes.has.service;
 
 
 import homes.has.domain.*;
+import homes.has.enums.Valid;
 import homes.has.repository.CommentRepository;
 import homes.has.repository.MemberRepository;
 import homes.has.repository.PostRepository;
@@ -40,7 +41,7 @@ public class MemberService {
         member.changeValid(valid);
     }
 
-    public void changeValid(Member member ,Valid valid){
+    public void changeValid(Member member , Valid valid){
         member.changeValid(valid);
     }
 

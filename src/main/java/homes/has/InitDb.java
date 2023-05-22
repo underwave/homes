@@ -1,14 +1,14 @@
 package homes.has;
 
 import homes.has.domain.*;
+import homes.has.enums.Category;
+import homes.has.enums.Valid;
 import homes.has.service.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class InitDb {
@@ -21,6 +21,8 @@ public class InitDb {
     private CommentService commentService;
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private ImageFileService imageFileService;
 
     @Autowired
     private LikePostService likePostService;
@@ -61,7 +63,8 @@ public class InitDb {
         createPost(member3, Category.TIPS, "akima", "bkimb");
 
 //      이미지 출력 테스트용
-        createPost(member3, Category.GENERAL, "안녕", "반가워","/Users/nocheolhwan/homesDir/b0e34292-ad60-46e5-91e0-f811814bd361.jpeg");
+//        createPost(member3, Category.GENERAL, "안녕", "반가워");
+
 
         commentService.save(Comment.builder().member(member3).post(post1).body("ㄹㅇㅋㅋ").build());
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
@@ -106,16 +109,16 @@ public class InitDb {
         Long saved = postService.save(post);
         return post;
     }
-    private Post createPost(Member member , Category category, String body, String title, String imageUrl) {
-        Post post = Post.builder()
-                .member(member)
-                .title(title)
-                .body(body)
-                .category(category)
-                .imageUrl(imageUrl)
-                .build();
-        Long saved = postService.save(post);
-        return post;
-    }
+//    private Post createPost(Member member , Category category, String body, String title, String imageUrl) {
+//        Post post = Post.builder()
+//                .member(member)
+//                .title(title)
+//                .body(body)
+//                .category(category)
+//                .imageUrl(imageUrl)
+//                .build();
+//        Long saved = postService.save(post);
+//        return post;
+//    }
 
 }

@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,20 +16,30 @@ public class ImageFile extends BaseEntity {
     private String originalFileName;  // 파일 원본명
     private String savedName;
     private String path;  // 파일 저장 경로
-    private int size;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "imageFile")
+    private PostImageFile postImageFile;
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="post_id")
-    private Post post;
+    @JoinColumn(name="review_id")
+    private Review review;
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name="locRequest_id")
+    private LocRequest locRequest;
 
     @Builder
-    public ImageFile(Long id, String originalFileName, String savedName, int size, String path) {
+    public ImageFile(Long id, String originalFileName, String savedName, String path,
+                     Review review, LocRequest locRequest, PostImageFile postImageFile ) {
         this.id = id;
         this.originalFileName = originalFileName;
         this.savedName = savedName;
-        this.size = size;
         this.path =path;
+        this.postImageFile = postImageFile;
+        this.review = review;
+        this.locRequest=locRequest;
     }
 
 

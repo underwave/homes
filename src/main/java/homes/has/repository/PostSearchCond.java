@@ -1,9 +1,8 @@
 package homes.has.repository;
 
 
-import homes.has.domain.Category;
+import homes.has.enums.Category;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class PostSearchCond {

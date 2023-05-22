@@ -1,5 +1,6 @@
 package homes.has.domain;
 
+import homes.has.enums.Admin;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

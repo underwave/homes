@@ -3,14 +3,12 @@ package homes.has.api;
 
 import homes.has.domain.LocRequest;
 import homes.has.domain.Member;
-import homes.has.domain.Valid;
 import homes.has.dto.LocRequestForm;
 import homes.has.service.DetectAdminService;
 import homes.has.service.LocRequestService;
 import homes.has.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

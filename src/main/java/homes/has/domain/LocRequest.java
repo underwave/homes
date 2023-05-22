@@ -1,6 +1,7 @@
 package homes.has.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import homes.has.domain.timestamp.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,8 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -25,10 +28,16 @@ public class LocRequest extends BaseEntity {
     @JoinColumn(name= "member_id")
     private Member member;
 
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "locRequest")
+    private ImageFile imageFile;
     @Builder
     public LocRequest(String location, String imageUrl, Member member){
         this.imageUrl=imageUrl;
         this.location=location;
         this.member=member;
     }
+
+
 }
