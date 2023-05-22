@@ -21,7 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
 //    댓글 수 증가
     @Modifying(clearAutomatically = true)
-    @Query("update Post p set p.comments = p.comments+1 where p.id = :id")
+    @Query("update Post p set p.commentCount = p.commentCount+1 where p.id = :id")
     public void increaseComments(@Param("id")Long id);
 
     //    좋아요 수 감소
@@ -32,7 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
     //    댓글 수 감소
     @Modifying(clearAutomatically = true)
-    @Query("update Post p set p.comments = p.comments-1 where p.id = :id")
+    @Query("update Post p set p.commentCount = p.commentCount-1 where p.id = :id")
     public void decreaseComments(@Param("id")Long id);
 
 

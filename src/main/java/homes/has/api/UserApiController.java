@@ -130,7 +130,7 @@ public class UserApiController {
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
-                .comments(post.getComments())
+                .commentCount(post.getCommentCount())
                 .authorName(authorName)
                 .memberId(memberId)
                 .likes(post.getLikes())
