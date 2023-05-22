@@ -90,14 +90,15 @@ public class ReviewController{
      * 리뷰 삭제 (API no.7)
      **/
     @DeleteMapping("/{location}/{reviewId}")
-    public void deleteReview(@PathVariable("reviewId") Long id) {
-       reviewService.DeleteReview(id);
-
-       /*
+    public void deleteReview(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
+        /*
        * review 삭제시 db에 멤버의 review가 없으면 uncertified로 갱신
        * */
        Review review = reviewService.getReviewById(id);
        Member member = review.getMember();
+
+       reviewService.DeleteReview(id);
+
        if(!memberService.isReviewed(member.getId()))
            memberService.changeValid(member, Valid.UNCERTIFIED);
     }
