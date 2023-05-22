@@ -4,6 +4,9 @@ import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.CreateReviewDto;
 import homes.has.enums.Valid;
+import homes.has.repository.BuildingRepository;
+import homes.has.repository.FavoriteRepository;
+import homes.has.repository.ReviewRepository;
 import homes.has.service.MemberService;
 import homes.has.service.ReviewService;
 import lombok.Getter;
@@ -13,6 +16,7 @@ import lombok.Setter;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,6 +26,23 @@ import java.util.List;
 public class ReviewController{
     private final ReviewService reviewService;
     private final MemberService memberService;
+
+    /** 테스트용 코드 삭제 필
+     *
+     *
+     *
+     *
+     * **/
+    private final ReviewRepository reviewRepository;
+    private final BuildingRepository buildingRepository;
+    private final FavoriteRepository favoriteRepository;
+    /** 테스트용 코드 삭제 필
+     *
+     *
+     *
+     *
+     * **/
+//
 
 
     /*
@@ -41,6 +62,31 @@ public class ReviewController{
         List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(latitude, longitude, distance, memberid);
         return buildingList;
     }
+
+    /** 테스트용 코드 삭제 필
+     *
+     *
+     *
+     *
+     * **/
+    @GetMapping("/test")
+    public List<BuildingsDto> getBuildingList() {
+        List<Building> buildings = new ArrayList<>();
+        buildings.addAll(buildingRepository.findAll());
+        List<BuildingsDto> reviewDtos = new ArrayList<>();
+        for (Building building : buildings) {
+            int reviewCount = building.getReviews().size();
+            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),1L);
+            reviewDtos.add(new BuildingsDto(building.getId(), building.getName(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+        }
+        return reviewDtos;
+    }
+    /**
+     *
+     *
+     *
+     *
+     * **/
 
     /**
      * 특정 건물 리뷰 리스트 반환 (API no.3)
@@ -72,7 +118,7 @@ public class ReviewController{
      * 리뷰 수정 (API no.6)
      **/
     @PutMapping("/{location}/{reviewId}/modify2")
-    public void updateReview(@PathVariable("location") String location, @PathVariable("reviewId") Long id, @RequestBody UpdateReviewRequest request) {
+    public void updateReview(@PathVariable("reviewId") Long id, @RequestBody UpdateReviewRequest request) {
         ReviewBody body = request.getBody();
         ReviewGrade grade = request.getGrade();
         reviewService.UpdateReview(id, grade, body);
@@ -90,7 +136,7 @@ public class ReviewController{
      * 리뷰 삭제 (API no.7)
      **/
     @DeleteMapping("/{location}/{reviewId}")
-    public void deleteReview(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
+    public void deleteReview( @PathVariable("reviewId") Long id) {
         /*
        * review 삭제시 db에 멤버의 review가 없으면 uncertified로 갱신
        * */

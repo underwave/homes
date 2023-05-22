@@ -16,5 +16,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     public boolean existsByMemberId(Long memberId);
 
+    public List<Review> findAll();
 
 }
