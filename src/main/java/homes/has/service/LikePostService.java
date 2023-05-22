@@ -29,6 +29,9 @@ public class LikePostService {
     public void delete(Long likePostId){
         likePostsRepository.deleteById(likePostId);
     }
+    public void delete(LikePosts likePosts){
+        likePostsRepository.delete(likePosts);
+    }
 
     public LikePosts findByPostIdAndMemberId(Long postId, Long memberId){
         return likePostsRepository.findByPostIdAndMemberId(postId,memberId);
@@ -36,5 +39,9 @@ public class LikePostService {
 
     public boolean isPostLikedByMember(Post post, Member member) {
         return likePostsRepository.existsByPostAndMember(post, member);
+    }
+
+    public List<LikePosts> findByPostId(Long postId){
+        return likePostsRepository.findByPostId(postId);
     }
 }

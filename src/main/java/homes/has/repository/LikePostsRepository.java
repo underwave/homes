@@ -23,6 +23,7 @@ public interface LikePostsRepository extends JpaRepository<LikePosts,Long> {
     public LikePosts findByPostIdAndMemberId(@Param("postId") Long postId, @Param("memberId") Long memberId);
 
 
+    public List<LikePosts> findByPostId(Long postId);
 
 
 }

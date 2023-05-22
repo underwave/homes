@@ -86,7 +86,10 @@ public class CommunityApiController {
 
         return posts;
     };
-    // api 22
+     /*
+     * api 22
+     * 게시글 작성
+     * */
     @PostMapping("/community/{category}/write")
     public void writePost(@RequestPart("files") List<MultipartFile> files, @PathVariable Category category, @RequestBody PostDto postDto) throws IOException {
         Member member = memberService.findById(postDto.getMemberId()).get();
@@ -95,7 +98,7 @@ public class CommunityApiController {
                 .member(member)
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
-                .category(postDto.getCategory())
+                .category(category)
                 .build();
         for (MultipartFile multipartFile : files) {
             ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
@@ -106,7 +109,10 @@ public class CommunityApiController {
         postService.save(post);
     }
 
-// api 23
+    /*
+    * api 23
+    * 게시글 상세란
+    * */
     @GetMapping("/community/{category}/{postId}")
     public PostDto postDetail(@PathVariable Category category, @PathVariable Long postId){
 
@@ -123,10 +129,39 @@ public class CommunityApiController {
     }
 
 
-    //    명세 23번
+    /*
+    * 명세 23번
+    * 게시글 삭제
+    * */
     @DeleteMapping("/community/{category}/{postId}")
     public void deletePost(@PathVariable Long postId){
+        Post post = postService.findById(postId).get();
+
+        //이미지 파일 삭제
+        for (PostImageFile postImageFile : post.getPostImageFiles()) {
+            imageFileService.delete(postImageFile.getImageFile());
+            postImageFileService.delete(postImageFile);
+        }
+        //댓글 삭제
+        for (Comment comment : post.getComments()) {
+            List<LikeComments> likeComments = likeCommentsService.findByCommentId(comment.getId());
+            //likeComment 삭제
+            for (LikeComments likeComment : likeComments) {
+                likeCommentsService.delete(likeComment);
+            }
+            commentService.delete(comment);
+
+        }
+        //게시글 삭제
         postService.deletePost(postId);
+
+        //likePost 삭제
+        List<LikePosts> likePosts = likePostService.findByPostId(postId);
+        for (LikePosts likePost : likePosts) {
+            likePostService.delete(likePost);
+        }
+
+
     }
 
 
@@ -183,6 +218,11 @@ public class CommunityApiController {
     public void deleteComment(@PathVariable Long postId, @RequestBody Long commentId){
         commentService.delete(commentId);
         postService.decreaseComments(postId);
+        //likeComment 삭제
+        for (LikeComments likeComments : likeCommentsService.findByCommentId(commentId)) {
+            likeCommentsService.delete(likeComments);
+        }
+
     }
 
 
@@ -231,7 +271,7 @@ public class CommunityApiController {
 
         PostDto postDto = PostDto.builder()
                 .category(post.getCategory())
-                .comments(post.getComments())
+                .commentCount(post.getCommentCount())
                 .createdAt(post.getCreatedAt())
                 .likes(post.getLikes())
                 .title(post.getTitle())
@@ -259,8 +299,8 @@ public class CommunityApiController {
                 .title(post.getTitle())
                 .body(post.getBody())
                 .images(images)
-                .comment(commentDtos)
-                .comments(post.getComments())
+                .comments(commentDtos)
+                .commentCount(post.getCommentCount())
                 .likes(post.getLikes())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())

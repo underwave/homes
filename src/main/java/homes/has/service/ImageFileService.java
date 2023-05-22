@@ -128,6 +128,10 @@ public class ImageFileService {
         return result;
     }
 
+    public void delete(ImageFile imageFile){
+        imageFileRepository.delete(imageFile);
+    }
+
 
     public ImageFile createImageFile(String originalFilename, String savedName, String path){
             return ImageFile.builder()
