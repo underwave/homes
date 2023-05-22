@@ -27,15 +27,21 @@ public class Post extends BaseEntity {
 
     private int likes;
 
-    private int comments;
+    private int commentCount;
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "post")
     private List<PostImageFile> postImageFiles = new ArrayList<>();
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Post(Member member, String title, String body, Category category, List<PostImageFile> postImageFiles){
@@ -44,8 +50,9 @@ public class Post extends BaseEntity {
         this.body= body;
         this.category = category;
         this.postImageFiles= postImageFiles;
+
         this.likes=0;
-        this.comments = 0;
+        this.commentCount = 0;
     }
 
     public void update(String title, String body, List<PostImageFile> postImageFiles){
@@ -53,5 +60,7 @@ public class Post extends BaseEntity {
         this.body = body;
         this.postImageFiles=postImageFiles;
     }
+
+
 
 }

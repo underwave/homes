@@ -65,7 +65,7 @@ public class PostService {
                 String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
                 PostDto postDto = PostDto.builder()
                         .category(post.getCategory())
-                        .comments(post.getComments())
+                        .commentCount(post.getCommentCount())
                         .createdAt(post.getCreatedAt())
                         .likes(post.getLikes())
                         .title(post.getTitle())

@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -23,11 +25,17 @@ public class LikeCommentsService {
     public void delete(Long likeCommentsId){
         likeCommentsRepository.deleteById(likeCommentsId);
     }
+    public void delete(LikeComments likeComments){
+        likeCommentsRepository.delete(likeComments);
+    }
 
     public LikeComments findByCommentIdAndMemberId(Long commentId, Long memberId){
         return likeCommentsRepository.findByCommentIdAndMemberId(commentId,memberId);
     }
 
+    public List<LikeComments> findByCommentId(Long commentId){
+        return likeCommentsRepository.findByCommentId(commentId);
+    }
     public boolean isCommentLikedByMember(Comment comment, Member member) {
         return likeCommentsRepository.existsByCommentAndMember(comment, member);
     }

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface LikeCommentsRepository extends JpaRepository<LikeComments,Long> {
 
 
@@ -13,6 +15,7 @@ public interface LikeCommentsRepository extends JpaRepository<LikeComments,Long>
     @Query("SELECT lc FROM LikeComments lc WHERE lc.comment.id = :commentId AND lc.member.id = :memberId")
     public LikeComments findByCommentIdAndMemberId(@Param("commentId") Long commentId, @Param("memberId") Long memberId);
 
+    public List<LikeComments> findByCommentId(Long commentId);
 
 
 

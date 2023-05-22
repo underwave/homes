@@ -1,5 +1,6 @@
 package homes.has.service;
 
+import homes.has.domain.Post;
 import homes.has.domain.PostImageFile;
 import homes.has.repository.PostImageFileRepository;
 import jakarta.transaction.Transactional;
@@ -21,8 +22,12 @@ public class PostImageFileService {
         return postImageFileRepository.save(postImageFile);
     }
 
-    public void delete(Long PostImageFileId){
+    public void deleteById(Long PostImageFileId){
         postImageFileRepository.deleteById(PostImageFileId);
+    }
+
+    public void delete(PostImageFile postImageFile){
+        postImageFileRepository.delete(postImageFile);
     }
 
 }
