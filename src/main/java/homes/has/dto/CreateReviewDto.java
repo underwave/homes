@@ -12,12 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 public class CreateReviewDto{
-    private Member Member;
+    private Long memberId;
     private String location;
     private ReviewGrade grade;
     private ReviewBody body;
     private Double posx;
     private Double posy;
-   // private List<MultipartFile> imageFiles;
 
 }

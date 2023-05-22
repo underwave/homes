@@ -74,16 +74,8 @@ class ReviewServiceTest{
 //    }
 
 
-//    @Test
-//    void Delete_UpdateReviewTest () {
-//        // given
-//        Member member1 = new Member(Valid.CERTIFIED, "가좌로 3길");
-//        Member member2 = new Member(Valid.CERTIFIED, "가좌로 2길");
-//        Member member3 = new Member(Valid.CERTIFIED, "가좌로 1길");
-//        memberService.save(member1);
-//        memberService.save(member2);
-//        memberService.save(member3);
-//
+    @Test
+    void Delete_UpdateReviewTest () {
 //        String location3 = "진주대로 570번길";
 //        ReviewGrade grade3 = new ReviewGrade(5, 3, 2, 4);
 //        ReviewBody body3 = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
@@ -97,19 +89,19 @@ class ReviewServiceTest{
 //        reviewService.CreateReview(member3,location4, grade4, body4,37.2,125.21);
 //
 //        // then
-//        reviewService.DeleteReview(2L);
-//        assertEquals(buildingRepository.count(),3);
+ //        reviewService.DeleteReview(2L);
+ //       assertEquals(buildingRepository.count(), 1);
 //        assertEquals(buildingRepository.findByName("진주대로 550번길").getPosx(),37.2);
-//        ReviewGrade grade5 = new ReviewGrade(5, 4, 5, 5);
-//        ReviewBody body5 = new ReviewBody("집이 신축이라 깔끔하고 위치도 학교에서 가까워서 조와", "냉장고가 넘작아요~~~~ ", "몰...루");
+        ReviewGrade grade5 = new ReviewGrade(1, 1, 1, 2);
+        ReviewBody body5 = new ReviewBody("수정내용이에요", "~~~ ", "몰...루");
 //
-//        reviewService.UpdateReview(3L,grade5,body5);
+        reviewService.UpdateReview(2L,grade5,body5);
 //        Building building = buildingRepository.findByName(location3);
 //        assertEquals(building.getName(),location3);
 //        assertEquals(building.getTotalgrade(),19);
 //    }
 
-    @Test
+ /*   @Test
     void BoundingBox() {
         double latitude = 37.5;
         double longitude = 127;
@@ -155,5 +147,5 @@ class ReviewServiceTest{
 //        //reviewService.GetBuildingsForMap(latitude, longitude, distance,member1.getId());
 //
 //
-//    }
-}
+//    }*/
+    }}

@@ -9,6 +9,7 @@ import homes.has.dto.BuildingsDto;
 import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
+import homes.has.repository.MemberRepository;
 import homes.has.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ReviewService {
     private final BuildingRepository buildingRepository;
     private final FavoriteRepository favoriteRepository;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
    // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
@@ -35,7 +37,8 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (Member member, String location, ReviewGrade grade, ReviewBody body, double posx, double posy) throws IOException {
+    public void CreateReview (Long memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy) throws IOException {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         Building building = buildingRepository.findByName(location);
         if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
             building = new Building(location,posx,posy);
@@ -163,9 +166,4 @@ public class ReviewService {
         }
         return reviewDtos;
     }
-
-
-
-
-
 }

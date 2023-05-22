@@ -6,7 +6,10 @@ import homes.has.dto.CreateReviewDto;
 import homes.has.enums.Valid;
 import homes.has.service.MemberService;
 import homes.has.service.ReviewService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -53,7 +56,7 @@ public class ReviewController{
      **/
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestBody CreateReviewDto createReviewDto) throws IOException {
-        reviewService.CreateReview(createReviewDto.getMember(),createReviewDto.getLocation(), createReviewDto.getGrade(),
+        reviewService.CreateReview(createReviewDto.getMemberId(),createReviewDto.getLocation(), createReviewDto.getGrade(),
                 createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy());
     }
 
@@ -61,7 +64,7 @@ public class ReviewController{
      * 리뷰 수정 폼 생성 (API no.5)
      **/
     @GetMapping("/{location}/{reviewId}/modify")
-    public Review getReviewById(@PathVariable("reviewId") Long id) {
+    public Review getReviewById(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
         return reviewService.getReviewById(id);
     }
 
@@ -69,8 +72,18 @@ public class ReviewController{
      * 리뷰 수정 (API no.6)
      **/
     @PutMapping("/{location}/{reviewId}/modify2")
-    public void updateReview(@PathVariable("reviewId") Long id, @RequestBody ReviewGrade grade, ReviewBody body) {
+    public void updateReview(@PathVariable("location") String location, @PathVariable("reviewId") Long id, @RequestBody UpdateReviewRequest request) {
+        ReviewBody body = request.getBody();
+        ReviewGrade grade = request.getGrade();
         reviewService.UpdateReview(id, grade, body);
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UpdateReviewRequest {
+        private ReviewBody body;
+        private ReviewGrade grade;
     }
 
     /**
