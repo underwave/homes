@@ -19,12 +19,12 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+
     private String location;
 
     @Builder
-    public Favorite (String location, Member member) {
-        this.location= location;
-        this.member=member;
-        member.getFavorites().add(this);
+    public Favorite(String location, Member member) {
+        this.location = location;
+        this.member = member;
     }
 }

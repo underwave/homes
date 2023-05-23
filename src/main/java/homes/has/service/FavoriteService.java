@@ -41,6 +41,7 @@ public class FavoriteService{
                 .member(member)
                 .build();
 
+        member.getFavorites().add(favorite);
         favoriteRepository.save(favorite);
     }
 
@@ -69,20 +70,29 @@ public class FavoriteService{
         for (Favorite favorite : favorites) { //좋아요 누른 항목에서 building 테이블 존재 여부 조회
             Building building = buildingRepository.findByName(favorite.getLocation());
             if (building != null) { // 빌딩에 해당 주소를 가진 내역 존재 시
+
                 Double totalGrade = building.getTotalgrade();
                 int reviewCount = building.getReviews().size();
-                boolean isLiked = true;
                 FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
                         building.getId(),
                         building.getName(),
                         totalGrade,
                         reviewCount,
-                        isLiked
+                        true
                 );
                 favoriteBuildingsDtos.add(favoriteBuildingsDto);
+            }else{
+                FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
+                        null,
+                        favorite.getLocation(),
+                        null,
+                        0,
+                        false
+                );
+                favoriteBuildingsDtos.add(favoriteBuildingsDto);
+
             }
         }
         return favoriteBuildingsDtos;
     }
-
 }

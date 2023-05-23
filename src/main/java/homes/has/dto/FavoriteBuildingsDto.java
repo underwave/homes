@@ -7,7 +7,7 @@ public class FavoriteBuildingsDto{
     private Long id;
     private String location;
     private Double totalgrade = 0.0;
-    private Integer reviewCount;
+    private Integer reviewCount =0;
     private Boolean isLiked;
 
     public FavoriteBuildingsDto(Long id, String name, Double totalGrade, int reviewCount, boolean isLiked) {

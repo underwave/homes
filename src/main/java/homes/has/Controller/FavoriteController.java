@@ -40,6 +40,4 @@ public class FavoriteController{
         List<FavoriteBuildingsDto> favoriteBuildingsDtos = favoriteService.GetFavoriteBuildings(memberId);
         return favoriteBuildingsDtos;
     }
-
-
 }

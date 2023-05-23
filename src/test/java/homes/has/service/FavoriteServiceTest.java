@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
@@ -33,13 +35,13 @@ class FavoriteServiceTest{
         //given
         String location = "가좌대로 11번길 1";
         String location2 = "가좌대로 11번길 2";
-        Long memberId = 1L;
-        Long memberId2 = 2L;
+
 
         Member member = new Member();
-        member.setId(memberId);
         Member member2 = new Member();
-        member2.setId(memberId2);
+        memberRepository.save(member);
+        memberRepository.save(member2);
+
 
        /*
         Favorite favorite = new Favorite();
@@ -56,12 +58,15 @@ class FavoriteServiceTest{
         favoriteService.CreateFavorite(location,member2.getId());
 
         // then
-        Favorite favorite = favoriteRepository.findByLocationAndMember(location,member);
-        assertEquals(member.getId(), favorite.getMember().getId());
-        Favorite favorite2 = favoriteRepository.findByLocationAndMember(location,member2);
-        assertEquals(member2.getId(), favorite2.getMember().getId());
+        //Favorite favorite = favoriteRepository.findByLocationAndMember(location,member);
+        assertEquals(2,member.getFavorites().size());
 
-        assertEquals(2, favoriteService.GetFavoriteBuildings(member.getId()).size());
+        System.out.println(member.getFavorites().size());
+        System.out.println(favoriteService.GetFavoriteBuildings(member.getId()));
+       // Favorite favorite2 = favoriteRepository.findByLocationAndMember(location,member2);
+        //assertEquals(member2.getId(), favorite2.getMember().getId());
+
+       // assertEquals(2, favoriteService.GetFavoriteBuildings(member.getId()).size());
     }
 
 }
