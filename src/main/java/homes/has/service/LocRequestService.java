@@ -25,6 +25,11 @@ public class LocRequestService {
         locRequestRepository.deleteById(requestId);
     }
 
+    public void delete(LocRequest locRequest){
+        locRequestRepository.delete(locRequest);
+    }
+
+
     public void findByMemberId(Long memberId){
         LocRequest LocRequest = locRequestRepository.findByMemberId(memberId);
     }

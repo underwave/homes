@@ -5,12 +5,15 @@ import homes.has.dto.LocRequestForm;
 import homes.has.dto.MemberDto;
 import homes.has.dto.PostDto;
 import homes.has.dto.ReviewDto;
+import homes.has.enums.FilePath;
 import homes.has.enums.Valid;
 import homes.has.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class UserApiController {
     private final MemberService memberService;
     private final LocRequestService locRequestService;
     private final ReviewService reviewService;
+    private final ImageFileService imageFileService;
 
     @GetMapping("/user/{memberId}")
     public MemberDto userInfo(@PathVariable Long userId){
@@ -77,15 +81,17 @@ public class UserApiController {
     *  api 명세 11, 주소지 인증
     * */
     @PostMapping("/user/authorization/write")
-    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm){
+    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm, @RequestPart("file") MultipartFile file) throws IOException {
         Long memberId = locRequestForm.getMember().getId();
         Member member = memberService.findById(memberId).get();
+        ImageFile imageFile = imageFileService.saveFile(file, FilePath.LOCREQUEST);
 
         LocRequest locRequest = LocRequest.builder()
                 .location(locRequestForm.getLocation())
-                .imageUrl(locRequestForm.getImageUrl())
                 .member(member)
+                .imageFile(imageFile)
                 .build();
+
         locRequestService.save(locRequest);
         if(member.getValid()== Valid.UNCERTIFIED)
             member.changeValid(Valid.ONGOING);
@@ -97,7 +103,10 @@ public class UserApiController {
     @DeleteMapping("/user/authorization/{locRequestId}")
     public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody Long memberId){
         Member member = memberService.findById(memberId).get();
-        locRequestService.delete(locRequestId);
+        LocRequest locRequest = locRequestService.findById(locRequestId);
+        ImageFile imageFile = locRequest.getImageFile();
+        locRequestService.delete(locRequest);
+        imageFileService.delete(imageFile);
         if(member.getValid()==Valid.ONGOING)
             member.changeValid(Valid.UNCERTIFIED);
     }

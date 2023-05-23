@@ -1,16 +1,19 @@
 package homes.has.api;
 
 
+import homes.has.domain.ImageFile;
 import homes.has.domain.LocRequest;
 import homes.has.domain.Member;
 import homes.has.dto.LocRequestForm;
 import homes.has.service.DetectAdminService;
+import homes.has.service.ImageFileService;
 import homes.has.service.LocRequestService;
 import homes.has.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class AdminApiController {
     private final DetectAdminService detectAdminService;
     private final LocRequestService locRequestService;
     private final MemberService memberService;
+    private final ImageFileService imageFileService;
 
 
     @GetMapping("/user/{memberId}/admin")
@@ -37,7 +41,7 @@ public class AdminApiController {
             LocRequestForm locRequestForm = LocRequestForm.builder()
                     .member(locRequest.getMember())
                     .location(locRequest.getLocation())
-                    .imageUrl(locRequest.getImageUrl())
+                    .imageFile(locRequest.getImageFile())
                     .build();
             locRequestForms.add(locRequestForm);
         }
@@ -50,14 +54,18 @@ public class AdminApiController {
         String location = locRequest.getLocation();
         Member member = locRequest.getMember();
         memberService.changeLocation(member, location);
-        locRequestService.delete(requestId);
+        ImageFile imageFile = locRequest.getImageFile();
+        imageFileService.delete(imageFile);
+        locRequestService.delete(locRequest);
     }
 
     @DeleteMapping("admin/LocRequest/{requestId}")
     public void rejectRequest(@PathVariable Long requestId){
         LocRequest locRequest = locRequestService.findById(requestId);
         Member member = locRequest.getMember();
-        locRequestService.delete(requestId);
+        ImageFile imageFile = locRequest.getImageFile();
+        imageFileService.delete(imageFile);
+        locRequestService.delete(locRequest);
     }
 
 }

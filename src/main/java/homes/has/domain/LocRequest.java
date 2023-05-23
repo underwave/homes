@@ -22,7 +22,6 @@ public class LocRequest extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String location;
-    private String imageUrl;
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name= "member_id")
@@ -33,8 +32,8 @@ public class LocRequest extends BaseEntity {
     @OneToOne(mappedBy = "locRequest")
     private ImageFile imageFile;
     @Builder
-    public LocRequest(String location, String imageUrl, Member member){
-        this.imageUrl=imageUrl;
+    public LocRequest(String location, ImageFile imageFile, Member member){
+        this.imageFile=imageFile;
         this.location=location;
         this.member=member;
     }
