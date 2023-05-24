@@ -6,6 +6,7 @@ package homes.has.service;
 import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 
+import homes.has.enums.FilePath;
 import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
@@ -14,6 +15,7 @@ import homes.has.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class ReviewService {
     private final FavoriteRepository favoriteRepository;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final ImageFileService imageFileService;
+    private final ReviewImageFileService reviewImageFileService;
 
    // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
@@ -44,9 +48,13 @@ public class ReviewService {
             building = new Building(location,posx,posy);
         }
 
-        int countReview = building.getReviews().size(); //빌딩이 가직있는 리뷰 수 확인
+        int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
         Double newTotalGrade = updateTotalGrade(building.getTotalgrade(), countReview,null, grade);
         building.setTotalgrade(newTotalGrade); //빌딩 테이블의 total grade 받아와서 새로운 review 반영
+
+//        imageFileService.saveFile(file, FilePath.REVIEW)
+
+
 
         Review review = Review.builder()
                 .grade(grade)
@@ -55,6 +63,16 @@ public class ReviewService {
                 .Location(building.getName())
                 .member(member)
                 .build();
+
+//      review entity에 이미지 추가, imageFileService에서 entity를 가져오는과정, for 문 내부의
+//      1,2line에서 해당 객체의 id 값이 null이 아닌지 확인 할 필요가 있음
+
+//        for (MultipartFile multipartFile : files) {
+//            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
+//            ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
+//            review.getReviewImageFiles().add(reviewImageFile);
+//        }
+//
 
         reviewRepository.save(review);
 

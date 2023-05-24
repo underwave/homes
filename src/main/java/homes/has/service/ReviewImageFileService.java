@@ -19,8 +19,8 @@ public class ReviewImageFileService {
 
 
 
-    public Long save(ReviewImageFile reviewImageFile){
-        return reviewImageFileRepository.save(reviewImageFile).getId();
+    public ReviewImageFile save(ReviewImageFile reviewImageFile){
+        return reviewImageFileRepository.save(reviewImageFile);
     }
 
     public void delete(Long reviewImageFileId){

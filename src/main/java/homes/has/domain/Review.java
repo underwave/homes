@@ -44,5 +44,5 @@ public class Review extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "review")
-    private List<ImageFile> imageFiles = new ArrayList<>();
+    private List<ReviewImageFile> reviewImageFiles = new ArrayList<>();
 }
