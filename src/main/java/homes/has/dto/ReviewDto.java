@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ReviewDto {
+    private Long id;
     private Member member;
     private String location;
     private ReviewGrade grade;
@@ -20,7 +21,7 @@ public class ReviewDto {
     private LocalDateTime modifiedAt;
     private Building building;
     @Builder
-    public ReviewDto(Member member, String location, ReviewGrade grade , ReviewBody body,
+    public ReviewDto(Member member,Long id, String location, ReviewGrade grade , ReviewBody body,
                      Building building, LocalDateTime createdAt, LocalDateTime modifiedAt){
         this.member=member;
         this.body=body;
@@ -29,6 +30,7 @@ public class ReviewDto {
         this.createdAt =createdAt;
         this.modifiedAt= modifiedAt;
         this.building=building;
+        this.id=id;
     }
 
 }
