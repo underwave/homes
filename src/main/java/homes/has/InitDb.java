@@ -89,10 +89,14 @@ public class InitDb {
         ReviewGrade grade2 = new ReviewGrade(4, 4, 1, 4);
         ReviewBody body2 = new ReviewBody("주인장이 뿌링클을 사주심니다 ...냠냠..", "학교랑 넘나리 먹어요  ", "몰...루");
 
+        ReviewGrade grade3 = new ReviewGrade(4, 4, 1, 4);
+        ReviewBody body3 = new ReviewBody("테테테테테테테스트", "....", "테스트 임니다아 500번길이요오");
+
         // when
         reviewService.CreateReview(1L,location, grade, body,37.1,128.2);
         reviewService.CreateReview(2L,location2, grade2, body2,37.2,125.2);
-
+        reviewService.CreateReview(3L,location, grade3, body3,37.1,128.2);
+        reviewService.CreateReview(2L,location, grade, body,37.1,128.2);
 
     }
 
