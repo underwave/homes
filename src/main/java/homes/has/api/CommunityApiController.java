@@ -270,6 +270,7 @@ public class CommunityApiController {
         String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
 
         PostDto postDto = PostDto.builder()
+                .id(post.getId())
                 .category(post.getCategory())
                 .commentCount(post.getCommentCount())
                 .createdAt(post.getCreatedAt())
