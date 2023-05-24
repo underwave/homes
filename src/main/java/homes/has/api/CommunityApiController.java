@@ -293,7 +293,6 @@ public class CommunityApiController {
         }
 
         PostDto postDto = PostDto.builder()
-                .id(post.getId())
                 .authorName(authorName)
                 .memberId(member.getId())
                 .category(post.getCategory())
@@ -305,6 +304,7 @@ public class CommunityApiController {
                 .likes(post.getLikes())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
+                .id(post.getId())
                 .build();
         return postDto;
     }
