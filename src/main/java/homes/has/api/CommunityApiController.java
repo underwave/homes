@@ -293,6 +293,7 @@ public class CommunityApiController {
         }
 
         PostDto postDto = PostDto.builder()
+                .id(post.getId())
                 .authorName(authorName)
                 .memberId(member.getId())
                 .category(post.getCategory())
