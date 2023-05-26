@@ -1,6 +1,8 @@
 package homes.has.service;
 
 
+import homes.has.domain.ImageFile;
+import homes.has.domain.PostImageFile;
 import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
@@ -11,6 +13,7 @@ import homes.has.repository.PostSearchCond;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -89,7 +92,7 @@ public class PostService {
 
     public void update(Long postId, PostDto postDto){
         Post post = postRepository.findById(postId).get();
-        post.update(postDto.getTitle(), postDto.getBody(), postDto.getPostImageFiles());
+        post.update(postDto.getTitle(), postDto.getBody());
     }
 
     public List<Post> findByCategory(Category category){

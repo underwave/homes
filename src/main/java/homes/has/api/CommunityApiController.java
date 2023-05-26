@@ -91,7 +91,7 @@ public class CommunityApiController {
      * 게시글 작성
      * */
     @PostMapping("/community/{category}/write")
-    public void writePost(@RequestPart("files") List<MultipartFile> files, @PathVariable Category category, @RequestBody PostDto postDto) throws IOException {
+    public void writePost(@PathVariable Category category, @RequestBody PostDto postDto) throws IOException {
         Member member = memberService.findById(postDto.getMemberId()).get();
 
         Post post = Post.builder()
@@ -100,6 +100,8 @@ public class CommunityApiController {
                 .body(postDto.getBody())
                 .category(category)
                 .build();
+        List<MultipartFile> files = postDto.getFiles();
+
         for (MultipartFile multipartFile : files) {
             ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
             PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
@@ -245,8 +247,24 @@ public class CommunityApiController {
                 .build();
         return postDto;
     }
-    @PutMapping("/community/{category}/{postId}/modify")
-    public void editPost(@PathVariable Long postId, PostDto postDto){
+    @PostMapping("/community/{category}/{postId}/modify")
+    public void editPost(@PathVariable Long postId, PostDto postDto) throws IOException {
+
+        Post post = postService.findById(postId).get();
+//      기존의 이미지 파일 삭제
+        for (PostImageFile postImageFile : post.getPostImageFiles()) {
+            imageFileService.delete(postImageFile.getImageFile());
+            postImageFileService.delete(postImageFile);
+        }
+
+        List<MultipartFile> files = postDto.getFiles();
+//        dto에서 받은 새로운 파일 등록
+        for (MultipartFile multipartFile : files) {
+            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
+            PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
+            post.getPostImageFiles().add(postImageFile);
+        }
+
         postService.update(postId, postDto);
     }
 

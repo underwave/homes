@@ -7,6 +7,7 @@ import homes.has.domain.ImageFile;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,7 @@ public class PostDto {
 
     private int likes;
     private List<PostImageFile> postImageFiles;
+    private List<MultipartFile> files;
     private List<ResponseEntity<byte[]>> images;
     private List<Long> imageIds;
     private int commentCount;
