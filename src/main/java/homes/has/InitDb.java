@@ -93,10 +93,10 @@ public class InitDb {
         ReviewBody body3 = new ReviewBody("테테테테테테테스트", "....", "테스트 임니다아 500번길이요오");
 
         // when
-        reviewService.CreateReview(1L,location, grade, body,37.1,128.2);
-        reviewService.CreateReview(2L,location2, grade2, body2,37.2,125.2);
-        reviewService.CreateReview(3L,location, grade3, body3,37.1,128.2);
-        reviewService.CreateReview(2L,location, grade, body,37.1,128.2);
+        reviewService.CreateReview(1L,location, grade, body,37.1,128.2, null);
+        reviewService.CreateReview(2L,location2, grade2, body2,37.2,125.2, null);
+        reviewService.CreateReview(3L,location, grade3, body3,37.1,128.2, null);
+        reviewService.CreateReview(2L,location, grade, body,37.1,128.2, null);
 
     }
 

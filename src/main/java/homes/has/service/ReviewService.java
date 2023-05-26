@@ -41,7 +41,7 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (Long memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy) throws IOException {
+    public void CreateReview (Long memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         Building building = buildingRepository.findByName(location);
         if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
@@ -67,12 +67,12 @@ public class ReviewService {
 //      review entity에 이미지 추가, imageFileService에서 entity를 가져오는과정, for 문 내부의
 //      1,2line에서 해당 객체의 id 값이 null이 아닌지 확인 할 필요가 있음
 
-//        for (MultipartFile multipartFile : files) {
-//            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
-//            ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
-//            review.getReviewImageFiles().add(reviewImageFile);
-//        }
-//
+        for (MultipartFile multipartFile : files) {
+            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
+            ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
+            review.getReviewImageFiles().add(reviewImageFile);
+        }
+
 
         reviewRepository.save(review);
 

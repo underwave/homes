@@ -103,7 +103,8 @@ public class ReviewController{
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestBody CreateReviewDto createReviewDto) throws IOException {
         reviewService.CreateReview(createReviewDto.getMemberId(),createReviewDto.getLocation(), createReviewDto.getGrade(),
-                createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy());
+                createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(),null
+                );
     }
 
     /**
