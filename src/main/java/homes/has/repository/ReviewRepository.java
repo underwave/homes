@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 
     @Query("SELECT r FROM Review r JOIN FETCH r.member m WHERE m.id = :memberId")
-    public List<Review> findByMemberId(@Param("memberId") UUID memberId);
+    public List<Review> findByMemberId(@Param("memberId") String memberId);
 
-    public boolean existsByMemberId(UUID memberId);
+    public boolean existsByMemberId(String memberId);
 
     public List<Review> findAll();
 

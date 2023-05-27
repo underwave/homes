@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Component
 public class InitDb {
@@ -34,20 +33,20 @@ public class InitDb {
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 3길")
                 .nickName("oneroom")
-                .id(UUID.randomUUID())
+                .id("abc")
                 .build();
         Member member2 = Member.builder().name("aaa")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 2길")
                 .nickName("helloWorld")
-                .id(UUID.randomUUID())
+                .id("def")
 
                 .build();
         Member member3 = Member.builder().name("신지현")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 1길")
                 .nickName("lorem")
-                .id(UUID.randomUUID())
+                .id("ghi")
 
                 .build();
         memberService.save(member1);

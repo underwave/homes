@@ -24,11 +24,11 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    public UUID save(Member member){
+    public String save(Member member){
         return memberRepository.save(member).getId();
     }
 
-    public Optional<Member> findById(UUID memberId){
+    public Optional<Member> findById(String memberId){
         return memberRepository.findById(memberId);
     }
 
@@ -37,7 +37,7 @@ public class MemberService {
     }
 
 
-    public void changeValid(UUID memberId,Valid valid){
+    public void changeValid(String memberId,Valid valid){
         Member member = memberRepository.findById(memberId).get();
         member.changeValid(valid);
     }
@@ -46,7 +46,7 @@ public class MemberService {
         member.changeValid(valid);
     }
 
-    public void changeLocation(UUID memberId,String location){
+    public void changeLocation(String memberId,String location){
         Member member = memberRepository.findById(memberId).get();
         member.changeLocation(location);
     }
@@ -57,11 +57,11 @@ public class MemberService {
 
 
 
-    public List<Post> memberPost(UUID memberId){
+    public List<Post> memberPost(String memberId){
         return postRepository.memberPost(memberId);
     }
 
-    public List<Review> memberReview(UUID memberId){
+    public List<Review> memberReview(String memberId){
         List<Review> reviews = reviewRepository.findByMemberId(memberId);
         if (reviews.size()==0){
             throw new IllegalArgumentException("리뷰를 찾을 수 없음");
@@ -69,15 +69,15 @@ public class MemberService {
         return reviews;
     }
 
-    public List<Comment> memberComment(UUID memberId){
+    public List<Comment> memberComment(String memberId){
         return commentRepository.memberComment(memberId);
     }
 
-    public boolean isExist(UUID memberId){
+    public boolean isExist(String memberId){
         return memberRepository.existsById(memberId);
     }
 
-    public Boolean isReviewed(UUID memberId){
+    public Boolean isReviewed(String memberId){
         return reviewRepository.existsByMemberId(memberId);
     }
 

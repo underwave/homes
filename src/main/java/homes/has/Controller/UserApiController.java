@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 
 @Slf4j
@@ -33,7 +33,7 @@ public class UserApiController {
 
     @PostMapping("/user/sign")
     public void signUp(@RequestBody MemberDto memberDto) throws Exception {
-        UUID id = memberDto.getId();
+        String id = memberDto.getId();
         if(!memberService.isExist(id)) {
             throw new Exception("이미 존재하는 id");
         }
@@ -48,7 +48,7 @@ public class UserApiController {
     
     
     @GetMapping("/user/{memberId}")
-    public MemberDto userInfo(@PathVariable UUID userId){
+    public MemberDto userInfo(@PathVariable String userId){
         Member member = memberService.findById(userId).get();
 
         return MemberDto.builder()
@@ -62,7 +62,7 @@ public class UserApiController {
     * 내가 쓴글 api 14번
     * */
     @GetMapping("/user/{memberId}/post")
-    public List<PostDto> userPost(@PathVariable UUID memberId){
+    public List<PostDto> userPost(@PathVariable String memberId){
         List<Post> posts = memberService.memberPost(memberId);
         List<PostDto> postDtos = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class UserApiController {
      *  api 명세 15, 내가 쓴 댓글
     * */
     @GetMapping("/user/{memberId}/comment")
-    public List<PostDto> userComment(@PathVariable UUID memberId){
+    public List<PostDto> userComment(@PathVariable String memberId){
         List<Comment> comments = memberService.memberComment(memberId);
         List<Post> posts= new ArrayList<>();
         List<PostDto> postDtos = new ArrayList<>();
@@ -100,7 +100,7 @@ public class UserApiController {
     * */
     @PostMapping("/user/authorization/write")
     public void writeLocRequest(@RequestBody LocRequestForm locRequestForm) throws IOException {
-        UUID memberId = locRequestForm.getMemberId();
+        String memberId = locRequestForm.getMemberId();
         Member member = memberService.findById(memberId).get();
         ImageFile imageFile = imageFileService.saveFile(locRequestForm.getFile(), FilePath.LOCREQUEST);
 
@@ -119,7 +119,7 @@ public class UserApiController {
     *api 명세 12, 주소지 인증 취소
     * */
     @DeleteMapping("/user/authorization/{locRequestId}")
-    public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody UUID memberId){
+    public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody String memberId){
         Member member = memberService.findById(memberId).get();
         LocRequest locRequest = locRequestService.findById(locRequestId);
         ImageFile imageFile = locRequest.getImageFile();
@@ -132,7 +132,7 @@ public class UserApiController {
     * api 명세 13, 내가쓴 리뷰 출력 수정 필요
     * */
     @GetMapping("/user/{memberId}/review")
-    public List<ReviewDto> userReview(@PathVariable UUID memberId){
+    public List<ReviewDto> userReview(@PathVariable String memberId){
         List<Review> reviews = memberService.memberReview(memberId);
         List<ReviewDto> reviewDtos = new ArrayList<>();
 
@@ -151,7 +151,7 @@ public class UserApiController {
         return reviewDtos;
     }
 
-    private static PostDto createPostDto(UUID memberId, Post post) {
+    private static PostDto createPostDto(String memberId, Post post) {
         Member member = post.getMember();
         String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
         PostDto postDto = PostDto.builder()

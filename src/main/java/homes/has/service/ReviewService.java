@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 
 @Service
@@ -42,7 +42,7 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (UUID memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
+    public void CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         Building building = buildingRepository.findByName(location);
         if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가

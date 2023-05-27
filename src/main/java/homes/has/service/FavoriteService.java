@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +29,7 @@ public class FavoriteService{
     /**
      * 좋아하는 건물 등록
      **/
-    public void CreateFavorite(String location, UUID memberId){
+    public void CreateFavorite(String location, String memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
 
         Favorite favorite = favoriteRepository.findByLocationAndMember(location, member);
@@ -49,7 +49,7 @@ public class FavoriteService{
     /**
      * 좋아하는 건물 등록 취소
      **/
-    public void DeleteFavorite (String location, UUID memberId) {
+    public void DeleteFavorite (String location, String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
 
         Favorite favorite = favoriteRepository.findByLocationAndMember(location, member);
@@ -63,7 +63,7 @@ public class FavoriteService{
     /**
      * 좋아요 누른 건물 조회
      **/
-    public List<FavoriteBuildingsDto> GetFavoriteBuildings(UUID memberId){
+    public List<FavoriteBuildingsDto> GetFavoriteBuildings(String memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         List<Favorite> favorites = member.getFavorites();
         List<FavoriteBuildingsDto> favoriteBuildingsDtos = new ArrayList<>();

@@ -9,7 +9,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 @Getter @Setter
 @Entity
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Member extends BaseEntity {
 
     @Id
-    private UUID id;
+    private String id;
 
     @Enumerated(EnumType.STRING)
     private Valid valid;
@@ -55,7 +55,7 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(UUID id, Valid valid, String location, String name, String nickName){
+    public Member(String id, Valid valid, String location, String name, String nickName){
         this.valid = valid;
         this.location = location;
         this.name=name;

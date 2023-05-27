@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
 
 public interface PostRepository extends JpaRepository<Post, Long>{
 
@@ -48,7 +48,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
 
     @Query("SELECT p FROM Post p JOIN FETCH p.member m WHERE m.id = :memberId")
-    public List<Post> memberPost(@Param("memberId") UUID memberId);
+    public List<Post> memberPost(@Param("memberId") String memberId);
 
 
 //    @Query("SELECT p FROM Post p WHERE p.category = :category AND p.createdAt >=  CURRENT_TIMESTAMP - INTERVAL 2 DAY ORDER BY p.likes DESC")

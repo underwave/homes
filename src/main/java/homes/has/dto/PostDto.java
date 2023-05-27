@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
 
 @Data
 public class PostDto {
@@ -28,14 +28,14 @@ public class PostDto {
     private List<MultipartFile> files;
     private List<ResponseEntity<byte[]>> images;
     private int commentCount;
-    private UUID memberId;
+    private String memberId;
     private List<CommentDto> comments;
     private String authorName;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;
 
     @Builder
-    public PostDto(UUID memberId, Category category, Long id, String title, String body, int likes,
+    public PostDto(String memberId, Category category, Long id, String title, String body, int likes,
                    int commentCount, List<CommentDto> comments, LocalDateTime createdAt,
                    LocalDateTime modifiedAt, String authorName, List<ResponseEntity<byte[]>> images) {
         this.memberId = memberId;
