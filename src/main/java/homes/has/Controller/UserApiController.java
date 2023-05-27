@@ -121,7 +121,7 @@ public class UserApiController {
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
                 .grade(review.getGrade())
-                .member(review.getMember())
+                .memberId(review.getMember().getId())
                 .body(review.getBody())
                 .building(review.getBuilding())
                 .createdAt(review.getCreatedAt())

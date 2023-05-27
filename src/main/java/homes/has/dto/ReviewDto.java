@@ -7,23 +7,30 @@ import homes.has.domain.ReviewGrade;
 import homes.has.domain.timestamp.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 public class ReviewDto {
     private Long id;
-    private Member member;
+    private Long memberId;
     private String location;
     private ReviewGrade grade;
     private ReviewBody body;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Building building;
+    private List<MultipartFile> files;
+    private List<ResponseEntity<byte[]>> images;
+
     @Builder
-    public ReviewDto(Member member,Long id, String location, ReviewGrade grade , ReviewBody body,
-                     Building building, LocalDateTime createdAt, LocalDateTime modifiedAt){
-        this.member=member;
+    public ReviewDto(Long memberId,Long id, String location, ReviewGrade grade , ReviewBody body,
+                     Building building, LocalDateTime createdAt, LocalDateTime modifiedAt,
+                     List<MultipartFile> files, List<ResponseEntity<byte[]>> images){
+        this.memberId=memberId;
         this.body=body;
         this.location=location;
         this.grade=grade;
@@ -31,6 +38,8 @@ public class ReviewDto {
         this.modifiedAt= modifiedAt;
         this.building=building;
         this.id=id;
+        this.files=files;
+        this.images = images;
     }
 
 }

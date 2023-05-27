@@ -3,16 +3,19 @@ package homes.has.Controller;
 import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.CreateReviewDto;
+import homes.has.dto.ReviewDto;
 import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.ReviewRepository;
+import homes.has.service.ImageFileService;
 import homes.has.service.MemberService;
 import homes.has.service.ReviewService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,14 +29,13 @@ import java.util.List;
 public class ReviewController{
     private final ReviewService reviewService;
     private final MemberService memberService;
-
+    private final ImageFileService imageFileService;
     /** 테스트용 코드 삭제 필
      *
      *
      *
      *
      * **/
-    private final ReviewRepository reviewRepository;
     private final BuildingRepository buildingRepository;
     private final FavoriteRepository favoriteRepository;
     /** 테스트용 코드 삭제 필
@@ -91,11 +93,43 @@ public class ReviewController{
     /**
      * 특정 건물 리뷰 리스트 반환 (API no.3)
      **/
+//    @GetMapping("/{location}/detail")
+//    public List<Review> getReviewList(@PathVariable("location") String location) {
+//        List<Review> reviewList = reviewService.GetReviewList(location);
+//        return reviewList;
+//    }
+
+    /*
+    * 이미지 출력을 위해 임시 수정 했습니다.
+    **/
     @GetMapping("/{location}/detail")
-    public List<Review> getReviewList(@PathVariable("location") String location) {
+    public List<ReviewDto> getReviewList(@PathVariable("location") String location) {
         List<Review> reviewList = reviewService.GetReviewList(location);
-        return reviewList;
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+        for (Review review : reviewList) {
+            List<ResponseEntity<byte[]>> images = new ArrayList<>();
+            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+                ImageFile imageFile = reviewImageFile.getImageFile();
+                images.add(imageFileService.printFile(imageFile));
+            }
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .id(review.getId())
+                    .location(review.getLocation())
+                    .memberId(review.getMember().getId())
+                    .createdAt(review.getCreatedAt())
+                    .modifiedAt(review.getModifiedAt())
+                    .grade(review.getGrade())
+                    .body(review.getBody())
+                    .building(review.getBuilding())
+                    .images(images)
+                    .build();
+            reviewDtos.add(reviewDto);
+            images.clear();
+        }
+        return reviewDtos;
+//        return reviewList;
     }
+
 
     /**
      * 리뷰 작성 (API no.4)

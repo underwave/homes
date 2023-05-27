@@ -28,7 +28,6 @@ public class PostDto {
     private List<PostImageFile> postImageFiles;
     private List<MultipartFile> files;
     private List<ResponseEntity<byte[]>> images;
-    private List<Long> imageIds;
     private int commentCount;
     private Long memberId;
     private List<CommentDto> comments;
