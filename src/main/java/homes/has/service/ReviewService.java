@@ -60,7 +60,7 @@ public class ReviewService {
                 .grade(grade)
                 .body(body)
                 .building(building)
-                .Location(building.getName())
+                .location(building.getName())
                 .member(member)
                 .build();
 

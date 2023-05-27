@@ -29,7 +29,7 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "building_id")
     private Building building;
 
-    private String Location;
+    private String location;
 
    // @ElementCollection
    // private List<String> imageURL= new ArrayList<>();
