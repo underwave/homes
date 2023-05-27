@@ -49,7 +49,7 @@ public class UserApiController {
     
     
     
-    @GetMapping("/user/{memberId}")
+    @GetMapping("/user/{userId}")
     public MemberDto userInfo(@PathVariable String userId){
         Member member = memberService.findById(userId).get();
 
