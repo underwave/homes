@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FavoriteRepository extends JpaRepository<Favorite,Long>{
     Favorite findByLocationAndMember(String location, Member member);
-    Boolean existsByLocationAndMemberId(String location, Long MemberId);
+    Boolean existsByLocationAndMemberId(String location, String MemberId);
 }

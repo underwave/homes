@@ -174,7 +174,7 @@ public class ReviewService {
     }
 
 
-    public List<BuildingsDto> GetBuildingsForMap (double latitude, double longitude, double distance, Long memberid) {
+    public List<BuildingsDto> GetBuildingsForMap (double latitude, double longitude, double distance, String memberid) {
         List<Building> buildings = new ArrayList<>();
         double[] boundingBox = getBoundingBox(latitude, longitude, distance);
         buildings.addAll(buildingRepository.findByPosxBetweenAndPosyBetween(boundingBox[0], boundingBox[2], boundingBox[1], boundingBox[3]));

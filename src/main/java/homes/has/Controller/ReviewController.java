@@ -60,7 +60,7 @@ public class ReviewController{
      * 빌딩 리스트 반환 (API no.1,2)
      **/
     @GetMapping("/building")
-    public List<BuildingsDto> getBuildingList(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double distance, @RequestParam Long memberid) {
+    public List<BuildingsDto> getBuildingList(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double distance, @RequestParam String memberid) {
         List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(latitude, longitude, distance, memberid);
         return buildingList;
     }
@@ -78,7 +78,7 @@ public class ReviewController{
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),1L);
+            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),"ABC");
             reviewDtos.add(new BuildingsDto(building.getId(), building.getName(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;
