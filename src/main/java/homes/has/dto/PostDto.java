@@ -23,9 +23,7 @@ public class PostDto {
 
     private Category category;
 
-
     private int likes;
-    private List<PostImageFile> postImageFiles;
     private List<MultipartFile> files;
     private List<ResponseEntity<byte[]>> images;
     private int commentCount;
@@ -38,7 +36,7 @@ public class PostDto {
     @Builder
     public PostDto(Long memberId, Category category, Long id, String title, String body, int likes,
                    int commentCount, List<CommentDto> comments, LocalDateTime createdAt,
-                   LocalDateTime modifiedAt, String authorName, List<PostImageFile> postImageFiles, List<ResponseEntity<byte[]>> images) {
+                   LocalDateTime modifiedAt, String authorName, List<ResponseEntity<byte[]>> images) {
         this.memberId = memberId;
         this.body = body;
         this.category=category;
@@ -50,7 +48,6 @@ public class PostDto {
         this.createdAt = createdAt;
         this.modifiedAt=modifiedAt;
         this.authorName=authorName;
-        this.postImageFiles = postImageFiles;
         this.images = images;
     }
 
