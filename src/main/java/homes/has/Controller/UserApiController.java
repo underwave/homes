@@ -34,15 +34,17 @@ public class UserApiController {
     @PostMapping("/user/sign")
     public void signUp(@RequestBody MemberDto memberDto) throws Exception {
         String id = memberDto.getId();
-        if(!memberService.isExist(id)) {
+        if(memberService.isExist(id)) {
             throw new Exception("이미 존재하는 id");
         }
-        Member.builder()
+        Member member = Member.builder()
             .valid(Valid.UNCERTIFIED)
             .id(id)
             .name(memberDto.getName())
             .nickName(memberDto.getNickName())
             .build();
+
+        memberService.save(member);
     }
     
     
