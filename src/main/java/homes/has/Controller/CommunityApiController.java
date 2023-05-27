@@ -91,7 +91,9 @@ public class CommunityApiController {
      * 게시글 작성
      * */
     @PostMapping("/community/{category}/write")
-    public void writePost(@PathVariable Category category, @RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws IOException {
+    public void writePost(@PathVariable Category category,
+                          @RequestPart PostDto postDto,
+                          @RequestPart(required = false) List<MultipartFile> files) throws IOException {
         Member member = memberService.findById(postDto.getMemberId()).get();
 
         Post post = Post.builder()
@@ -99,8 +101,8 @@ public class CommunityApiController {
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .category(category)
+                .postImageFiles(new ArrayList<>())
                 .build();
-//        List<MultipartFile> files = postDto.getFiles();
         if(files!=null) {
             for (MultipartFile multipartFile : files) {
                 ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
