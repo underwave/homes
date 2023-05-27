@@ -1,4 +1,4 @@
-package homes.has.api;
+package homes.has.Controller;
 
 import homes.has.domain.*;
 import homes.has.dto.LocRequestForm;
@@ -81,10 +81,10 @@ public class UserApiController {
     *  api 명세 11, 주소지 인증
     * */
     @PostMapping("/user/authorization/write")
-    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm, @RequestPart("file") MultipartFile file) throws IOException {
-        Long memberId = locRequestForm.getMember().getId();
+    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm) throws IOException {
+        Long memberId = locRequestForm.getMemberId();
         Member member = memberService.findById(memberId).get();
-        ImageFile imageFile = imageFileService.saveFile(file, FilePath.LOCREQUEST);
+        ImageFile imageFile = imageFileService.saveFile(locRequestForm.getFile(), FilePath.LOCREQUEST);
 
         LocRequest locRequest = LocRequest.builder()
                 .location(locRequestForm.getLocation())

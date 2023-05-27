@@ -66,11 +66,12 @@ public class ReviewService {
 
 //      review entity에 이미지 추가, imageFileService에서 entity를 가져오는과정, for 문 내부의
 //      1,2line에서 해당 객체의 id 값이 null이 아닌지 확인 할 필요가 있음
-
-        for (MultipartFile multipartFile : files) {
-            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
-            ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
-            review.getReviewImageFiles().add(reviewImageFile);
+        if(files != null) {
+            for (MultipartFile multipartFile : files) {
+                ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
+                ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
+                review.getReviewImageFiles().add(reviewImageFile);
+            }
         }
 
 

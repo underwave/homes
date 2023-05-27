@@ -23,10 +23,6 @@ public class Member extends BaseEntity {
 
     private String location;
 
-    private String accessToken;
-
-    private String provideId;
-
     private String name;
 
     private String nickName;
@@ -58,12 +54,10 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(Valid valid, String location, String name, String nickName, String accessToken, String provideId){
+    public Member(Valid valid, String location, String name, String nickName){
         this.valid = valid;
         this.location = location;
         this.name=name;
         this.nickName=nickName;
-        this.accessToken=accessToken;
-        this.provideId =provideId;
     }
 }

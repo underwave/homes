@@ -18,5 +18,6 @@ public class CreateReviewDto{
     private ReviewBody body;
     private Double posx;
     private Double posy;
+    private List<MultipartFile> files;
 
 }
