@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class LikePostService {
         likePostsRepository.delete(likePosts);
     }
 
-    public LikePosts findByPostIdAndMemberId(Long postId, Long memberId){
+    public LikePosts findByPostIdAndMemberId(Long postId, UUID memberId){
         return likePostsRepository.findByPostIdAndMemberId(postId,memberId);
     }
 

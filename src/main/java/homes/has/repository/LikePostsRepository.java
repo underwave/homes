@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface LikePostsRepository extends JpaRepository<LikePosts,Long> {
 
@@ -20,7 +21,7 @@ public interface LikePostsRepository extends JpaRepository<LikePosts,Long> {
     public boolean existsByPostAndMember(Post post, Member member);
 
     @Query("SELECT lp FROM LikePosts lp WHERE lp.post.id = :postId AND lp.member.id = :memberId")
-    public LikePosts findByPostIdAndMemberId(@Param("postId") Long postId, @Param("memberId") Long memberId);
+    public LikePosts findByPostIdAndMemberId(@Param("postId") Long postId, @Param("memberId") UUID memberId);
 
 
     public List<LikePosts> findByPostId(Long postId);

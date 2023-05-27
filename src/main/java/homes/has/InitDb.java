@@ -7,8 +7,10 @@ import homes.has.service.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class InitDb {
@@ -32,16 +34,21 @@ public class InitDb {
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 3길")
                 .nickName("oneroom")
+                .id(UUID.randomUUID())
                 .build();
         Member member2 = Member.builder().name("aaa")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 2길")
                 .nickName("helloWorld")
+                .id(UUID.randomUUID())
+
                 .build();
         Member member3 = Member.builder().name("신지현")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 1길")
                 .nickName("lorem")
+                .id(UUID.randomUUID())
+
                 .build();
         memberService.save(member1);
         memberService.save(member2);
@@ -93,10 +100,10 @@ public class InitDb {
         ReviewBody body3 = new ReviewBody("테테테테테테테스트", "....", "테스트 임니다아 500번길이요오");
 
         // when
-        reviewService.CreateReview(1L,location, grade, body,37.1,128.2, null);
-        reviewService.CreateReview(2L,location2, grade2, body2,37.2,125.2, null);
-        reviewService.CreateReview(3L,location, grade3, body3,37.1,128.2, null);
-        reviewService.CreateReview(2L,location, grade, body,37.1,128.2, null);
+        reviewService.CreateReview(member1.getId(),location, grade, body,37.1,128.2, null);
+        reviewService.CreateReview(member2.getId(),location2, grade2, body2,37.2,125.2, null);
+        reviewService.CreateReview(member2.getId(),location, grade3, body3,37.1,128.2, null);
+        reviewService.CreateReview(member1.getId(),location, grade, body,37.1,128.2, null);
 
     }
 
@@ -110,16 +117,15 @@ public class InitDb {
         Long saved = postService.save(post);
         return post;
     }
-//    private Post createPost(Member member , Category category, String body, String title, String imageUrl) {
-//        Post post = Post.builder()
-//                .member(member)
-//                .title(title)
-//                .body(body)
-//                .category(category)
-//                .imageUrl(imageUrl)
-//                .build();
-//        Long saved = postService.save(post);
-//        return post;
-//    }
+    private Post createPost(Member member , Category category, String body, String title, MultipartFile file) {
+        Post post = Post.builder()
+                .member(member)
+                .title(title)
+                .body(body)
+                .category(category)
+                .build();
+        Long saved = postService.save(post);
+        return post;
+    }
 
 }

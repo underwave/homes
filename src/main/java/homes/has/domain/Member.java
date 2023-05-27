@@ -9,14 +9,15 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter @Setter
 @Entity
 @NoArgsConstructor()
 public class Member extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     private Valid valid;
@@ -54,10 +55,11 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(Valid valid, String location, String name, String nickName){
+    public Member(UUID id, Valid valid, String location, String name, String nickName){
         this.valid = valid;
         this.location = location;
         this.name=name;
         this.nickName=nickName;
+        this.id=id;
     }
 }

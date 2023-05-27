@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
@@ -15,14 +16,14 @@ public class CommentDto {
     private String body;
     private int likes;
     private Long postId;
-    private Long memberId;
+    private UUID memberId;
     private Comment parent;
     private List<Comment> children;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     @Builder
-    public CommentDto(Long id, String body, int likes, Long postId, Long memberId,Comment parent
+    public CommentDto(Long id, String body, int likes, Long postId, UUID memberId,Comment parent
             ,List<Comment> children ,LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id= id;
         this.body = body;

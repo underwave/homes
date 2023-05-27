@@ -12,11 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class ReviewDto {
     private Long id;
-    private Long memberId;
+    private UUID memberId;
     private String location;
     private ReviewGrade grade;
     private ReviewBody body;
@@ -27,7 +28,7 @@ public class ReviewDto {
     private List<ResponseEntity<byte[]>> images;
 
     @Builder
-    public ReviewDto(Long memberId,Long id, String location, ReviewGrade grade , ReviewBody body,
+    public ReviewDto(UUID memberId, Long id, String location, ReviewGrade grade , ReviewBody body,
                      Building building, LocalDateTime createdAt, LocalDateTime modifiedAt,
                      List<MultipartFile> files, List<ResponseEntity<byte[]>> images){
         this.memberId=memberId;

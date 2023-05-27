@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,11 +24,11 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    public Long save(Member member){
+    public UUID save(Member member){
         return memberRepository.save(member).getId();
     }
 
-    public Optional<Member> findById(Long memberId){
+    public Optional<Member> findById(UUID memberId){
         return memberRepository.findById(memberId);
     }
 
@@ -36,7 +37,7 @@ public class MemberService {
     }
 
 
-    public void changeValid(Long memberId,Valid valid){
+    public void changeValid(UUID memberId,Valid valid){
         Member member = memberRepository.findById(memberId).get();
         member.changeValid(valid);
     }
@@ -45,7 +46,7 @@ public class MemberService {
         member.changeValid(valid);
     }
 
-    public void changeLocation(Long memberId,String location){
+    public void changeLocation(UUID memberId,String location){
         Member member = memberRepository.findById(memberId).get();
         member.changeLocation(location);
     }
@@ -56,11 +57,11 @@ public class MemberService {
 
 
 
-    public List<Post> memberPost(Long memberId){
+    public List<Post> memberPost(UUID memberId){
         return postRepository.memberPost(memberId);
     }
 
-    public List<Review> memberReview(Long memberId){
+    public List<Review> memberReview(UUID memberId){
         List<Review> reviews = reviewRepository.findByMemberId(memberId);
         if (reviews.size()==0){
             throw new IllegalArgumentException("리뷰를 찾을 수 없음");
@@ -68,11 +69,17 @@ public class MemberService {
         return reviews;
     }
 
-    public List<Comment> memberComment(Long memberId){
+    public List<Comment> memberComment(UUID memberId){
         return commentRepository.memberComment(memberId);
     }
 
-    public Boolean isReviewed(Long memberId){
+    public boolean isExist(UUID memberId){
+        return memberRepository.existsById(memberId);
+    }
+
+    public Boolean isReviewed(UUID memberId){
         return reviewRepository.existsByMemberId(memberId);
     }
+
+
 }

@@ -10,17 +10,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class LocRequestForm {
 
-    private Long memberId;
+    private UUID memberId;
     private String location;
     private MultipartFile file;
     private LocalDateTime createdAt;
 
     @Builder
-    public LocRequestForm(Long memberId, String location, MultipartFile file, LocalDateTime createdAt){
+    public LocRequestForm(UUID memberId, String location, MultipartFile file, LocalDateTime createdAt){
         this.memberId=memberId;
         this.location = location;
         this.file= file;

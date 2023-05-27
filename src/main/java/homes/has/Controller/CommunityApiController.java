@@ -183,7 +183,7 @@ public class CommunityApiController {
     }
 //명세 26
     @PostMapping("/community/{category}/{postId}/like")
-    public void likePost(@PathVariable Long postId, @RequestBody Long memberId){
+    public void likePost(@PathVariable Long postId, @RequestBody UUID memberId){
         Post post = postService.findById(postId).get();
         Member member = memberService.findById(memberId).get();
         if (likePostService.isPostLikedByMember(post,member)){
@@ -199,7 +199,7 @@ public class CommunityApiController {
 
 //    comment 좋아요 기능
     @PostMapping("/community/{category}/{postId}/commentLike")
-    public void likeComment( @RequestBody Long memberId, @RequestBody Long commentId){
+    public void likeComment( @RequestBody UUID memberId, @RequestBody Long commentId){
         Comment comment = commentService.findById(commentId).get();
         Member member = memberService.findById(memberId).get();
         if (likeCommentsService.isCommentLikedByMember(comment,member)){
