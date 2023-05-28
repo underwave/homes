@@ -101,10 +101,10 @@ public class UserApiController {
     *  api 명세 11, 주소지 인증
     * */
     @PostMapping("/user/authorization/write")
-    public void writeLocRequest(@RequestBody LocRequestForm locRequestForm) throws IOException {
+    public void writeLocRequest(@RequestPart LocRequestForm locRequestForm, @RequestPart MultipartFile file) throws IOException {
         String memberId = locRequestForm.getMemberId();
         Member member = memberService.findById(memberId).get();
-        ImageFile imageFile = imageFileService.saveFile(locRequestForm.getFile(), FilePath.LOCREQUEST);
+        ImageFile imageFile = imageFileService.saveFile(file, FilePath.LOCREQUEST);
 
         LocRequest locRequest = LocRequest.builder()
                 .location(locRequestForm.getLocation())

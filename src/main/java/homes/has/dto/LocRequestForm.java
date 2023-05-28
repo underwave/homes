@@ -5,6 +5,7 @@ import homes.has.domain.ImageFile;
 import homes.has.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 
 @Getter
+@NoArgsConstructor
 public class LocRequestForm {
 
     private String memberId;
