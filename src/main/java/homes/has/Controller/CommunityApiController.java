@@ -186,7 +186,7 @@ public class CommunityApiController {
     }
 //명세 26
     @PostMapping("/community/{category}/{postId}/like")
-    public void likePost(@PathVariable Long postId, @RequestBody String memberId){
+    public void likePost(@PathVariable Long postId, @RequestParam String memberId){
         Post post = postService.findById(postId).get();
         Member member = memberService.findById(memberId).get();
         if (likePostService.isPostLikedByMember(post,member)){

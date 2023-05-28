@@ -28,13 +28,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final BuildingRepository buildingRepository;
     private final FavoriteRepository favoriteRepository;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final ImageFileService imageFileService;
     private final ReviewImageFileService reviewImageFileService;
-
+    private final BuildingService buildingService;
    // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
     //private static final String UPLOAD_DIR = "/path/"; // 로컬에서 경로
@@ -42,27 +41,64 @@ public class ReviewService {
     /**
      * 리뷰 생성
      **/
-    public void CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
-        Building building = buildingRepository.findByName(location);
-        if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
-            building = new Building(location,posx,posy);
-        }
+//    public void CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
+//        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
+//        Building building = buildingRepository.findByName(location);
+//        if (building == null) {//빌딩 테이블에 location이 존재하지 않으면 추가
+//            building = new Building(location,posx,posy);
+//        }
+//
+//        int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
+//        Double newTotalGrade = updateTotalGrade(building.getTotalgrade(), countReview,null, grade);
+//        building.setTotalgrade(newTotalGrade); //빌딩 테이블의 total grade 받아와서 새로운 review 반영
+//
+//
+//
+//        Review review = Review.builder()
+//                .grade(grade)
+//                .body(body)
+//                .building(building)
+//                .location(building.getName())
+//                .member(member)
+//                .reviewImageFiles(new ArrayList<>())
+//                .build();
+//
+////      review entity에 이미지 추가, imageFileService에서 entity를 가져오는과정, for 문 내부의
+////      1,2line에서 해당 객체의 id 값이 null이 아닌지 확인 할 필요가 있음
+//        if(files != null) {
+//            for (MultipartFile multipartFile : files) {
+//                ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
+//                ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
+//                review.getReviewImageFiles().add(reviewImageFile);
+//            }
+//        }
+//
+//
+//        reviewRepository.save(review);
+//
+//        building.getReviews().add(review);
+//
+//        buildingRepository.save(building);
+//
+////      member valid 변경
+//        memberService.changeValid(member, Valid.CERTIFIED);
+//    }
+//
 
+    public Review CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
+        Building building = buildingService.save(location, posx, posy);
         int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
         Double newTotalGrade = updateTotalGrade(building.getTotalgrade(), countReview,null, grade);
         building.setTotalgrade(newTotalGrade); //빌딩 테이블의 total grade 받아와서 새로운 review 반영
-
-//        imageFileService.saveFile(file, FilePath.REVIEW)
-
-
 
         Review review = Review.builder()
                 .grade(grade)
                 .body(body)
                 .building(building)
-                .location(building.getName())
+                .location(location)
                 .member(member)
+                .reviewImageFiles(new ArrayList<>())
                 .build();
 
 //      review entity에 이미지 추가, imageFileService에서 entity를 가져오는과정, for 문 내부의
@@ -76,14 +112,12 @@ public class ReviewService {
         }
 
 
-        reviewRepository.save(review);
-
-        building.getReviews().add(review);
-
-        buildingRepository.save(building);
+        Review save = reviewRepository.save(review);
 
 //      member valid 변경
         memberService.changeValid(member, Valid.CERTIFIED);
+
+        return save;
     }
 
     /**
@@ -126,7 +160,7 @@ public class ReviewService {
      * 특정 건물 리뷰 LIST 반환
      **/
     public List<Review> GetReviewList(String location){
-        Building building = buildingRepository.findByName(location);
+        Building building = buildingService.findByLocation(location);
         if (building == null) {
             throw new IllegalArgumentException("찾을수업슴..");
         }
@@ -174,15 +208,15 @@ public class ReviewService {
     }
 
 
-    public List<BuildingsDto> GetBuildingsForMap (double latitude, double longitude, double distance, String memberid) {
+    public List<BuildingsDto> GetBuildingsForMap (double latitude, double longitude, double distance, String memberId) {
         List<Building> buildings = new ArrayList<>();
         double[] boundingBox = getBoundingBox(latitude, longitude, distance);
-        buildings.addAll(buildingRepository.findByPosxBetweenAndPosyBetween(boundingBox[0], boundingBox[2], boundingBox[1], boundingBox[3]));
+        buildings.addAll(buildingService.findByPosxBetweenAndPosyBetween(boundingBox[0], boundingBox[2], boundingBox[1], boundingBox[3]));
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),memberid);
-            reviewDtos.add(new BuildingsDto(building.getId(), building.getName(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getLocation(),memberId);
+            reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;
     }

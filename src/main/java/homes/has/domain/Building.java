@@ -19,7 +19,7 @@ public class Building{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; //도로명주소
+    private String location; //도로명주소
 
     private double posx;
     private double posy;
@@ -35,8 +35,8 @@ public class Building{
     @OneToMany(mappedBy = "building")
     private List<Review> reviews = new ArrayList<>();
 
-    public Building(String name, double posx, double posy) {
-        this.name = name;
+    public Building(String location, double posx, double posy) {
+        this.location = location;
         this.posx = posx;
         this.posy = posy;
     }

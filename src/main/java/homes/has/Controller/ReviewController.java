@@ -8,6 +8,7 @@ import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.ReviewRepository;
+import homes.has.service.BuildingService;
 import homes.has.service.ImageFileService;
 import homes.has.service.MemberService;
 import homes.has.service.ReviewService;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class ReviewController{
     private final ReviewService reviewService;
     private final MemberService memberService;
     private final ImageFileService imageFileService;
+    private final BuildingService buildingService;
     /** 테스트용 코드 삭제 필
      *
      *
@@ -78,8 +81,8 @@ public class ReviewController{
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getName(),"ABC");
-            reviewDtos.add(new BuildingsDto(building.getId(), building.getName(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getLocation(),"ABC");
+            reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;
     }
@@ -135,10 +138,13 @@ public class ReviewController{
      * 리뷰 작성 (API no.4)
      **/
     @PostMapping("/{location}/review/write")
-    public void createReview(@RequestBody CreateReviewDto createReviewDto) throws IOException {
-        reviewService.CreateReview(createReviewDto.getMemberId(),createReviewDto.getLocation(), createReviewDto.getGrade(),
-                createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(),createReviewDto.getFiles()
-                );
+    public void createReview(@RequestPart CreateReviewDto createReviewDto,
+                             @RequestPart List<MultipartFile> files) throws IOException {
+        Review review = reviewService.CreateReview(createReviewDto.getMemberId(), createReviewDto.getLocation(), createReviewDto.getGrade(),
+                createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(), files);
+
+        Building building = buildingService.findByLocation(createReviewDto.getLocation());
+        building.getReviews().add(review);
     }
 
     /**

@@ -49,7 +49,7 @@ public class AdminApiController {
         return locRequestDtos;
     }
 
-    @GetMapping("admin/LocRequest/{requestId}")
+    @GetMapping("/admin/LocRequest/{requestId}")
     public LocRequestDto printRequest(@PathVariable Long requestId){
         LocRequest locRequest = locRequestService.findById(requestId);
         ResponseEntity<byte[]> image = imageFileService.printFile(locRequest.getImageFile());
@@ -68,7 +68,7 @@ public class AdminApiController {
 
 
 
-    @PostMapping("admin/LocRequest/{requestId}")
+    @PostMapping("/admin/LocRequest/{requestId}")
     public void acceptRequest(@PathVariable Long requestId){
         LocRequest locRequest = locRequestService.findById(requestId);
         String location = locRequest.getLocation();
@@ -79,7 +79,7 @@ public class AdminApiController {
         locRequestService.delete(locRequest);
     }
 
-    @DeleteMapping("admin/LocRequest/{requestId}")
+    @DeleteMapping("/admin/LocRequest/{requestId}")
     public void rejectRequest(@PathVariable Long requestId){
         LocRequest locRequest = locRequestService.findById(requestId);
         Member member = locRequest.getMember();
