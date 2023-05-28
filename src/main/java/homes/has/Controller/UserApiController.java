@@ -55,6 +55,7 @@ public class UserApiController {
 
         return MemberDto.builder()
                 .id(member.getId())
+                .valid(member.getValid())
                 .location(member.getLocation())
                 .name(member.getName())
                 .nickName(member.getNickName())
