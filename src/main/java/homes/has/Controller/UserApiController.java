@@ -54,6 +54,7 @@ public class UserApiController {
         Member member = memberService.findById(userId).get();
 
         return MemberDto.builder()
+                .id(member.getId())
                 .location(member.getLocation())
                 .name(member.getName())
                 .nickName(member.getNickName())
