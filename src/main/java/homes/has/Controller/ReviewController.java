@@ -117,20 +117,18 @@ public class ReviewController{
             }
             ReviewDto reviewDto = ReviewDto.builder()
                     .id(review.getId())
-                    .location(review.getLocation())
+                    .location(location)
                     .memberId(review.getMember().getId())
                     .createdAt(review.getCreatedAt())
                     .modifiedAt(review.getModifiedAt())
                     .grade(review.getGrade())
                     .body(review.getBody())
-                    .building(review.getBuilding())
+                    .buildingId(review.getBuilding().getId())
                     .images(images)
                     .build();
             reviewDtos.add(reviewDto);
-            images.clear();
         }
         return reviewDtos;
-//        return reviewList;
     }
 
 
@@ -140,11 +138,10 @@ public class ReviewController{
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestPart CreateReviewDto createReviewDto,
                              @RequestPart List<MultipartFile> files) throws IOException {
-        Review review = reviewService.CreateReview(createReviewDto.getMemberId(), createReviewDto.getLocation(), createReviewDto.getGrade(),
+        reviewService.CreateReview(createReviewDto.getMemberId(), createReviewDto.getLocation(), createReviewDto.getGrade(),
                 createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(), files);
 
-        Building building = buildingService.findByLocation(createReviewDto.getLocation());
-        building.getReviews().add(review);
+
     }
 
     /**

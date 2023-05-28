@@ -19,4 +19,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     public List<Review> findAll();
 
+    public List<Review> findByBuildingId(Long buildingId);
+
+    public List<Review> findByLocation(String location);
 }

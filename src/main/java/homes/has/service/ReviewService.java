@@ -85,7 +85,7 @@ public class ReviewService {
 //    }
 //
 
-    public Review CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
+    public Long CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         Building building = buildingService.save(location, posx, posy);
         int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
@@ -112,12 +112,12 @@ public class ReviewService {
         }
 
 
-        Review save = reviewRepository.save(review);
+        Long reviewId = reviewRepository.save(review).getId();
 
 //      member valid 변경
         memberService.changeValid(member, Valid.CERTIFIED);
 
-        return save;
+        return reviewId;
     }
 
     /**
@@ -160,11 +160,12 @@ public class ReviewService {
      * 특정 건물 리뷰 LIST 반환
      **/
     public List<Review> GetReviewList(String location){
-        Building building = buildingService.findByLocation(location);
-        if (building == null) {
-            throw new IllegalArgumentException("찾을수업슴..");
-        }
-        return building.getReviews();
+        return reviewRepository.findByLocation(location);
+//
+//        if (building == null) {
+//            throw new IllegalArgumentException("찾을수업슴..");
+//        }
+//        return building.getReviews();
     }
 
     /*
@@ -219,5 +220,10 @@ public class ReviewService {
             reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;
+    }
+
+
+    public List<Review> findByBuilding(Long buildingId){
+        return reviewRepository.findByBuildingId(buildingId);
     }
 }

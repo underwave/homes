@@ -40,5 +40,7 @@ public class Building{
         this.posx = posx;
         this.posy = posy;
     }
-
+    public void addReview(Review review){
+        this.reviews.add(review);
+    }
 }

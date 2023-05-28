@@ -23,23 +23,21 @@ public class ReviewDto {
     private ReviewBody body;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Building building;
-    private List<MultipartFile> files;
+    private Long buildingId;
     private List<ResponseEntity<byte[]>> images;
 
     @Builder
     public ReviewDto(String memberId, Long id, String location, ReviewGrade grade , ReviewBody body,
-                     Building building, LocalDateTime createdAt, LocalDateTime modifiedAt,
-                     List<MultipartFile> files, List<ResponseEntity<byte[]>> images){
+                     Long buildingId, LocalDateTime createdAt, LocalDateTime modifiedAt,
+                     List<ResponseEntity<byte[]>> images){
         this.memberId=memberId;
         this.body=body;
         this.location=location;
         this.grade=grade;
         this.createdAt =createdAt;
         this.modifiedAt= modifiedAt;
-        this.building=building;
+        this.buildingId=buildingId;
         this.id=id;
-        this.files=files;
         this.images = images;
     }
 

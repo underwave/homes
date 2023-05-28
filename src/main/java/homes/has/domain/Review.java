@@ -25,7 +25,7 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id")
     private Building building;
 
@@ -45,4 +45,6 @@ public class Review extends BaseEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "review")
     private List<ReviewImageFile> reviewImageFiles = new ArrayList<>();
+
+
 }

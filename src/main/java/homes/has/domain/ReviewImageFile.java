@@ -26,4 +26,5 @@ public class ReviewImageFile {
         this.review=review;
         this.imageFile= imageFile;
     }
+
 }

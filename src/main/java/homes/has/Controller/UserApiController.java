@@ -143,7 +143,7 @@ public class UserApiController {
                 .grade(review.getGrade())
                 .memberId(review.getMember().getId())
                 .body(review.getBody())
-                .building(review.getBuilding())
+                .buildingId(review.getBuilding().getId())
                 .createdAt(review.getCreatedAt())
                 .modifiedAt(review.getModifiedAt())
                 .id(review.getId())

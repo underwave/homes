@@ -1,6 +1,7 @@
 package homes.has.service;
 
 import homes.has.domain.Building;
+import homes.has.domain.Review;
 import homes.has.repository.BuildingRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +31,6 @@ public class BuildingService {
     public List<Building> findByPosxBetweenAndPosyBetween(double minx, double maxx, double miny, double maxy){
         return buildingRepository.findByPosxBetweenAndPosyBetween(minx, maxx, miny, maxy);
     }
+
+
 }
