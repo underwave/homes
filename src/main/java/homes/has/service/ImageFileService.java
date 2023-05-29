@@ -45,13 +45,13 @@ public class ImageFileService {
 
         // 원래 파일 이름 추출
         String originalFilename = files.getOriginalFilename();
-
+        log.info("originalFilename={}", originalFilename);
         // 파일 이름으로 쓸 String 생성
         String String = UUID.randomUUID().toString();
 
         // 확장자 추출(ex : .png)
-        String extension = StringUtils.getFilenameExtension(files.getOriginalFilename());
-
+        String extension = StringUtils.getFilenameExtension(originalFilename);
+        log.info("extension={}", extension);
         // String와 확장자 결합
         String savedName = String + extension;
 
