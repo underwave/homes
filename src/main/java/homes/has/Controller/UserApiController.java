@@ -121,7 +121,7 @@ public class UserApiController {
 
         locRequestService.save(locRequest);
         if(member.getValid()== Valid.UNCERTIFIED)
-            member.changeValid(Valid.ONGOING);
+            memberService.changeValid(member, Valid.ONGOING);
     }
 
     /*
