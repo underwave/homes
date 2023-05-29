@@ -19,8 +19,8 @@ public class LocRequestForm {
 
     private String memberId;
     private String location;
-    private MultipartFile file;
     private LocalDateTime createdAt;
+    private MultipartFile file;
 
     @Builder
     public LocRequestForm(String memberId, String location, MultipartFile file, LocalDateTime createdAt){

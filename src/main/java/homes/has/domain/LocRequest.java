@@ -29,7 +29,8 @@ public class LocRequest extends BaseEntity {
 
 
     @JsonIgnore
-    @OneToOne(mappedBy = "locRequest")
+    @OneToOne
+    @JoinColumn(name = "imageFile_id")
     private ImageFile imageFile;
     @Builder
     public LocRequest(String location, ImageFile imageFile, Member member){
@@ -37,6 +38,8 @@ public class LocRequest extends BaseEntity {
         this.location=location;
         this.member=member;
     }
+
+
 
 
 }

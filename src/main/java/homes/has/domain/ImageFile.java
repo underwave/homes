@@ -27,8 +27,7 @@ public class ImageFile extends BaseEntity {
     private Review review;
 
     @JsonIgnore
-    @OneToOne
-    @JoinColumn(name="locRequest_id")
+    @OneToOne(mappedBy = "imageFile")
     private LocRequest locRequest;
 
     @Builder
@@ -42,6 +41,8 @@ public class ImageFile extends BaseEntity {
         this.review = review;
         this.locRequest=locRequest;
     }
+
+
 
 
 }

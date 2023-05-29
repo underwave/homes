@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class ImageFileService {
         String String = UUID.randomUUID().toString();
 
         // 확장자 추출(ex : .png)
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String extension = StringUtils.getFilenameExtension(files.getOriginalFilename());
 
         // String와 확장자 결합
         String savedName = String + extension;

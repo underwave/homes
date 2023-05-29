@@ -106,13 +106,18 @@ public class UserApiController {
     public void writeLocRequest(@RequestPart LocRequestForm locRequestForm, @RequestPart MultipartFile file) throws IOException {
         String memberId = locRequestForm.getMemberId();
         Member member = memberService.findById(memberId).get();
-        ImageFile imageFile = imageFileService.saveFile(file, FilePath.LOCREQUEST);
+
+        ImageFile imageFile = null;
+        if (file!= null) {
+            imageFile = imageFileService.saveFile(file, FilePath.LOCREQUEST);
+        }
 
         LocRequest locRequest = LocRequest.builder()
                 .location(locRequestForm.getLocation())
                 .member(member)
                 .imageFile(imageFile)
                 .build();
+
 
         locRequestService.save(locRequest);
         if(member.getValid()== Valid.UNCERTIFIED)
