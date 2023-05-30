@@ -38,8 +38,8 @@ public class ReviewController{
      *
      *
      * **/
-    private final BuildingRepository buildingRepository;
-    private final FavoriteRepository favoriteRepository;
+    private final FavoriteService favoriteService;
+    private final BuildingService buildingService;
     /** 테스트용 코드 삭제 필
      *
      *
@@ -76,14 +76,14 @@ public class ReviewController{
     @GetMapping("/test")
     public List<BuildingsDto> getBuildingList() {
         List<Building> buildings = new ArrayList<>();
-        buildings.addAll(buildingRepository.findAll());
-        List<BuildingsDto> reviewDtos = new ArrayList<>();
+        buildings.addAll(buildingService.findAll());
+        List<BuildingsDto> buildingsDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getLocation(),"ABC");
-            reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+            boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),"ABC");
+            buildingsDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
-        return reviewDtos;
+        return buildingsDtos;
     }
     /**
      *
