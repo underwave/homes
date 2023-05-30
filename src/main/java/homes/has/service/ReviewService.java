@@ -128,8 +128,10 @@ public class ReviewService {
         Building building = review.getBuilding(); //리뷰에 포함된 빌딩 정보 수정
 
         double newTotalGrade = updateTotalGrade(building.getTotalgrade(), building.getReviews().size(), review.getGrade(), null); //null은 삭제된 리부
-        building.setTotalgrade(newTotalGrade); // 새로운 총 별점으로 업데이트
-        building.getReviews().remove(review);
+        buildingService.setTotalGrade(building, newTotalGrade); // 새로운 총 별점으로 업데이트
+
+//        확인 필요, 연관관계 주인 review에서 삭제를 통해 자동으로 삭제될것으로 예상
+//        building.getReviews().remove(review);
         reviewRepository.delete(review); // 리뷰 삭제
     }
 
@@ -144,9 +146,11 @@ public class ReviewService {
         buildingService.setTotalGrade(building, newTotalGrade);
 
 //      기존의 이미지 파일 삭제
-        for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
-            imageFileService.delete(reviewImageFile.getImageFile());
-            reviewImageFileService.delete(reviewImageFile.getId());
+        if(review.getReviewImageFiles()!=null) {
+            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+                imageFileService.delete(reviewImageFile.getImageFile());
+                reviewImageFileService.delete(reviewImageFile.getId());
+            }
         }
         if(files!= null) {
 //        받은 새로운 파일 등록
