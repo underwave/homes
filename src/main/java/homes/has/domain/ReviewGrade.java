@@ -12,12 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class ReviewGrade {
-    private int lessor;
-    private int quality;
-    private int area;
-    private int noise;
+    private double lessor;
+    private double quality;
+    private double area;
+    private double noise;
 
-    public ReviewGrade (int lessor, int quality, int area, int noise) {
+    public ReviewGrade (double lessor, double quality, double area, double noise) {
         this.lessor= lessor;
         this.quality=quality;
         this.area =area;
