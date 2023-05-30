@@ -23,14 +23,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class FavoriteService{
     private final FavoriteRepository favoriteRepository;
-    private final MemberRepository memberRepository;
-    private final BuildingRepository buildingRepository;
-
+    private final MemberService memberService;
+    private final BuildingService buildingService;
     /**
      * 좋아하는 건물 등록
      **/
     public void CreateFavorite(String location, String memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
+        Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
 
         Favorite favorite = favoriteRepository.findByLocationAndMember(location, member);
         if (favorite != null){
@@ -50,7 +49,7 @@ public class FavoriteService{
      * 좋아하는 건물 등록 취소
      **/
     public void DeleteFavorite (String location, String memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
+        Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
 
         Favorite favorite = favoriteRepository.findByLocationAndMember(location, member);
         if (favorite == null) {
@@ -64,12 +63,12 @@ public class FavoriteService{
      * 좋아요 누른 건물 조회
      **/
     public List<FavoriteBuildingsDto> GetFavoriteBuildings(String memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
+        Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         List<Favorite> favorites = member.getFavorites();
         List<FavoriteBuildingsDto> favoriteBuildingsDtos = new ArrayList<>();
 
         for (Favorite favorite : favorites) { //좋아요 누른 항목에서 building 테이블 존재 여부 조회
-            Building building = buildingRepository.findByLocation(favorite.getLocation());
+            Building building = buildingService.findByLocation(favorite.getLocation());
             if (building != null) { // 빌딩에 해당 주소를 가진 내역 존재 시
 
                 Double totalGrade = building.getTotalgrade();
@@ -96,4 +95,9 @@ public class FavoriteService{
         }
         return favoriteBuildingsDtos;
     }
+
+    public boolean existsByLocationAndMemberId(String location, String memberId) {
+        return favoriteRepository.existsByLocationAndMemberId(location, memberId);
+    }
+
 }

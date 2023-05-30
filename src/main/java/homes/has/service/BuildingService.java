@@ -32,5 +32,7 @@ public class BuildingService {
         return buildingRepository.findByPosxBetweenAndPosyBetween(minx, maxx, miny, maxy);
     }
 
-
+    public void setTotalGrade(Building building, double grade){
+        building.setTotalgrade(grade); //빌딩 정보 수정
+    }
 }

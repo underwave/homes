@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ class ReviewServiceTest{
 
 
     @Test
-    void Delete_UpdateReviewTest () {
+    void Delete_UpdateReviewTest () throws IOException {
 //        String location3 = "진주대로 570번길";
 //        ReviewGrade grade3 = new ReviewGrade(5, 3, 2, 4);
 //        ReviewBody body3 = new ReviewBody("볕이 잘 들고... 뷰  가 조타...ㅎㅎ", "건물 옆에 커다란 느티나무가 있는데요.. 그래서인지 벌레가 너무 많이 꼬임...", "벽지가  넘무 파래여 집에 있으면 창백해보임니다");
@@ -95,7 +96,7 @@ class ReviewServiceTest{
         ReviewGrade grade5 = new ReviewGrade(1, 1, 1, 2);
         ReviewBody body5 = new ReviewBody("수정내용이에요", "~~~ ", "몰...루");
 //
-        reviewService.UpdateReview(2L,grade5,body5);
+        reviewService.UpdateReview(2L,grade5,body5,null);
 //        Building building = buildingRepository.findByName(location3);
 //        assertEquals(building.getName(),location3);
 //        assertEquals(building.getTotalgrade(),19);

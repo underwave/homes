@@ -8,10 +8,7 @@ import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.ReviewRepository;
-import homes.has.service.BuildingService;
-import homes.has.service.ImageFileService;
-import homes.has.service.MemberService;
-import homes.has.service.ReviewService;
+import homes.has.service.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,7 @@ public class ReviewController{
     private final ReviewService reviewService;
     private final MemberService memberService;
     private final ImageFileService imageFileService;
-    private final BuildingService buildingService;
+    private final ReviewImageFileService reviewImageFileService;
     /** 테스트용 코드 삭제 필
      *
      *
@@ -155,11 +152,12 @@ public class ReviewController{
     /**
      * 리뷰 수정 (API no.6)
      **/
-    @PutMapping("/{location}/{reviewId}/modify2")
-    public void updateReview(@PathVariable("reviewId") Long id, @RequestBody UpdateReviewRequest request) {
+    @PostMapping("/{location}/{reviewId}/modify2")
+    public void updateReview(@PathVariable("reviewId") Long id, @RequestPart UpdateReviewRequest request,
+                             @RequestPart List<MultipartFile> files) throws IOException {
         ReviewBody body = request.getBody();
         ReviewGrade grade = request.getGrade();
-        reviewService.UpdateReview(id, grade, body);
+        reviewService.UpdateReview(id, grade, body,files);
     }
 
     @Getter
@@ -181,7 +179,13 @@ public class ReviewController{
        Review review = reviewService.getReviewById(id);
        Member member = review.getMember();
 
-       reviewService.DeleteReview(id);
+        //이미지 파일 삭제
+        for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+            imageFileService.delete(reviewImageFile.getImageFile());
+            reviewImageFileService.delete(reviewImageFile.getId());
+        }
+
+        reviewService.DeleteReview(id);
 
        if(!memberService.isReviewed(member.getId()))
            memberService.changeValid(member, Valid.UNCERTIFIED);

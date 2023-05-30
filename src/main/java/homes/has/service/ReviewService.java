@@ -28,9 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final FavoriteRepository favoriteRepository;
+    private final FavoriteService favoriteService;
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
     private final ImageFileService imageFileService;
     private final ReviewImageFileService reviewImageFileService;
     private final BuildingService buildingService;
@@ -86,7 +85,7 @@ public class ReviewService {
 //
 
     public Long CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
+        Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
         Building building = buildingService.save(location, posx, posy);
         int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
         Double newTotalGrade = updateTotalGrade(building.getTotalgrade(), countReview,null, grade);
@@ -137,13 +136,28 @@ public class ReviewService {
     /**
      * 리뷰 수정
      **/
-    public void UpdateReview(Long id, ReviewGrade grade, ReviewBody body){
+    public void UpdateReview(Long id, ReviewGrade grade, ReviewBody body, List<MultipartFile> files) throws IOException {
         Review review = reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("리뷰를 찾을 수 없음"));
 
         Building building = review.getBuilding();
         double newTotalGrade = updateTotalGrade(building.getTotalgrade(), building.getReviews().size(), review.getGrade(), grade);
-        building.setTotalgrade(newTotalGrade); //빌딩 정보 수정
+        buildingService.setTotalGrade(building, newTotalGrade);
 
+//      기존의 이미지 파일 삭제
+        for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+            imageFileService.delete(reviewImageFile.getImageFile());
+            reviewImageFileService.delete(reviewImageFile.getId());
+        }
+        if(files!= null) {
+//        받은 새로운 파일 등록
+            for (MultipartFile multipartFile : files) {
+                ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.REVIEW);
+                ReviewImageFile reviewImageFile = reviewImageFileService.save(new ReviewImageFile(review, imageFile));
+//            review.reviewImageFile null일 경우 에러 가능
+
+                review.getReviewImageFiles().add(reviewImageFile);
+            }
+        }
         review.setGrade(grade);
         review.setBody(body);
         reviewRepository.save(review); //리뷰 수정 완
@@ -216,7 +230,7 @@ public class ReviewService {
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
-            boolean isLiked = favoriteRepository.existsByLocationAndMemberId(building.getLocation(),memberId);
+            boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),memberId);
             reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
         }
         return reviewDtos;

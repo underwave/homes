@@ -135,7 +135,7 @@ public class UserApiController {
         locRequestService.delete(locRequest);
         imageFileService.delete(imageFile);
         if(member.getValid()==Valid.ONGOING)
-            member.changeValid(Valid.UNCERTIFIED);
+            memberService.changeValid(member, Valid.UNCERTIFIED);
     }
     /*
     * api 명세 13, 내가쓴 리뷰 출력 수정 필요

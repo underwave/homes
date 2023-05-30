@@ -281,7 +281,7 @@ public class CommunityApiController {
                 .build();
         return commentDto;
     }
-    @PutMapping("/community/{category}/{postId}/{commentId}/commentModify")
+    @PostMapping("/community/{category}/{postId}/{commentId}/commentModify")
     public void editComment(@PathVariable Long commentId, String body){
         commentService.update(commentId, body);
     }
