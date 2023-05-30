@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -53,7 +54,7 @@ public class ImageFileService {
         String extension = StringUtils.getFilenameExtension(originalFilename);
         log.info("extension={}", extension);
         // String와 확장자 결합
-        String savedName = String + extension;
+        String savedName = String +"." +extension;
 
         // 파일을 불러올 때 사용할 파일 경로
         String path = fileDir + filePath+"/" + savedName;
@@ -116,7 +117,7 @@ public class ImageFileService {
             //MIME 타입 처리
             header.add("Content-Type", Files.probeContentType(file.toPath()));
             //File객체를 Path로 변환하여 MIME 타입을 판단하여 HTTPHeaders의 Content-Type에  값으로 들어갑니다.
-
+            System.out.println(Files.probeContentType(file.toPath()));
             //파일 데이터 처리 *FileCopyUtils.copy 아래에 정리
             //new ResponseEntity(body,header,status)
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
