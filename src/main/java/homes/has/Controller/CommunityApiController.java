@@ -64,6 +64,7 @@ public class CommunityApiController {
         LocalDateTime end = LocalDateTime.now();
         PostDto popularPostDto = createPostDto(postService.popularPost(category, start, end));
 
+        normal.sort(Comparator.comparing(n-> n.getCreatedAt() ));
         map.put("popular",popularPostDto);
         map.put("normal", normal);
         return map;

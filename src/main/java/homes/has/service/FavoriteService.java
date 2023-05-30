@@ -13,7 +13,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -79,6 +81,7 @@ public class FavoriteService{
                         totalGrade,
                         reviewCount,
                         true
+                        , LocalDateTime.now()
                 );
                 favoriteBuildingsDtos.add(favoriteBuildingsDto);
             }else{
@@ -88,11 +91,14 @@ public class FavoriteService{
                         null,
                         0,
                         false
+                        ,LocalDateTime.now()
                 );
                 favoriteBuildingsDtos.add(favoriteBuildingsDto);
 
             }
         }
+        favoriteBuildingsDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+
         return favoriteBuildingsDtos;
     }
 

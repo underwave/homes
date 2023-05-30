@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -39,6 +40,10 @@ public class FavoriteController{
     @GetMapping("/user/{memberId}/favorite")
     public List<FavoriteBuildingsDto> getFavoriteBuildings(@PathVariable("memberId") String memberId) {
         List<FavoriteBuildingsDto> favoriteBuildingsDtos = favoriteService.GetFavoriteBuildings(memberId);
+
+
+        favoriteBuildingsDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+
         return favoriteBuildingsDtos;
     }
 }

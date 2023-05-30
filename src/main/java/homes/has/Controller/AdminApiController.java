@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -46,6 +47,8 @@ public class AdminApiController {
                     .build();
             locRequestDtos.add(locRequestDto);
         }
+        locRequestDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+
         return locRequestDtos;
     }
 

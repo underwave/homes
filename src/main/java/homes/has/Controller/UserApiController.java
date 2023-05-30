@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -74,6 +75,8 @@ public class UserApiController {
             PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
+        postDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+
         return postDtos;
     }
 
@@ -95,6 +98,7 @@ public class UserApiController {
             PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
+        postDtos.sort(Comparator.comparing(n-> n.getCreatedAt()));
         return postDtos;
     }
 
@@ -138,7 +142,7 @@ public class UserApiController {
             memberService.changeValid(member, Valid.UNCERTIFIED);
     }
     /*
-    * api 명세 13, 내가쓴 리뷰 출력 수정 필요
+    * api 명세 13, 내가쓴 리뷰
     * */
     @GetMapping("/user/{memberId}/review")
     public List<ReviewDto> userReview(@PathVariable String memberId){
@@ -157,6 +161,8 @@ public class UserApiController {
                 .build();
             reviewDtos.add(reviewDto);
         }
+        reviewDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+
         return reviewDtos;
     }
 
