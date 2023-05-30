@@ -131,6 +131,8 @@ public class CommunityApiController {
             CommentDto build = createCommentDto(comment);
             commentDtos.add(build);
         }
+        commentDtos.sort(Comparator.comparing(CommentDto::getCreatedAt).reversed());
+
         PostDto postDto = createPostDto(post, commentDtos);
         return postDto;
     }
