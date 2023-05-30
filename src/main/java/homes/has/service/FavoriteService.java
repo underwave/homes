@@ -5,6 +5,7 @@ import homes.has.domain.Favorite;
 import homes.has.domain.Member;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.FavoriteBuildingsDto;
+import homes.has.dto.PostDto;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
 import homes.has.repository.MemberRepository;
@@ -97,7 +98,7 @@ public class FavoriteService{
 
             }
         }
-        favoriteBuildingsDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        favoriteBuildingsDtos.sort(Comparator.comparing(FavoriteBuildingsDto::getCreatedAt).reversed());
 
         return favoriteBuildingsDtos;
     }

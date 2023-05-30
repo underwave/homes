@@ -28,7 +28,6 @@ public class UserApiController {
     private final CommentService commentService;
     private final MemberService memberService;
     private final LocRequestService locRequestService;
-    private final ReviewService reviewService;
     private final ImageFileService imageFileService;
 
 
@@ -75,7 +74,7 @@ public class UserApiController {
             PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
-        postDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        postDtos.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
 
         return postDtos;
     }
@@ -98,7 +97,7 @@ public class UserApiController {
             PostDto postDto = createPostDto(memberId, post);
             postDtos.add(postDto);
         }
-        postDtos.sort(Comparator.comparing(n-> n.getCreatedAt()));
+        postDtos.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
         return postDtos;
     }
 
@@ -161,7 +160,7 @@ public class UserApiController {
                 .build();
             reviewDtos.add(reviewDto);
         }
-        reviewDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        reviewDtos.sort(Comparator.comparing(ReviewDto::getCreatedAt).reversed());
 
         return reviewDtos;
     }

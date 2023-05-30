@@ -6,6 +6,7 @@ import homes.has.domain.LocRequest;
 import homes.has.domain.Member;
 import homes.has.dto.LocRequestDto;
 import homes.has.dto.LocRequestForm;
+import homes.has.dto.PostDto;
 import homes.has.service.DetectAdminService;
 import homes.has.service.ImageFileService;
 import homes.has.service.LocRequestService;
@@ -47,7 +48,7 @@ public class AdminApiController {
                     .build();
             locRequestDtos.add(locRequestDto);
         }
-        locRequestDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        locRequestDtos.sort(Comparator.comparing(LocRequestDto::getCreatedAt).reversed());
 
         return locRequestDtos;
     }

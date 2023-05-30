@@ -3,6 +3,7 @@ package homes.has.Controller;
 import homes.has.domain.*;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.CreateReviewDto;
+import homes.has.dto.LocRequestDto;
 import homes.has.dto.ReviewDto;
 import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
@@ -126,7 +127,7 @@ public class ReviewController{
                     .build();
             reviewDtos.add(reviewDto);
         }
-        reviewDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        reviewDtos.sort(Comparator.comparing(ReviewDto::getCreatedAt).reversed());
 
         return reviewDtos;
     }

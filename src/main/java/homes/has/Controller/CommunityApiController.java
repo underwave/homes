@@ -64,7 +64,7 @@ public class CommunityApiController {
         LocalDateTime end = LocalDateTime.now();
         PostDto popularPostDto = createPostDto(postService.popularPost(category, start, end));
 
-        normal.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        normal.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
         map.put("popular",popularPostDto);
         map.put("normal", normal);
         return map;
@@ -76,6 +76,7 @@ public class CommunityApiController {
     @GetMapping("/community/{category}/search")
     public List<PostDto> searchPost(@PathVariable Category category, @RequestParam String word){
         List<PostDto> posts = postService.findByWord(new PostSearchCond(word, category));
+        posts.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
 
         return posts;
     };
@@ -84,7 +85,7 @@ public class CommunityApiController {
     @GetMapping("/community/search")
     public List<PostDto> searchPost(@RequestParam String word){
         List<PostDto> posts = postService.findByWord(new PostSearchCond(word));
-
+        posts.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
         return posts;
     };
      /*

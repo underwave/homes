@@ -4,6 +4,7 @@ import homes.has.domain.Building;
 import homes.has.domain.Favorite;
 import homes.has.dto.BuildingsDto;
 import homes.has.dto.FavoriteBuildingsDto;
+import homes.has.dto.PostDto;
 import homes.has.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class FavoriteController{
         List<FavoriteBuildingsDto> favoriteBuildingsDtos = favoriteService.GetFavoriteBuildings(memberId);
 
 
-        favoriteBuildingsDtos.sort(Comparator.comparing(n-> n.getCreatedAt() ));
+        favoriteBuildingsDtos.sort(Comparator.comparing(FavoriteBuildingsDto::getCreatedAt).reversed());
 
         return favoriteBuildingsDtos;
     }
