@@ -1,10 +1,7 @@
 package homes.has.Controller;
 
 import homes.has.domain.*;
-import homes.has.dto.LocRequestForm;
-import homes.has.dto.MemberDto;
-import homes.has.dto.PostDto;
-import homes.has.dto.ReviewDto;
+import homes.has.dto.*;
 import homes.has.enums.FilePath;
 import homes.has.enums.Valid;
 import homes.has.service.*;
@@ -29,6 +26,7 @@ public class UserApiController {
     private final MemberService memberService;
     private final LocRequestService locRequestService;
     private final ImageFileService imageFileService;
+    private final FavoriteService favoriteService;
 
 
     @PostMapping("/user/sign")
@@ -163,6 +161,16 @@ public class UserApiController {
         reviewDtos.sort(Comparator.comparing(ReviewDto::getCreatedAt).reversed());
 
         return reviewDtos;
+    }
+
+    /**
+     * 관심 건물 리스트 (API no.19)
+     **/
+    @GetMapping("/user/{memberId}/favorite")
+    public List<FavoriteBuildingsDto> getFavoriteBuildings(@PathVariable("memberId") String memberId) {
+        List<FavoriteBuildingsDto> favoriteBuildingsDtos = favoriteService.GetFavoriteBuildings(memberId);
+        favoriteBuildingsDtos.sort(Comparator.comparing(FavoriteBuildingsDto::getCreatedAt).reversed());
+        return favoriteBuildingsDtos;
     }
 
     private static PostDto createPostDto(String memberId, Post post) {
