@@ -4,6 +4,7 @@ package homes.has.Controller;
 import homes.has.domain.*;
 import homes.has.dto.CommentDto;
 import homes.has.dto.PostDto;
+import homes.has.dto.PostQueryDto;
 import homes.has.enums.Category;
 import homes.has.enums.FilePath;
 import homes.has.repository.PostSearchCond;
@@ -75,18 +76,29 @@ public class CommunityApiController {
     //    카테고리 내 검색
     @GetMapping("/community/{category}/search")
     public List<PostDto> searchPost(@PathVariable Category category, @RequestParam String word){
-        List<PostDto> posts = postService.findByWord(new PostSearchCond(word, category));
-        posts.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
-
-        return posts;
+        List<PostDto> postDtos= new ArrayList<>();
+        List<PostQueryDto> postQueryDtos = postService.findByWord(new PostSearchCond(word, category));
+        if( postQueryDtos!=null){
+            for (PostQueryDto postQueryDto : postQueryDtos) {
+                postDtos.add(queryCreatePostDto(postQueryDto));
+            }
+        }
+        postDtos.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
+        return postDtos;
     };
 
 //     post 전체 검색
     @GetMapping("/community/search")
     public List<PostDto> searchPost(@RequestParam String word){
-        List<PostDto> posts = postService.findByWord(new PostSearchCond(word));
-        posts.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
-        return posts;
+        List<PostDto> postDtos= new ArrayList<>();
+        List<PostQueryDto> postQueryDtos = postService.findByWord(new PostSearchCond(word));
+        if( postQueryDtos!=null){
+            for (PostQueryDto postQueryDto : postQueryDtos) {
+                postDtos.add(queryCreatePostDto(postQueryDto));
+            }
+        }
+        postDtos.sort(Comparator.comparing(PostDto::getCreatedAt).reversed());
+        return postDtos;
     };
      /*
      * api 22
@@ -309,6 +321,23 @@ public class CommunityApiController {
         return postDto;
     }
 
+    private static PostDto queryCreatePostDto(PostQueryDto postQueryDto) {
+
+        PostDto postDto = PostDto.builder()
+                .id(postQueryDto.getId())
+                .category(postQueryDto.getCategory())
+                .commentCount(postQueryDto.getCommentCount())
+                .createdAt(postQueryDto.getCreatedAt())
+                .likes(postQueryDto.getLikes())
+                .title(postQueryDto.getTitle())
+                .body(postQueryDto.getBody())
+                .modifiedAt(postQueryDto.getModifiedAt())
+                .authorName(postQueryDto.getAuthorName())
+                .memberId(postQueryDto.getMemberId())
+                .build();
+        return postDto;
+    }
+
     private PostDto createPostDto(Post post, List<CommentDto> commentDtos) {
         Member member = post.getMember();
         String authorName = member.getLocation() + "_"+ member.getNickName().charAt(0);
@@ -334,6 +363,8 @@ public class CommunityApiController {
                 .build();
         return postDto;
     }
+
+
 
     private static CommentDto createCommentDto(Comment comment) {
         CommentDto commentDto = CommentDto.builder()

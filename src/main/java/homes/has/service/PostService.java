@@ -3,6 +3,7 @@ package homes.has.service;
 
 import homes.has.domain.ImageFile;
 import homes.has.domain.PostImageFile;
+import homes.has.dto.PostQueryDto;
 import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
@@ -36,8 +37,12 @@ public class PostService {
     }
 
 //    게시판 검색 기능
-    public List<PostDto> findByWord(PostSearchCond cond){
-        return queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
+    public List<PostQueryDto> findByWord(PostSearchCond cond){
+        List<PostQueryDto> posts = queryRepository.findPostByTitleAndBodyInCategoryContaining(cond);
+        for (PostQueryDto post : posts) {
+            System.out.println(post.getMemberId());
+        }
+        return posts;
     }
 
     public void increaseLikes(Long postId){

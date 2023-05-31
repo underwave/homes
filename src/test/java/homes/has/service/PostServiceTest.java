@@ -1,5 +1,6 @@
 package homes.has.service;
 
+import homes.has.dto.PostQueryDto;
 import homes.has.enums.Category;
 import homes.has.domain.Member;
 import homes.has.domain.Post;
@@ -41,8 +42,8 @@ class PostServiceTest {
         PostSearchCond kim = new PostSearchCond("kim",Category.GENERAL);
         PostSearchCond kim2 = new PostSearchCond("kim");
 
-        List<PostDto> findPost = postService.findByWord(kim);
-        List<PostDto> findPost2 = postService.findByWord(kim2);
+        List<PostQueryDto> findPost = postService.findByWord(kim);
+        List<PostQueryDto> findPost2 = postService.findByWord(kim2);
 
 //        DTO 변경 에 따른 테스트 수정 필
 
