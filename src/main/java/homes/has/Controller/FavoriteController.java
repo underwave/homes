@@ -31,8 +31,8 @@ public class FavoriteController{
     /**
      * 관심 건물 삭제 (API no.9)
      **/
-    @DeleteMapping
-    public void deleteFavorite(@RequestParam String location, @RequestParam String memberId) {
+    @DeleteMapping("/{location}")
+    public void deleteFavorite(@PathVariable String location, @RequestParam String memberId) {
         favoriteService.DeleteFavorite(location, memberId);
     }
 
