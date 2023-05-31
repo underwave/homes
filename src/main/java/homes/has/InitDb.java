@@ -27,6 +27,9 @@ public class InitDb {
 
     @Autowired
     private LikePostService likePostService;
+
+    @Autowired
+    private FavoriteService favoriteService;
     @PostConstruct
     public void init() throws IOException {
         Member member1 = Member.builder().name("김철수")
@@ -71,6 +74,9 @@ public class InitDb {
 //      이미지 출력 테스트용
 //        createPost(member3, Category.GENERAL, "안녕", "반가워");
 
+        favoriteService.CreateFavorite("가좌로 3길",member1.getId());
+        favoriteService.CreateFavorite("진주대로 500번길",member1.getId());
+        favoriteService.CreateFavorite("가좌로 3길",member2.getId());
 
         commentService.save(Comment.builder().member(member3).post(post1).body("ㄹㅇㅋㅋ").build());
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
