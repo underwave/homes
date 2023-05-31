@@ -35,16 +35,5 @@ public class FavoriteController{
     public void deleteFavorite(@RequestParam String location, @RequestParam String memberId) {
         favoriteService.DeleteFavorite(location, memberId);
     }
-    /**
-     * 관심 건물 리스트 (API no.19)
-     **/
-    @GetMapping("/user/{memberId}/favorite")
-    public List<FavoriteBuildingsDto> getFavoriteBuildings(@PathVariable("memberId") String memberId) {
-        List<FavoriteBuildingsDto> favoriteBuildingsDtos = favoriteService.GetFavoriteBuildings(memberId);
 
-
-        favoriteBuildingsDtos.sort(Comparator.comparing(FavoriteBuildingsDto::getCreatedAt).reversed());
-
-        return favoriteBuildingsDtos;
-    }
 }
