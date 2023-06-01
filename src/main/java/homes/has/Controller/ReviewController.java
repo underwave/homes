@@ -108,26 +108,29 @@ public class ReviewController{
     public List<ReviewDto> getReviewList(@PathVariable("location") String location) {
         List<Review> reviewList = reviewService.GetReviewList(location);
         List<ReviewDto> reviewDtos = new ArrayList<>();
-        for (Review review : reviewList) {
-            List<ResponseEntity<byte[]>> images = new ArrayList<>();
-            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
-                ImageFile imageFile = reviewImageFile.getImageFile();
-                images.add(imageFileService.printFile(imageFile));
+        if (reviewList!=null) {
+            for (Review review : reviewList) {
+                List<ResponseEntity<byte[]>> images = new ArrayList<>();
+                if(review.getReviewImageFiles()!=null){
+                    for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+                        ImageFile imageFile = reviewImageFile.getImageFile();
+                        images.add(imageFileService.printFile(imageFile));
+                    }
+                }
+                ReviewDto reviewDto = ReviewDto.builder()
+                        .id(review.getId())
+                        .location(location)
+                        .memberId(review.getMember().getId())
+                        .createdAt(review.getCreatedAt())
+                        .modifiedAt(review.getModifiedAt())
+                        .grade(review.getGrade())
+                        .body(review.getBody())
+                        .buildingId(review.getBuilding().getId())
+                        .images(images)
+                        .build();
+                reviewDtos.add(reviewDto);
             }
-            ReviewDto reviewDto = ReviewDto.builder()
-                    .id(review.getId())
-                    .location(location)
-                    .memberId(review.getMember().getId())
-                    .createdAt(review.getCreatedAt())
-                    .modifiedAt(review.getModifiedAt())
-                    .grade(review.getGrade())
-                    .body(review.getBody())
-                    .buildingId(review.getBuilding().getId())
-                    .images(images)
-                    .build();
-            reviewDtos.add(reviewDto);
-        }
-        reviewDtos.sort(Comparator.comparing(ReviewDto::getCreatedAt).reversed());
+        }reviewDtos.sort(Comparator.comparing(ReviewDto::getCreatedAt).reversed());
 
         return reviewDtos;
     }
@@ -138,7 +141,7 @@ public class ReviewController{
      **/
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestPart CreateReviewDto createReviewDto,
-                             @RequestPart List<MultipartFile> files) throws IOException {
+                             @RequestPart(required = false) List<MultipartFile> files) throws IOException {
         reviewService.CreateReview(createReviewDto.getMemberId(), createReviewDto.getLocation(), createReviewDto.getGrade(),
                 createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(), files);
 
@@ -158,7 +161,7 @@ public class ReviewController{
      **/
     @PostMapping("/{location}/{reviewId}/modify2")
     public void updateReview(@PathVariable("reviewId") Long id, @RequestPart UpdateReviewRequest request,
-                             @RequestPart List<MultipartFile> files) throws IOException {
+                             @RequestPart(required = false) List<MultipartFile> files) throws IOException {
         ReviewBody body = request.getBody();
         ReviewGrade grade = request.getGrade();
         reviewService.UpdateReview(id, grade, body,files);

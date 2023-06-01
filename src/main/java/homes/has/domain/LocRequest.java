@@ -29,7 +29,7 @@ public class LocRequest extends BaseEntity {
 
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "imageFile_id")
     private ImageFile imageFile;
     @Builder

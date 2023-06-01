@@ -9,6 +9,7 @@ import homes.has.enums.Category;
 import homes.has.enums.FilePath;
 import homes.has.repository.PostSearchCond;
 import homes.has.service.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -173,14 +174,14 @@ public class CommunityApiController {
             commentService.delete(comment);
 
         }
-        //게시글 삭제
-        postService.deletePost(postId);
-
         //likePost 삭제
         List<LikePosts> likePosts = likePostService.findByPostId(postId);
         for (LikePosts likePost : likePosts) {
             likePostService.delete(likePost);
         }
+
+        //게시글 삭제
+        postService.deletePost(postId);
 
 
     }
@@ -201,8 +202,9 @@ public class CommunityApiController {
         postService.increaseComments(postId);
     }
 //명세 26
+
     @PostMapping("/community/{category}/{postId}/like")
-    public void likePost(@PathVariable Long postId, @RequestParam String memberId){
+    public void likePost(@PathVariable Long postId, @RequestBody String memberId){
         Post post = postService.findById(postId).get();
         Member member = memberService.findById(memberId).get();
         if (likePostService.isPostLikedByMember(post,member)){
@@ -216,9 +218,19 @@ public class CommunityApiController {
         }
     }
 
+
+    @Getter
+    @RequiredArgsConstructor
+     static class likeCommentModel{
+        private String memberId;
+        private Long commentId;
+     }
 //    comment 좋아요 기능
     @PostMapping("/community/{category}/{postId}/commentLike")
-    public void likeComment( @RequestBody String memberId, @RequestBody Long commentId){
+    public void likeComment( @RequestBody likeCommentModel model){
+        Long commentId = model.getCommentId();
+        String memberId = model.getMemberId();
+
         Comment comment = commentService.findById(commentId).get();
         Member member = memberService.findById(memberId).get();
         if (likeCommentsService.isCommentLikedByMember(comment,member)){
@@ -267,7 +279,10 @@ public class CommunityApiController {
         return postDto;
     }
     @PostMapping("/community/{category}/{postId}/modify")
-    public void editPost(@PathVariable Long postId, PostDto postDto) throws IOException {
+    public void editPost(@PathVariable Long postId,
+                         @RequestPart PostDto postDto,
+                         @RequestPart(required = false) List<MultipartFile> files) throws IOException {
+
 
         Post post = postService.findById(postId).get();
 //      기존의 이미지 파일 삭제
@@ -276,14 +291,14 @@ public class CommunityApiController {
             postImageFileService.delete(postImageFile);
         }
 
-        List<MultipartFile> files = postDto.getFiles();
-//        dto에서 받은 새로운 파일 등록
-        for (MultipartFile multipartFile : files) {
-            ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
-            PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
-            post.getPostImageFiles().add(postImageFile);
-        }
 
+        if (files!=null) {
+            for (MultipartFile multipartFile : files) {
+                ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
+                PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
+                post.getPostImageFiles().add(postImageFile);
+            }
+        }
         postService.update(postId, postDto);
     }
 
