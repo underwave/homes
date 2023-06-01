@@ -155,6 +155,7 @@ public class UserApiController {
                 .createdAt(review.getCreatedAt())
                 .modifiedAt(review.getModifiedAt())
                 .id(review.getId())
+                .location(review.getLocation())
                 .build();
             reviewDtos.add(reviewDto);
         }
