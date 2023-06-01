@@ -25,7 +25,7 @@ public class FavoriteController{
      * 관심 건물 등록 (API no.8)
      **/
     @PostMapping
-    public void createFavorite(@RequestBody FavoriteDto favoriteDto) {
+    public void createFavorite(@RequestPart FavoriteDto favoriteDto) {
         favoriteService.CreateFavorite(favoriteDto.getLocation(), favoriteDto.getMemberId());
     }
 
@@ -33,7 +33,7 @@ public class FavoriteController{
      * 관심 건물 삭제 (API no.9)
      **/
     @DeleteMapping
-    public void deleteFavorite(@RequestBody FavoriteDto favoriteDto) {
+    public void deleteFavorite(@RequestPart FavoriteDto favoriteDto) {
         favoriteService.DeleteFavorite(favoriteDto.getLocation(), favoriteDto.getMemberId());
     }
 
