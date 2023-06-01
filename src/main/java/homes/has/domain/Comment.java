@@ -34,21 +34,21 @@ public class Comment extends BaseEntity {
     @JoinColumn(name= "user_id")
     private Member member;
 
-// 대댓글 자기참조
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Comment> children;
-
+//// 대댓글 자기참조
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name = "parent_id")
+//    private Comment parent;
+//
+//    @OneToMany(mappedBy = "parent")
+//    private List<Comment> children;
+//
 
     @Builder
-    public Comment(Member member, Post post ,String body, Comment parent){
+    public Comment(Member member, Post post ,String body){
         this.member = member;
         this.body= body;
         this.post= post;
-        this.parent = parent;
+//        this.parent = parent;
         this.likes=0;
     }
 

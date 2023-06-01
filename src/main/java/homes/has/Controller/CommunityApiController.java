@@ -196,7 +196,6 @@ public class CommunityApiController {
                 .body(commentDto.getBody())
                 .member(member)
                 .post(post)
-                .parent(commentDto.getParent())
                 .build();
         commentService.save(build);
         postService.increaseComments(postId);
@@ -390,8 +389,6 @@ public class CommunityApiController {
                 .postId(comment.getPost().getId())
                 .createdAt(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())
-                .children(comment.getChildren())
-                .parent(comment.getParent())
                 .build();
         return commentDto;
     }
