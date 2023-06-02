@@ -25,6 +25,11 @@ public class BuildingService {
         return buildingRepository.save(building);
     }
 
+    public void delete(Long buildingId) {
+        Building building = buildingRepository.findById(buildingId).orElseThrow(() -> new IllegalArgumentException("빌딩을 찾을 수 없음"));
+        buildingRepository.delete(building);
+    }
+
     public Building findByLocation(String location){
         return buildingRepository.findByLocation(location);
     }

@@ -32,7 +32,7 @@ public class Building{
     //@OneToMany(mappedBy = "building")
     //private List<Favorite> favorites = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "building")
+    @OneToMany(mappedBy = "building",cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     public Building(String location, double posx, double posy) {

@@ -133,6 +133,10 @@ public class ReviewService {
 //        확인 필요, 연관관계 주인 review에서 삭제를 통해 자동으로 삭제될것으로 예상
 //        building.getReviews().remove(review);
         reviewRepository.delete(review); // 리뷰 삭제
+
+        if (building.getReviews().size() == 1) {
+            buildingService.delete(building.getId());
+        }
     }
 
     /**
@@ -223,7 +227,11 @@ public class ReviewService {
         if (newGrade != null) { //생성or수정인 경우
             sum += newGrade.getLessor() + newGrade.getArea() + newGrade.getQuality() + newGrade.getNoise();
         }
-        return sum / (countReview + (newGrade == null ? 0 : 1) - (oldGrade == null ? 0 : 1)); //삭제이면 0-1, 생성이면 1-0, 수정이면 1-1
+        int reviewCount = countReview + (newGrade == null ? 0 : 1) - (oldGrade == null ? 0 : 1);
+        if (reviewCount == 0) {
+            return 0.0;
+        }
+        return sum / reviewCount; //삭제이면 0-1, 생성이면 1-0, 수정이면 1-1
     }
 
 
