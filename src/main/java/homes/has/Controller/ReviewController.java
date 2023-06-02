@@ -137,7 +137,7 @@ public class ReviewController{
 
 
     /**
-     * 리뷰 작성 (API no.4)
+     * 리뷰 작성 시도시 권한 boolean 반환
      **/
 // 추후 검토 필
     @GetMapping("/{location}/review/write")
@@ -168,6 +168,26 @@ public class ReviewController{
     @GetMapping("/{location}/review/{reviewId}/modify")
     public Review getReviewById(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
         return reviewService.getReviewById(id);
+
+//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+//        if(review.getReviewImageFiles()!=null) {
+//            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+//                ImageFile imageFile = reviewImageFile.getImageFile();
+//                images.add(imageFileService.printFile(imageFile));
+//            }
+//
+//        }
+//        return ReviewDto.builder()
+//                .id(review.getId())
+//                .location(location)
+//                .memberId(review.getMember().getId())
+//                .createdAt(review.getCreatedAt())
+//                .modifiedAt(review.getModifiedAt())
+//                .grade(review.getGrade())
+//                .body(review.getBody())
+//                .buildingId(review.getBuilding().getId())
+//                .images(images)
+//                .build();
     }
 
     /**
