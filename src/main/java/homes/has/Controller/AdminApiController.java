@@ -7,6 +7,7 @@ import homes.has.domain.Member;
 import homes.has.dto.LocRequestDto;
 import homes.has.dto.LocRequestForm;
 import homes.has.dto.PostDto;
+import homes.has.enums.Valid;
 import homes.has.service.DetectAdminService;
 import homes.has.service.ImageFileService;
 import homes.has.service.LocRequestService;
@@ -86,6 +87,8 @@ public class AdminApiController {
         LocRequest locRequest = locRequestService.findById(requestId);
         Member member = locRequest.getMember();
         locRequestService.delete(locRequest);
+        if (member.getValid()== Valid.ONGOING)
+            memberService.changeValid(member,Valid.UNCERTIFIED);
     }
 
 }
