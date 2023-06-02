@@ -12,8 +12,9 @@ public class BuildingsDto{
     private Double totalgrade = 0.0;
     private Integer reviewCount;
     private Boolean isLiked;
+    private Boolean reviewAuth;
 
-    public BuildingsDto(Long id, String name, double posx, double posy, Double totalGrade, int reviewCount, boolean isLiked) {
+    public BuildingsDto(Long id, String name, double posx, double posy, Double totalGrade, int reviewCount, boolean isLiked, boolean reviewAuth) {
         this.id = id;
         this.location = name;
         this.posx = posx;
@@ -21,5 +22,6 @@ public class BuildingsDto{
         this.totalgrade = totalGrade;
         this.reviewCount = reviewCount;
         this.isLiked = isLiked;
+        this.reviewAuth = reviewAuth;
     }
 }

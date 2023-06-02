@@ -81,7 +81,8 @@ public class ReviewController{
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
             boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),"ABC");
-            buildingsDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+            boolean reviewAuth = reviewService.reviewWriteAuthority(building.getLocation(),"ABC");
+            buildingsDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked,reviewAuth));
         }
         return buildingsDtos;
     }
@@ -137,8 +138,8 @@ public class ReviewController{
 
 
     /**
-     * 리뷰 작성 시도시 권한 boolean 반환
-     **/
+     * 리뷰 작성 시도시 권한 boolean 반환 ( 리뷰 서비스 코드로 이동하여 컨트롤러 /building에 편입 )
+
 // 추후 검토 필
     @GetMapping("/{location}/review/write")
     public Boolean reviewWriteAuthority(@PathVariable String location,@RequestParam String memberId){
@@ -152,7 +153,7 @@ public class ReviewController{
             return false;
         else return
             true;
-    }
+    }**/
 
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestPart CreateReviewDto createReviewDto,

@@ -15,6 +15,8 @@ import homes.has.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -242,8 +244,9 @@ public class ReviewService {
         List<BuildingsDto> reviewDtos = new ArrayList<>();
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
+            boolean reviewAuth = reviewWriteAuthority(building.getLocation(),memberId);
             boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),memberId);
-            reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked));
+            reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked,reviewAuth));
         }
         return reviewDtos;
     }
@@ -257,4 +260,16 @@ public class ReviewService {
         return reviewRepository.existsByMemberIdAndLocation(memberId, location);
     }
 
+    /** 인증 location 확인 **/
+    public Boolean reviewWriteAuthority(String location, String memberId) {
+        Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음.."));
+        if (member.getValid() == Valid.UNCERTIFIED)
+            return false;
+        else if (member.getLocation()!= location)
+            return false;
+        else if (existsByMemberIdAndLocation(memberId, location))
+            return false;
+        else
+            return true;
+    }
 }
