@@ -254,7 +254,6 @@ public class CommunityApiController {
         for (LikeComments likeComments : likeCommentsService.findByCommentId(commentId)) {
             likeCommentsService.delete(likeComments);
         }
-
     }
 
 

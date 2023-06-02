@@ -32,7 +32,7 @@ public class AdminApiController {
 
 
     @GetMapping("/user/{memberId}/admin")
-    public boolean isAdmin(@PathVariable Long memberId){
+    public boolean isAdmin(@PathVariable String memberId){
         return detectAdminService.isAdmin(memberId);
     }
 
