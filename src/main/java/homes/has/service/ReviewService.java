@@ -244,4 +244,9 @@ public class ReviewService {
     public List<Review> findByBuilding(Long buildingId){
         return reviewRepository.findByBuildingId(buildingId);
     }
+
+    public boolean existsByMemberIdAndLocation(String memberId, String location){
+        return reviewRepository.existsByMemberIdAndLocation(memberId, location);
+    }
+
 }

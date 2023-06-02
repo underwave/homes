@@ -104,7 +104,7 @@ public class ReviewController{
     /*
     * 이미지 출력을 위해 임시 수정 했습니다.
     **/
-    @GetMapping("/{location}/detail")
+    @GetMapping("/{location}/review")
     public List<ReviewDto> getReviewList(@PathVariable("location") String location) {
         List<Review> reviewList = reviewService.GetReviewList(location);
         List<ReviewDto> reviewDtos = new ArrayList<>();
@@ -139,19 +139,33 @@ public class ReviewController{
     /**
      * 리뷰 작성 (API no.4)
      **/
+// 추후 검토 필
+    @GetMapping("/{location}/review/write")
+    public Boolean reviewWriteAuthority(@PathVariable String location,@RequestParam String memberId){
+        Member member = memberService.findById(memberId).get();
+
+        if(member.getValid()== Valid.UNCERTIFIED)
+            return false;
+        else if(member.getLocation()!= location)
+            return false;
+        else if(reviewService.existsByMemberIdAndLocation(memberId,location))
+            return false;
+        else return
+            true;
+    }
+
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestPart CreateReviewDto createReviewDto,
                              @RequestPart(required = false) List<MultipartFile> files) throws IOException {
         reviewService.CreateReview(createReviewDto.getMemberId(), createReviewDto.getLocation(), createReviewDto.getGrade(),
                 createReviewDto.getBody(), createReviewDto.getPosx(), createReviewDto.getPosy(), files);
 
-
     }
 
     /**
      * 리뷰 수정 폼 생성 (API no.5)
      **/
-    @GetMapping("/{location}/{reviewId}/modify")
+    @GetMapping("/{location}/review/{reviewId}/modify")
     public Review getReviewById(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
         return reviewService.getReviewById(id);
     }
@@ -159,7 +173,7 @@ public class ReviewController{
     /**
      * 리뷰 수정 (API no.6)
      **/
-    @PostMapping("/{location}/{reviewId}/modify2")
+    @PostMapping("/{location}/review/{reviewId}/modify")
     public void updateReview(@PathVariable("reviewId") Long id, @RequestPart UpdateReviewRequest request,
                              @RequestPart(required = false) List<MultipartFile> files) throws IOException {
         ReviewBody body = request.getBody();
@@ -178,7 +192,7 @@ public class ReviewController{
     /**
      * 리뷰 삭제 (API no.7)
      **/
-    @DeleteMapping("/{location}/{reviewId}")
+    @DeleteMapping("/{location}/review/{reviewId}")
     public void deleteReview( @PathVariable("reviewId") Long id) {
         /*
        * review 삭제시 db에 멤버의 review가 없으면 uncertified로 갱신
