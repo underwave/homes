@@ -82,9 +82,9 @@ public class InitDb {
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
         commentService.save(Comment.builder().member(member2).post(post1).body("나도 그렇게 생각해").build());
 
-        likePostService.save(new LikePosts(post1,member1));
-        likePostService.save(new LikePosts(post1,member2));
-        likePostService.save(new LikePosts(post1,member3));
+//        likePostService.save(new LikePosts(post1,member1));
+//        likePostService.save(new LikePosts(post1,member2));
+//        likePostService.save(new LikePosts(post1,member3));
 
         for (int i = 0; i < 5; i++) {
             postService.increaseLikes(post1.getId());

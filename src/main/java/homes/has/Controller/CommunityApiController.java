@@ -218,18 +218,9 @@ public class CommunityApiController {
         }
     }
 
-
-    @Getter
-    @RequiredArgsConstructor
-     static class likeCommentModel{
-        private String memberId;
-        private Long commentId;
-     }
 //    comment 좋아요 기능
-    @PostMapping("/community/{category}/{postId}/commentLike")
-    public void likeComment( @RequestBody likeCommentModel model){
-        Long commentId = model.getCommentId();
-        String memberId = model.getMemberId();
+    @PostMapping("/community/{category}/{postId}/{commentId}/like")
+    public void likeComment(@PathVariable Long commentId, @RequestBody String memberId){
 
         Comment comment = commentService.findById(commentId).get();
         Member member = memberService.findById(memberId).get();
