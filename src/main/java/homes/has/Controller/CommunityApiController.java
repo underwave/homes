@@ -203,14 +203,20 @@ public class CommunityApiController {
     }
 //명세 26
 
+    @Getter
+    static class LikeModel{
+        private String memberId;
+    }
+
+
+
     @PostMapping("/community/{category}/{postId}/like")
-    public void likePost(@PathVariable Long postId, @RequestBody String memberId){
+    public void likePost(@PathVariable Long postId, @RequestBody LikeModel likeModel) throws Exception {
+        String memberId = likeModel.getMemberId();
         Post post = postService.findById(postId).get();
         Member member = memberService.findById(memberId).get();
         if (likePostService.isPostLikedByMember(post,member)){
-            LikePosts likePost = likePostService.findByPostIdAndMemberId(postId, memberId);
-            likePostService.delete(likePost.getId());
-            postService.decreaseLikes(postId);
+            throw new Exception("이미 좋아요 누른 게시글");
         }
         else {
             likePostService.save(new LikePosts(post, member));
@@ -218,16 +224,15 @@ public class CommunityApiController {
         }
     }
 
+
 //    comment 좋아요 기능
     @PostMapping("/community/{category}/{postId}/{commentId}/like")
-    public void likeComment(@PathVariable Long commentId, @RequestBody String memberId){
-
+    public void likeComment(@PathVariable Long commentId, @RequestBody LikeModel likeModel) throws Exception {
+        String memberId = likeModel.getMemberId();
         Comment comment = commentService.findById(commentId).get();
         Member member = memberService.findById(memberId).get();
         if (likeCommentsService.isCommentLikedByMember(comment,member)){
-            LikeComments likeComments = likeCommentsService.findByCommentIdAndMemberId(commentId, memberId);
-            likeCommentsService.delete(likeComments.getId());
-            commentService.decreaseLikes(commentId);
+            throw new Exception("이미 좋아요 누른 댓글");
         }
         else {
             likeCommentsService.save(new LikeComments(comment, member));
@@ -273,12 +278,11 @@ public class CommunityApiController {
                          @RequestPart PostDto postDto,
                          @RequestPart(required = false) List<MultipartFile> files) throws IOException {
 
-
         Post post = postService.findById(postId).get();
 //      기존의 이미지 파일 삭제
         for (PostImageFile postImageFile : post.getPostImageFiles()) {
-            imageFileService.delete(postImageFile.getImageFile());
             postImageFileService.delete(postImageFile);
+            imageFileService.delete(postImageFile.getImageFile());
         }
 
 
@@ -293,7 +297,7 @@ public class CommunityApiController {
     }
 
 
-    @GetMapping("/community/{category}/{postId}/{commentId}/commentModify")
+    @GetMapping("/community/{category}/{postId}/{commentId}")
     public CommentDto editCommentForm(@PathVariable Long commentId){
         Comment comment = commentService.findById(commentId).get();
         CommentDto commentDto = CommentDto.builder()
@@ -302,8 +306,13 @@ public class CommunityApiController {
                 .build();
         return commentDto;
     }
-    @PostMapping("/community/{category}/{postId}/{commentId}/commentModify")
-    public void editComment(@PathVariable Long commentId, String body){
+    @Getter
+    private static class EditComment{
+        private String body;
+    }
+    @PutMapping("/community/{category}/{postId}/{commentId}")
+    public void editComment(@PathVariable Long commentId, @RequestBody EditComment editComment){
+        String body = editComment.getBody();
         commentService.update(commentId, body);
     }
 

@@ -43,14 +43,12 @@ public class InitDb {
                 .location("가좌로 2길")
                 .nickName("helloWorld")
                 .id("def")
-
                 .build();
         Member member3 = Member.builder().name("신지현")
                 .valid(Valid.CERTIFIED)
                 .location("가좌로 1길")
                 .nickName("lorem")
                 .id("ghi")
-
                 .build();
         memberService.save(member1);
         memberService.save(member2);
