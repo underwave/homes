@@ -31,7 +31,7 @@ public class FavoriteService{
     /**
      * 좋아하는 건물 등록
      **/
-    public void CreateFavorite(String location, String memberId){
+    public void CreateFavorite(String location, String memberId, double posx, double posy){
         Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버 조회 불가능.."));
 
         Favorite favorite = favoriteRepository.findByLocationAndMember(location, member);
@@ -42,6 +42,8 @@ public class FavoriteService{
         favorite = Favorite.builder()
                 .location(location)
                 .member(member)
+                .posx(posx)
+                .posy(posy)
                 .build();
 
         member.getFavorites().add(favorite);
@@ -91,8 +93,8 @@ public class FavoriteService{
                 FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
                         null,
                         favorite.getLocation(),
-                        0,
-                        0,
+                        favorite.getPosx(),
+                        favorite.getPosy(),
                         0.0,
                         0,
                         true

@@ -26,7 +26,7 @@ public class FavoriteController{
      **/
     @PostMapping
     public void createFavorite(@RequestPart FavoriteDto favoriteDto) {
-        favoriteService.CreateFavorite(favoriteDto.getLocation(), favoriteDto.getMemberId());
+        favoriteService.CreateFavorite(favoriteDto.getLocation(), favoriteDto.getMemberId(), favoriteDto.getPosx(), favoriteDto.getPosy());
     }
 
     /**

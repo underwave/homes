@@ -19,10 +19,14 @@ public class Favorite extends BaseEntity {
     private Member member;
 
     private String location;
+    private double posx;
+    private double posy;
 
     @Builder
-    public Favorite(String location, Member member) {
+    public Favorite(String location, Member member, double posx, double posy) {
         this.location = location;
         this.member = member;
+        this.posx = posx;
+        this.posy = posy;
     }
 }
