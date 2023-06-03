@@ -8,7 +8,6 @@ import lombok.*;
 @Getter @Setter
 @Entity
 @NoArgsConstructor
-
 public class Favorite extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +17,6 @@ public class Favorite extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
 
     private String location;
 

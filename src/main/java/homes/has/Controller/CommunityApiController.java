@@ -238,8 +238,8 @@ public class CommunityApiController {
 
 
     // 명세 31
-    @DeleteMapping("/community/{category}/{postId}/deleteComment")
-    public void deleteComment(@PathVariable Long postId, @RequestBody Long commentId){
+    @DeleteMapping("/community/{category}/{postId}/{commentId}")
+    public void deleteComment(@PathVariable Long postId, @PathVariable Long commentId){
         commentService.delete(commentId);
         postService.decreaseComments(postId);
         //likeComment 삭제
