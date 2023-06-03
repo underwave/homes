@@ -89,7 +89,7 @@ public class FavoriteService{
                 FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
                         null,
                         favorite.getLocation(),
-                        null,
+                        0.0,
                         0,
                         false
                         ,LocalDateTime.now()
