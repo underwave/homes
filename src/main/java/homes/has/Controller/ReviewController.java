@@ -170,28 +170,27 @@ public class ReviewController{
      * 리뷰 수정 폼 생성 (API no.5)
      **/
     @GetMapping("/{location}/review/{reviewId}/modify")
-    public Review getReviewById(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
-        return reviewService.getReviewById(id);
+    public ReviewDto getReviewById(@PathVariable("location") String location, @PathVariable("reviewId") Long id) {
+        Review review = reviewService.getReviewById(id);
+        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+        if(review.getReviewImageFiles()!=null) {
+            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+                ImageFile imageFile = reviewImageFile.getImageFile();
+                images.add(imageFileService.printFile(imageFile));
+            }
 
-//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
-//        if(review.getReviewImageFiles()!=null) {
-//            for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
-//                ImageFile imageFile = reviewImageFile.getImageFile();
-//                images.add(imageFileService.printFile(imageFile));
-//            }
-//
-//        }
-//        return ReviewDto.builder()
-//                .id(review.getId())
-//                .location(location)
-//                .memberId(review.getMember().getId())
-//                .createdAt(review.getCreatedAt())
-//                .modifiedAt(review.getModifiedAt())
-//                .grade(review.getGrade())
-//                .body(review.getBody())
-//                .buildingId(review.getBuilding().getId())
-//                .images(images)
-//                .build();
+        }
+        return ReviewDto.builder()
+                .id(review.getId())
+                .location(location)
+                .memberId(review.getMember().getId())
+                .createdAt(review.getCreatedAt())
+                .modifiedAt(review.getModifiedAt())
+                .grade(review.getGrade())
+                .body(review.getBody())
+                .buildingId(review.getBuilding().getId())
+                .images(images)
+                .build();
     }
 
     /**

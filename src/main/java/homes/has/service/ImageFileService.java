@@ -130,6 +130,14 @@ public class ImageFileService {
     }
 
     public void delete(ImageFile imageFile){
+        if (imageFile == null) {
+            return;
+        }
+        String path = imageFile.getPath();
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
         imageFileRepository.delete(imageFile);
     }
 
