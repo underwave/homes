@@ -79,6 +79,8 @@ public class FavoriteService{
                 FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
                         building.getId(),
                         building.getLocation(),
+                        building.getPosx(),
+                        building.getPosy(),
                         totalGrade,
                         reviewCount,
                         true
@@ -89,9 +91,11 @@ public class FavoriteService{
                 FavoriteBuildingsDto favoriteBuildingsDto = new FavoriteBuildingsDto(
                         null,
                         favorite.getLocation(),
+                        0,
+                        0,
                         0.0,
                         0,
-                        false
+                        true
                         ,LocalDateTime.now()
                 );
                 favoriteBuildingsDtos.add(favoriteBuildingsDto);

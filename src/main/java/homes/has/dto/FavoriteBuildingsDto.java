@@ -8,14 +8,18 @@ import java.time.LocalDateTime;
 public class FavoriteBuildingsDto{
     private Long id;
     private String location;
+    private double posx;
+    private double posy;
     private Double totalGrade = 0.0;
     private Integer reviewCount =0;
     private LocalDateTime createdAt;
     private Boolean isLiked;
 
-    public FavoriteBuildingsDto(Long id, String name, Double totalGrade, int reviewCount, boolean isLiked, LocalDateTime createdAt) {
+    public FavoriteBuildingsDto(Long id, String name, double posx, double posy, Double totalGrade, int reviewCount, boolean isLiked, LocalDateTime createdAt) {
         this.id = id;
         this.location = name;
+        this.posx= posx;
+        this.posy=posy;
         this.totalGrade = totalGrade;
         this.reviewCount = reviewCount;
         this.isLiked = isLiked;
