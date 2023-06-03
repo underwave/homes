@@ -77,6 +77,8 @@ public class InitDb {
         favoriteService.CreateFavorite("가좌로 3길",member1.getId());
         favoriteService.CreateFavorite("진주대로 500번길",member1.getId());
         favoriteService.CreateFavorite("가좌로 3길",member2.getId());
+        favoriteService.CreateFavorite("진주대로 550번길",member1.getId());
+        favoriteService.CreateFavorite("진주대로 550번길",member2.getId());
 
         commentService.save(Comment.builder().member(member3).post(post1).body("ㄹㅇㅋㅋ").build());
         commentService.save(Comment.builder().member(member1).post(post1).body("맞아맞아").build());
