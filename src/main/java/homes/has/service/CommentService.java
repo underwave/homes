@@ -52,4 +52,8 @@ public class CommentService {
         comment.update(body);
     }
 
+    public void deleteByPost(Long postId){
+        commentRepository.deleteByPostId(postId);
+    }
+
 }

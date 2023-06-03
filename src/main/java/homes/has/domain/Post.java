@@ -40,10 +40,10 @@ public class Post extends BaseEntity {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<LikePosts> likePosts = new ArrayList<>();
     @Builder
     public Post(Member member, String title, String body, Category category, List<PostImageFile> postImageFiles){
