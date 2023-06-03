@@ -160,24 +160,30 @@ public class CommunityApiController {
         Post post = postService.findById(postId).get();
 
         //이미지 파일 삭제
-        for (PostImageFile postImageFile : post.getPostImageFiles()) {
-            imageFileService.delete(postImageFile.getImageFile());
-            postImageFileService.delete(postImageFile);
-        }
-        //댓글 삭제
-        for (Comment comment : post.getComments()) {
-            List<LikeComments> likeComments = likeCommentsService.findByCommentId(comment.getId());
-            //likeComment 삭제
-            for (LikeComments likeComment : likeComments) {
-                likeCommentsService.delete(likeComment);
+        if(post.getPostImageFiles()!=null) {
+            for (PostImageFile postImageFile : post.getPostImageFiles()) {
+                postImageFileService.delete(postImageFile);
+                imageFileService.delete(postImageFile.getImageFile());
             }
-            commentService.delete(comment);
+        }
 
+        //댓글 삭제
+        if(post.getComments()!=null) {
+            for (Comment comment : post.getComments()) {
+                List<LikeComments> likeComments = likeCommentsService.findByCommentId(comment.getId());
+                //likeComment 삭제
+                for (LikeComments likeComment : likeComments) {
+                    likeCommentsService.delete(likeComment);
+                }
+                commentService.delete(comment);
+            }
         }
         //likePost 삭제
         List<LikePosts> likePosts = likePostService.findByPostId(postId);
-        for (LikePosts likePost : likePosts) {
-            likePostService.delete(likePost);
+        if (likePosts!=null) {
+            for (LikePosts likePost : likePosts) {
+                likePostService.delete(likePost);
+            }
         }
 
         //게시글 삭제

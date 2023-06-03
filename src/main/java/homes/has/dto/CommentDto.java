@@ -4,6 +4,7 @@ import homes.has.domain.Comment;
 import homes.has.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,14 +12,13 @@ import java.util.List;
 
 
 @Getter
+@NoArgsConstructor
 public class CommentDto {
     private Long id;
     private String body;
     private int likes;
     private Long postId;
     private String memberId;
-//    private Comment parent;
-//    private List<Comment> children;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -30,8 +30,6 @@ public class CommentDto {
         this.likes = likes;
         this.postId= postId;
         this.memberId = memberId;
-//        this.parent=parent;
-//        this.children = children;
         this.createdAt= createdAt;
         this.modifiedAt=modifiedAt;
     }

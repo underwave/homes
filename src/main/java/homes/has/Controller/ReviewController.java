@@ -155,6 +155,9 @@ public class ReviewController{
             true;
     }**/
 
+/*
+*   리뷰 작성
+* */
     @PostMapping("/{location}/review/write")
     public void createReview(@RequestPart CreateReviewDto createReviewDto,
                              @RequestPart(required = false) List<MultipartFile> files) throws IOException {
@@ -221,11 +224,13 @@ public class ReviewController{
        Review review = reviewService.getReviewById(id);
        Member member = review.getMember();
 
-        //이미지 파일 삭제
-        for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
-            imageFileService.delete(reviewImageFile.getImageFile());
-            reviewImageFileService.delete(reviewImageFile.getId());
-        }
+       if (review.getReviewImageFiles()!= null) {
+           //이미지 파일 삭제
+           for (ReviewImageFile reviewImageFile : review.getReviewImageFiles()) {
+               reviewImageFileService.delete(reviewImageFile.getId());
+               imageFileService.delete(reviewImageFile.getImageFile());
+           }
+       }
 
         reviewService.DeleteReview(id);
 

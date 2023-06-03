@@ -22,9 +22,8 @@ public class ImageFile extends BaseEntity {
     private PostImageFile postImageFile;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="review_id")
-    private Review review;
+    @OneToOne(mappedBy="imageFile")
+    private ReviewImageFile reviewImageFile;
 
     @JsonIgnore
     @OneToOne(mappedBy = "imageFile")
@@ -32,13 +31,13 @@ public class ImageFile extends BaseEntity {
 
     @Builder
     public ImageFile(Long id, String originalFileName, String savedName, String path,
-                     Review review, LocRequest locRequest, PostImageFile postImageFile ) {
+                     ReviewImageFile reviewImageFile, LocRequest locRequest, PostImageFile postImageFile ) {
         this.id = id;
         this.originalFileName = originalFileName;
         this.savedName = savedName;
         this.path =path;
         this.postImageFile = postImageFile;
-        this.review = review;
+        this.reviewImageFile= reviewImageFile;
         this.locRequest=locRequest;
     }
 
