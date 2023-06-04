@@ -95,9 +95,10 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public void update(Long postId, PostDto postDto){
+    public void update(Long postId, PostDto postDto, List<PostImageFile> postImageFiles){
         Post post = postRepository.findById(postId).get();
-        post.update(postDto.getTitle(), postDto.getBody());
+
+        post.update(postDto.getTitle(), postDto.getBody(), postImageFiles);
     }
 
     public List<Post> findByCategory(Category category){

@@ -57,9 +57,12 @@ public class Post extends BaseEntity {
         this.commentCount = 0;
     }
 
-    public void update(String title, String body){
+    public void update(String title, String body, List<PostImageFile> postImageFiles){
         this.title= title;
         this.body = body;
+        for (PostImageFile postImageFile : postImageFiles) {
+            this.postImageFiles.add(postImageFile);
+        }
     }
 
 

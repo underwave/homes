@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static homes.has.domain.QPostImageFile.postImageFile;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -285,15 +287,15 @@ public class CommunityApiController {
             imageFileService.delete(postImageFile.getImageFile());
         }
 
-
+        List<PostImageFile> postImageFiles = new ArrayList<>();
         if (files!=null) {
             for (MultipartFile multipartFile : files) {
                 ImageFile imageFile = imageFileService.saveFile(multipartFile, FilePath.POST);
                 PostImageFile postImageFile = postImageFileService.save(new PostImageFile(post, imageFile));
-                post.getPostImageFiles().add(postImageFile);
+                postImageFiles.add(postImageFile);
             }
         }
-        postService.update(postId, postDto);
+        postService.update(postId, postDto, postImageFiles);
     }
 
 
