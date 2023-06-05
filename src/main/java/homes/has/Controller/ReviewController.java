@@ -58,7 +58,7 @@ public class ReviewController{
     /**
      * 빌딩 리스트 반환 (API no.1,2)
      **/
-    @PostMapping("/building")
+    @GetMapping("/building")
     public List<BuildingsDto> getBuildingList(@RequestPart GetBuildingsDto getBuildingsDto) {
         List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(getBuildingsDto.getLatitude(), getBuildingsDto.getLongitude(),42.00, getBuildingsDto.getMemberId());
         return buildingList;
@@ -95,7 +95,7 @@ public class ReviewController{
     /**
      * 빌딩 상세 페이지 반환
      **/
-    @PostMapping("/building/{location}")
+    @GetMapping("/building/{location}")
     public BuildingsDto getBuildingList(@PathVariable String location, @RequestPart String memberId) {
         BuildingsDto buildingsDto = reviewService.getBuildingDtoByLocation(location,memberId);
         return buildingsDto;
