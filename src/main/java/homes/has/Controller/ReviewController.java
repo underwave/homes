@@ -59,8 +59,8 @@ public class ReviewController{
      * 빌딩 리스트 반환 (API no.1,2)
      **/
     @GetMapping("/building")
-    public List<BuildingsDto> getBuildingList(@RequestPart GetBuildingsDto getBuildingsDto) {
-        List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(getBuildingsDto.getLatitude(), getBuildingsDto.getLongitude(),42.00, getBuildingsDto.getMemberId());
+    public List<BuildingsDto> getBuildingList(@RequestParam double lat, @RequestParam double lon, @RequestParam String memberId  ) {
+        List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(lat, lon,42.00, memberId);
         return buildingList;
     }
 
