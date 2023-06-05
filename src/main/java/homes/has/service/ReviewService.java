@@ -90,7 +90,10 @@ public class ReviewService {
 
     public Long CreateReview (String memberId, String location, ReviewGrade grade, ReviewBody body, double posx, double posy, List<MultipartFile> files) throws IOException {
         Member member = memberService.findById(memberId).orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없음"));
-        Building building = buildingService.save(location, posx, posy);
+        Building building = buildingService.findByLocation(location);
+        if (building == null) {
+            building = buildingService.save(location, posx, posy);
+        }
         int countReview = building.getReviews().size(); //빌딩이 가지고있는 리뷰 수 확인
         Double newTotalGrade = updateTotalGrade(building.getTotalgrade(), countReview,null, grade);
         building.setTotalgrade(newTotalGrade); //빌딩 테이블의 total grade 받아와서 새로운 review 반영
