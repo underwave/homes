@@ -158,6 +158,7 @@ public class ReviewService {
                 reviewImageFileService.delete(reviewImageFile.getId());
             }
         }
+
         if(files!= null) {
 //        받은 새로운 파일 등록
             for (MultipartFile multipartFile : files) {
@@ -245,6 +246,9 @@ public class ReviewService {
         for (Building building : buildings) {
             int reviewCount = building.getReviews().size();
             boolean reviewAuth = reviewWriteAuthority(building.getLocation(),memberId);
+            if (building.getLocation() != null && memberId != null) {
+                reviewAuth = reviewWriteAuthority(building.getLocation(), memberId);
+            }
             boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),memberId);
             reviewDtos.add(new BuildingsDto(building.getId(), building.getLocation(), building.getPosx(), building.getPosy(), building.getTotalgrade(),reviewCount, isLiked,reviewAuth));
         }

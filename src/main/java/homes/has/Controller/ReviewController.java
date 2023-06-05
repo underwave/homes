@@ -1,10 +1,7 @@
 package homes.has.Controller;
 
 import homes.has.domain.*;
-import homes.has.dto.BuildingsDto;
-import homes.has.dto.CreateReviewDto;
-import homes.has.dto.LocRequestDto;
-import homes.has.dto.ReviewDto;
+import homes.has.dto.*;
 import homes.has.enums.Valid;
 import homes.has.repository.BuildingRepository;
 import homes.has.repository.FavoriteRepository;
@@ -62,8 +59,8 @@ public class ReviewController{
      * 빌딩 리스트 반환 (API no.1,2)
      **/
     @GetMapping("/building")
-    public List<BuildingsDto> getBuildingList(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double distance, @RequestParam String memberid) {
-        List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(latitude, longitude, distance, memberid);
+    public List<BuildingsDto> getBuildingList(@RequestPart GetBuildingsDto getBuildingsDto) {
+        List<BuildingsDto> buildingList = reviewService.GetBuildingsForMap(getBuildingsDto.getLatitude(), getBuildingsDto.getLongitude(),300.00, getBuildingsDto.getMemberId());
         return buildingList;
     }
 

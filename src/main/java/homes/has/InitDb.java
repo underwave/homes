@@ -107,7 +107,7 @@ public class InitDb {
         // when
         reviewService.CreateReview(member1.getId(),location, grade, body,37.1,128.2, null);
         reviewService.CreateReview(member2.getId(),location2, grade2, body2,37.2,125.2, null);
-        reviewService.CreateReview(member2.getId(),location2, grade3, body3,37.1,128.2, null);
+        reviewService.CreateReview(member2.getId(),location2, grade3, body3,37.2,125.2, null);
         reviewService.CreateReview(member1.getId(),location, grade, body,37.1,128.2, null);
 
     }
