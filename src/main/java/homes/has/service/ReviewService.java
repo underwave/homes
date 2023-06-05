@@ -35,6 +35,8 @@ public class ReviewService {
     private final ImageFileService imageFileService;
     private final ReviewImageFileService reviewImageFileService;
     private final BuildingService buildingService;
+
+    private final BuildingRepository buildingRepository;
    // private final AmazonS3 amazonS3;
     private static final double EARTH_RADIUS = 6371; // 지구 반경(km)
     //private static final String UPLOAD_DIR = "/path/"; // 로컬에서 경로
@@ -237,7 +239,31 @@ public class ReviewService {
         return sum / reviewCount; //삭제이면 0-1, 생성이면 1-0, 수정이면 1-1
     }
 
+    public BuildingsDto getBuildingDtoByLocation(String location,String memberId) {
+        Building building = buildingRepository.findByLocation(location);
+        if (building == null) {
+            throw new IllegalArgumentException("빌딩이 존재하지 않음");
+        }
+        int reviewCount = building.getReviews().size();
+        boolean reviewAuth = reviewWriteAuthority(building.getLocation(),memberId);
+        if (building.getLocation() != null && memberId != null) {
+            reviewAuth = reviewWriteAuthority(building.getLocation(), memberId);
+        }
+        boolean isLiked = favoriteService.existsByLocationAndMemberId(building.getLocation(),memberId);
 
+        BuildingsDto buildingDto = new BuildingsDto(
+                building.getId(),
+                building.getLocation(),
+                building.getPosx(),
+                building.getPosy(),
+                building.getTotalgrade(),
+                reviewCount,
+                isLiked,
+                reviewAuth
+        );
+
+        return buildingDto;
+    }
     public List<BuildingsDto> GetBuildingsForMap (double latitude, double longitude, double distance, String memberId) {
         List<Building> buildings = new ArrayList<>();
         double[] boundingBox = getBoundingBox(latitude, longitude, distance);
