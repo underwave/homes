@@ -5,6 +5,7 @@ import homes.has.dto.*;
 import homes.has.enums.FilePath;
 import homes.has.enums.Valid;
 import homes.has.service.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -125,13 +126,19 @@ public class UserApiController {
             memberService.changeValid(member, Valid.ONGOING);
     }
 
+
+    @Getter
+    private static class MemberIds{
+        private String memberId;
+    }
     /*
     *api 명세 12, 주소지 인증 취소
     * */
-    @DeleteMapping("/user/authorization/{locRequestId}")
-    public void deleteLocRequest(@PathVariable Long locRequestId, @RequestBody String memberId){
+    @DeleteMapping("/user/authorization")
+    public void deleteLocRequest(@RequestBody MemberIds memberIds){
+        String memberId = memberIds.getMemberId();
         Member member = memberService.findById(memberId).get();
-        LocRequest locRequest = locRequestService.findById(locRequestId);
+        LocRequest locRequest = locRequestService.findByMemberId(memberId);
         ImageFile imageFile = locRequest.getImageFile();
         locRequestService.delete(locRequest);
         imageFileService.delete(imageFile);

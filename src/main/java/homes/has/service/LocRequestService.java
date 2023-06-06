@@ -30,8 +30,8 @@ public class LocRequestService {
     }
 
 
-    public void findByMemberId(Long memberId){
-        LocRequest LocRequest = locRequestRepository.findByMemberId(memberId);
+    public LocRequest findByMemberId(String memberId){
+        return locRequestRepository.findByMemberId(memberId);
     }
     
     public List<LocRequest> findAll(){

@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface LocRequestRepository extends JpaRepository<LocRequest,Long> {
 
     @Query("SELECT lr FROM LocRequest lr JOIN FETCH lr.member m WHERE m.id = :memberId")
-    public LocRequest findByMemberId(@Param("memberId") Long memberId);
+    public LocRequest findByMemberId(@Param("memberId") String memberId);
 
 }
