@@ -2,8 +2,10 @@ package homes.has.Controller;
 
 import homes.has.domain.*;
 import homes.has.dto.*;
+import homes.has.enums.Admin;
 import homes.has.enums.FilePath;
 import homes.has.enums.Valid;
+import homes.has.repository.DetectAdminRepository;
 import homes.has.service.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class UserApiController {
     private final LocRequestService locRequestService;
     private final ImageFileService imageFileService;
     private final FavoriteService favoriteService;
-
+    private final DetectAdminRepository detectAdminRepository;
 
     @PostMapping("/user/sign")
     public void signUp(@RequestBody MemberDto memberDto) throws Exception {
@@ -44,6 +46,13 @@ public class UserApiController {
             .build();
 
         memberService.save(member);
+
+        if (id.equals("tLDScGlDD4fJ5UPnuXlCRbXHjK62")) {
+            DetectAdmin detectAdmin = new DetectAdmin();
+            detectAdmin.setMember(member);
+            detectAdmin.setAdmin(Admin.ADMIN);
+            detectAdminRepository.save(detectAdmin);
+        }
     }
     
     

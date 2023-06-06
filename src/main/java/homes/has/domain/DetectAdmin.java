@@ -9,8 +9,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-
+@NoArgsConstructor
 public class DetectAdmin {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
