@@ -4,10 +4,11 @@ package homes.has.dto;
 import homes.has.enums.Valid;
 import lombok.Builder;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 
 
 @Getter
+@NoArgsConstructor
 public class MemberDto {
 
     private String id;
