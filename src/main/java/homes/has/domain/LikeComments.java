@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class LikeComments extends BaseEntity {
+public class LikeComments {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
