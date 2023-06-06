@@ -121,8 +121,6 @@ public class ReviewService {
         Long reviewId = reviewRepository.save(review).getId();
 
 //      member valid 변경
-        memberService.changeValid(member, Valid.CERTIFIED);
-
         return reviewId;
     }
 

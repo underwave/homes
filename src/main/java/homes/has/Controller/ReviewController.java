@@ -241,8 +241,5 @@ public class ReviewController{
        }
 
         reviewService.DeleteReview(id);
-
-       if(!memberService.isReviewed(member.getId()))
-           memberService.changeValid(member, Valid.ONGOING);
     }
 }

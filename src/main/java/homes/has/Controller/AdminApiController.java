@@ -79,6 +79,7 @@ public class AdminApiController {
         String location = locRequest.getLocation();
         Member member = locRequest.getMember();
         memberService.changeLocation(member, location);
+        memberService.changeValid(member,Valid.CERTIFIED);
         locRequestService.delete(locRequest);
     }
 
