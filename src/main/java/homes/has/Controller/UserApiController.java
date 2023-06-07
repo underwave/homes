@@ -201,6 +201,7 @@ public class UserApiController {
                 .authorName(authorName)
                 .memberId(memberId)
                 .likes(post.getLikes())
+                .category(post.getCategory())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build();
