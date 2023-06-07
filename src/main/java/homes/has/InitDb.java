@@ -54,20 +54,23 @@ public class InitDb {
         memberService.save(member2);
         memberService.save(member3);
 
-        createPost(member1, Category.GENERAL, "akima", "bkimb");
-        createPost(member2, Category.GENERAL, "akima", "bkimb");
-        Post post2 = createPost(member3, Category.GENERAL, "akima", "bkimb");
-        Post post1 = createPost(member1, Category.GENERAL, "akima", "bkimb");
+        createPost(member1, Category.GENERAL, "일단 나는 아님", "킹망고설빙 먹어본사람");
+        createPost(member2, Category.GENERAL, "기사님 선곡 굿~", "방금 택시 탔는데");
+        Post post2 = createPost(member3, Category.GENERAL, "범죄도시3? 트랜스포머? 아님 한 번 틀어서 포켓몬스터극장판", "영화 뭐보지?");
+        Post post1 = createPost(member1, Category.GENERAL, "89점. 음색은 좋은데 기교가 너무 심함", "지금 노래하는놈 누구냐?");
 
-        createPost(member2, Category.MARKET, "aa", "aa");
-        createPost(member3, Category.MARKET, "bb", "bb");
-        createPost(member1, Category.MARKET, "cc", "cc");
-        createPost(member2, Category.MARKET, "dd", "dd");
+        createPost(member2, Category.MARKET, "여름에 모기 태우려고요", "베이스앰프 삽니다");
+        createPost(member3, Category.MARKET, "오늘 이사하는데 너무 많아서...", "냉동만두 가져가실분");
+        createPost(member1, Category.MARKET, "50 쿨거", "그래픽카드 팝니다 지포스 RTX 3080 D6X 10GB");
+        createPost(member2, Category.MARKET, "10만원입니다 거의 새 거", "러셀홉스 맷돌방식 그라인더 팔아용 네고가능");
+        createPost(member2, Category.MARKET, "롯데시네마 예매권~~ 7천원", "영화표 팔아용");
 
-        createPost(member3, Category.TIPS, "akima", "bkimb");
-        createPost(member1, Category.TIPS, "akima", "bkimb");
-        createPost(member2, Category.TIPS, "akima", "bkimb");
-        createPost(member3, Category.TIPS, "akima", "bkimb");
+
+        createPost(member3, Category.TIPS, "과잉진료 바가지 없는...", "경대 주변에 피부과 괜찮은 데 있나요?");
+        createPost(member1, Category.TIPS, "잘보고따라해...", "자취친구들아 누나가 레시피 하나 공유한다");
+        createPost(member2, Category.TIPS, "풀번 달라고 해도 되나? 실례인가", "뮤지컬 양도 어떻게 받나요");
+        createPost(member3, Category.TIPS, "로티세리에 베이컨 추가+파마산+슈레드+스윗어니언렌치후추", "서브웨이조합추천. 잡솨봐");
+
 
 //      이미지 출력 테스트용
 //        createPost(member3, Category.GENERAL, "안녕", "반가워");
