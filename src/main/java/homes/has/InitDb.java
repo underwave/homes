@@ -113,9 +113,9 @@ public class InitDb {
         reviewService.CreateReview(member2.getId(),location2, grade3, body3,37.2,125.2, null);
         reviewService.CreateReview(member1.getId(),location, grade, body,37.1,128.2, null);
 
-        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade,body,35.1583004240859,128.106283133998, null);
-        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade2,body2,35.1583004240859,128.106283133998, null);
-        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade3,body3,35.1583004240859,128.106283133998, null);
+//        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade,body,35.1583004240859,128.106283133998, null);
+//        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade2,body2,35.1583004240859,128.106283133998, null);
+//        reviewService.CreateReview(member1.getId(),"경남 진주시 가좌길 48번길 9-1",grade3,body3,35.1583004240859,128.106283133998, null);
 
     }
 
